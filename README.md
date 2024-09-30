@@ -1,16 +1,23 @@
-## Hi there 👋
+# How to run website on local computer for testing
 
-<!--
-**CovidMemories/CovidMemories** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Node memories requirements:
 
-Here are some ideas to get you started:
+Cloning the repo:
+git clone https://github.com/caJoey/caJoey.github.io.git
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+Installation requirements (may require using linux or WSL idk I use WSL with VSCode personally):
+1. download npm / node
+then run the following:
+2. npm install mongodb
+3. npm install express
+Or just npm install might do it
+
+To initialize app:
+npm init -y
+
+To run:
+run the command:
+npm start
+
+Once it's started, go to
+http://localhost:8080/

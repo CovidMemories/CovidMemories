@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+
+    <title> Covid Memories Manager </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Covid Memories Manager">
+    <meta name="author" content="Covid Memories Manager">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- audioplayer styles and scripts -->
+   
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+        
+    <script src="index.js"></script>
+  </head>
+
+
+  <body>
+        <!-- Navigation -->
+        <nav class="navbar" style="background-color: #004654;">
+            <div class="container" style="background-color: #004654;">
+                <a class="navbar-brand" href="index.html" style="color: white;">Covid Memories Manager</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    
+    <!-- Page Content -->
+    <div class="container" style="padding-top:20px;">
+        <div class="row card ">
+            <div class="screen_name text-center text-uppercase	" style="font-size: 70px;"></div>
+            <div class="col-lg-12	 screen_data"></div>
+        </div>
+    </div>
+
+
+            <div class="text-center">
+
+                <h2 class="mt-5">Add Audio</h2>                
+                <div class="container"> 
+                  <!-- ROW 1  -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6" style="text-align: center; display: inline-block; vertical-align: middle;">
+                            <label for="name">Audio File Link</label>
+                            <input type="link" class="form-control user_link" name="link" id="link" data-rule="link" data-msg="Please enter a URL" />
+                            <div class="validate"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="name">Filename</label>
+                            <input type="name"   class="form-control file_name"  data-rule="minlen:3" data-msg="Please enter at least 3 chars" />
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+
+                    <!-- ROW 2 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Speaker Name</label>
+                            <input type="speaker"   class="form-control speaker_name"  data-rule="minlen:3" data-msg="Please enter at least 3 chars" />
+                            <div class="validate"></div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">Track Name</label>
+                            <input type="text" class="form-control user_playlist" name="playlist" id="subject" data-rule="minlen:4" data-msg="Please enter true or false" />
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+
+                    <!-- ROW 3 --> 
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                          <label for="name">Playlist Order</label>
+                          <input type="text" class="form-control user_playlist" name="playlist" id="subject" data-rule="minlen:4" data-msg="Please enter true or false" />
+                          <div class="validate"></div>
+                      </div>
+                        <div class="form-group col-md-6">
+                            <label for="name">Theme Name</label>
+                            <input type="text" class="form-control user_theme" name="theme" id="subject" data-rule="minlen:4" data-msg="Please enter a theme name" />
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+                    <!-- ROW 4 -->
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="name">Audio Description</label>
+                            <textarea class="form-control user_msg" name="message" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+                </div>
+
+                    <div onclick="populatePlayListContentTable()" class="text-center btn btn-success btn_send_contact" style="background-color: #00A589; padding: 10px;"> Upload Audio </div> 
+                  
+                  <br></br>
+                  <hr class="rounded" style="border-top: 8px solid #bbb; border-radius: 5px; width: 200px"> 
+
+                  <h2 class="mt-5">Add Branch</h2>
+                  <div class="  container"> 
+                    <!-- ROW 1 -->
+                        <div class="form-group col-md-8" style="text-align: center; display: inline-block; vertical-align: middle;">
+                            <label for="branchName">Branch Name</label>
+                            <input type="text" class="form-control branch_name" name="branchName" id="branchName" data-rule="minlen:3" data-msg="Please enter at least 3 chars" />
+                            <div class="validate"></div>
+                        </div>
+
+                        <!-- ROW 2 --> 
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="branchDescription">Playlist A Name</label>
+                                <input type="test" class="form-control branchA_name" name="branchDate" id="branchDate" />
+                                <div class="validate"></div>
+                            </div>
+    
+                            <div class="form-group col-md-6">
+                                <label for="branchDate">Playlist B Name</label>
+                                <input type="test" class="form-control branchB_name" name="branchDate" id="branchDate" />
+                                <div class="validate"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center btn btn-success btn_send_branch" style="background-color: #00A589; padding: 10px;"> Create Branch </div>
+            
+                    <br></br>
+                    <hr class="rounded" style="border-top: 8px solid #bbb; border-radius: 5px; width: 200px"> 
+  
+            
+                </div>
+
+
+        <!-- Footer -->
+        <div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%; background-color: #004654; color: white; text-align: center; ">
+            <p>© Voice Interactors, Western Washington University, 2024</p>
+        </div>
+  
+  </body>
+</html>

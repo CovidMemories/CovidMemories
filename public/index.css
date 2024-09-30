@@ -1,0 +1,829 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+    
+    html {
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        margin: 0 !important;
+        padding: 0 !important;
+        outline: 0 !important;
+    }  
+
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        outline: 0 !important;
+        overflow-x: hidden;
+    } 
+
+    * {
+        margin:0;
+        padding:0;
+        outline:none;
+        list-style:none;
+        text-decoration:none;
+        box-sizing:border-box;
+        border:none;
+        outline: 0 !important;
+    }
+
+    .navbar {
+        background-color:rgba(255, 255, 255, 0.5);
+        position: fixed;
+        width: 330px;
+        height: 75px;
+        margin-left: 1%;
+        border-radius: 25px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+        align-items: center; 
+        width: fit-content;   
+        justify-content: center;
+        display: flex;
+    }
+
+    .header {
+        background-color: #102C57;
+        width: 1050px;
+        margin: auto;
+    }
+
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 16px;
+    }
+    
+    p {
+        line-height: 1.6;
+    }
+
+    /* container for left-panel */
+    .container-a {
+        display: flex !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* container for covid memories intro card */
+    .container-b {
+        position: relative;
+        text-align: center;
+    }
+
+    /* container for nav bar elements */
+    .container-c{
+        height: 580px;
+        padding-top: 10px;
+    }
+
+    /* container for playlist content card */
+    .container-d{
+        padding-top: 20px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 26px 0 rgba(0, 0, 0, 0.3);
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .left-panel {
+        height: 800px;
+        width: 340px;
+        position: fixed;
+    }
+
+    .right-panel {
+        margin-left: 340px;      
+        position: relative;
+        align-items: baseline;
+        padding-bottom: 45px;
+        padding-right: 30px;
+        padding-left: 20px;
+    }
+
+    .footer {
+        position: absolute;
+        padding: 10px;
+        height: 80px;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #050F19;
+        color: white;
+        text-align: center;
+        font-size: 17 px;  
+    }
+
+    /* holds album, title, controls, tracker  */
+    .player {
+        margin-top: 100px;
+        height: 162px;
+        width: 326px;
+        z-index: 2;
+        position: fixed;
+    }
+
+    .title, .artist {
+        font-family: verdana;
+        position: absolute;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        margin-left: 100px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .title {
+        color: #FFFFFF;
+        font-size: 16px;
+        font-weight: bold;
+        top: -70px;
+    }
+
+    .artist {
+        color: #EEEEEE;
+        font-size: 12px;
+        top: -25px;
+    }
+
+    .cover {
+        background: transparent url(https://github.com/CarolineKYZ/Images/blob/main/album.png?raw=true.jpg) no-repeat scroll center top;
+        border-radius: 5px 5px 5px 5px;
+        height: 94px;
+        left: 20px;
+        position: absolute;
+        top: -80px;
+        width: 94px;
+    }
+
+    .cover:hover {
+        transform:scale(2.5);
+        left: 90px;
+    }
+
+    /* contains: title, artist, cover */
+    .album {
+        display: flex;
+        margin-right: 10px;
+    }
+
+    .controls {
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
+        margin-left: -15px;
+    }
+
+    .controls button {
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 48px;
+        height: 48px;
+        margin-left: 10px;
+        margin-right: 10px;
+        border: none;
+        display: inline-block; 
+    }
+
+    .controls .play {
+        background: url('https://github.com/CarolineKYZ/Images/blob/main/play.png?raw=true') no-repeat scroll;
+
+    }
+
+    .controls .pause {
+        display: none;
+        background: url('https://github.com/CarolineKYZ/Images/blob/main/pause.png?raw=true') no-repeat scroll;
+
+    }
+
+    .controls .rew {
+        background: url('https://github.com/CarolineKYZ/Images/blob/main/reverse.png?raw=true') no-repeat scroll;
+    }
+
+    .controls .fwd {
+        background: url('https://github.com/CarolineKYZ/Images/blob/main/skip.png?raw=true') no-repeat scroll;
+
+    }
+
+    .volumeUp{
+        background: url('https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-volume-control-10-24.png?raw=true') no-repeat scroll;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        width: 24px; 
+        height: 24px;
+    }
+
+    .volumeDown{
+        background: url('https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-volume-control-12-24.png?raw=true') no-repeat scroll;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        width: 24px; 
+        height: 24px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .controls .visible {
+        display: block;
+    }
+
+    .volume-slider{
+        height: 17px;
+        margin: 0 10px;
+        width: 120px;
+    }
+
+    .tracker {
+        height: 17px;
+        left: 20px;
+        position: absolute;
+        top: 123px;
+        width: 285px;
+    }
+
+    .tracker2 {
+        display: flex;
+        align-items: center;
+        top: 190px;
+        position: absolute;
+        left: 65px;
+    }
+
+    .ticker {
+        letter-spacing: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: left; 
+        font-size: 18px; 
+        color: white;
+    }
+
+    .full {
+        letter-spacing: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: right; 
+        font-size: 18px; 
+        color: white;
+        margin-left: 170px;
+    }
+    
+    .info {
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-info-7-32.png?raw=true); 
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        width: 32px; 
+        height: 32px;
+        padding: 0;
+        border: none;
+        outline:none;  
+        display: flex;                  
+    }
+
+    .playlist {
+        background-color: #333333;
+        border-radius: 5px 5px 5px 5px;
+        list-style-type: none;
+        margin: -10px 0 0 2px;
+        padding-bottom: 10px;
+        padding-top: 15px;
+        position: relative;
+        width: 326px;
+        z-index: 1;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+    }
+
+    .playlist li {
+        color: #EEEEEE;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        margin: 0 0 5px 15px;
+    }
+
+    .playlist li.active {
+        font-weight: bold;
+    }  
+    
+    .custom-slider {
+        width: 100%;
+        height: 20px;
+        position: relative;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
+    }
+    .custom-slider::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 17px;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
+    }
+
+    .custom-slider::-webkit-slider-thumb {
+        width: 10px;
+        height: 17px;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: transparent; 
+        position: relative;
+        z-index: 2;
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
+    }
+
+    .span-text {
+        top: 25px;
+        position: relative;
+    }
+
+    /* scroll bar width */
+    ::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    /* scroll bar track */
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 10px;
+    }
+
+    /* scroll bar handle */
+    ::-webkit-scrollbar-thumb {
+        background:darkgray ; 
+        border-radius: 10px;
+    }  
+     
+    /* scroll bar handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: gray; 
+    } 
+    
+    /* spinner when playlist loading */
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #102C57; 
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+      }
+      
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      /* show more button */
+      .show-more{
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-paste-filled-32.png?raw=true); 
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        width: 32px; 
+        height: 32px;
+        padding: 0;
+        border: none;
+        outline:none;  
+
+        background-color: darkgray;
+        background-size: 30px 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 40px; 
+        height: 40px; 
+        transition: background-color 0.3s ease;
+      }
+
+      .branch-point{
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        width: 32px; 
+        height: 32px;
+        padding: 0;
+        border: none;
+        outline:none;  
+
+        background-color: gray;
+        background-size: 30px 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        margin-left: 15px;
+        width: 40px; 
+        height: 40px; 
+        transition: background-color 0.3s ease;
+      }
+
+      /* placeholder */
+      .playing {
+        background-color: #248bd0b6 !important; 
+      }
+
+      .nav-item1{
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-home-6-24.png?raw=true); 
+        background-color:rgba(211, 211, 211, 0.70);
+        background-size: 24px 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 50px; 
+        height: 50px;
+        padding: 10px;
+        border: none;
+        display: inline-block;
+        margin-right: 15px;
+        margin-left: 15px;
+        position: relative; 
+        transition: background-color 0.3s ease; 
+      }
+
+      .nav-item2{
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-database-9-24.png?raw=true); 
+        background-color:rgba(211, 211, 211, 0.70);
+        background-size: 24px 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 50px; 
+        height: 50px;
+        padding: 10px;
+        border: none;
+        display: inline-block;
+        margin-right: 15px;
+        position: relative;  
+        transition: background-color 0.3s ease;
+      }
+
+      .nav-item3{
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-archive-1-24.png?raw=true); 
+        background-color:rgba(211, 211, 211, 0.70);
+        background-size: 24px 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 50px; 
+        height: 50px;
+        padding: 10px;
+        border: none;
+        display: inline-block;
+        margin-right: 15px;
+        position: relative; 
+        transition: background-color 0.3s ease;  
+      }
+
+      .nav-item4{
+        background: url(https://github.com/CarolineKYZ/Images/blob/main/person_icon.png?raw=true); 
+        background-color:rgba(211, 211, 211, 0.70);
+        background-size: 24px 24px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 50px; 
+        height: 50px;
+        padding: 10px;
+        border: none;
+        display: inline-block;
+        margin-right: 12px;
+        position: relative; 
+        transition: background-color 0.3s ease;  
+      }
+      
+      /* used to format the nav items together */
+      .navbar__menu{
+        display: flex;              
+        list-style-type: none;     
+        padding: 0;            
+      }
+
+      /* text displayed when hovering nav items */
+      .hover-text {
+        display: none;              
+        position: absolute;        
+        top: 100%;                  
+        left: 50%;                
+        transform: translateX(-50%);
+        background-color: #333;   
+        color: white;               
+        padding: 5px;             
+        border-radius: 3px;        
+        white-space: nowrap;      
+        z-index: 1;                 
+    }
+
+    button:hover .hover-text {
+        display: block;            
+    }
+    
+    nav-item1:hover {
+        background-color: #0056b3;  
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
+    }
+
+    nav-item2:hover {
+        background-color: #0056b3;  
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
+    }
+
+    nav-item3:hover {
+        background-color: #0056b3; 
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; 
+    }
+    
+    /* alternating colors between rows */
+    #playlistTable tr:nth-child(even){
+        background-color: #f2f2f2;
+    }
+
+    #playlistTable tr:nth-child(odd){
+        background-color: white;
+    }
+
+    /* shadow on playlist hover */
+    #playlistTable tr:hover {
+        background-color: #ddd;
+    }
+
+    /* table header */
+    #playlistTable th {
+        text-align: center;
+        color: #060d16c4;
+        font-size: 10px;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+        --color-bg1: rgb(8, 10, 15);
+        --color-bg2: rgb(0, 17, 32);
+        --color1: 18, 113, 255;
+        --color2: 107, 74, 255;
+        --color3: 100, 100, 255;
+        --color4: 50, 160, 220;
+        --color5: 80, 47, 122;
+        --color-interactive: 140, 100, 255;
+        --circle-size: 80%;
+        --blending: hard-light;
+    }
+
+    /* covid memories intro card */
+    .card {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+    max-width: 600px;
+    padding: 48px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    box-shadow: 0 4px 90px rgba(0,0,0,0.1);
+    overflow: hidden;
+    outline:none;
+    list-style:none;
+    text-decoration:none;
+    box-sizing:border-box;
+    color:#FFF;
+    background: transparent;
+    border:none;
+    &:before {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: rgb(255,255,255);
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 34%, rgba(255,255,255,1) 89%, rgba(255,255,255,0) 100%);
+        opacity: 0.3;
+        filter: blur(.5px);
+        mix-blend-mode: hard-light;
+    }
+
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            text-shadow: -3px 0px 2px rgba(0,0,0,0.1);
+        }
+    }
+
+    /* audio player card */
+    .left-card {
+        position: absolute;
+        z-index: 10;
+        padding-top: 30px;
+        top: 50%;
+        left: 50%;
+        height: 550px;
+        width: 320px;
+        transform: translate(-50%, -50%);
+        user-select: none;
+        max-width: 500px;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border-radius: 15px 50px 30px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        outline:none;
+        list-style:none;
+        text-decoration:none;
+        box-sizing:border-box;
+        background-color:rgba(255, 255, 255, 0.5);
+    
+        .noise {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            opacity: 0.2;
+        }
+    
+        .left-content {
+            position: relative;
+            z-index: 2;
+        }
+    }
+
+    @keyframes moveInCircle {
+        0% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(180deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes moveVertical {
+        0% {
+            transform: translateY(-50%);
+        }
+        50% {
+            transform: translateY(50%);
+        }
+        100% {
+            transform: translateY(-50%);
+        }
+    }
+
+    @keyframes moveHorizontal {
+        0% {
+            transform: translateX(-50%) translateY(-10%);
+        }
+        50% {
+            transform: translateX(50%) translateY(10%);
+        }
+        100% {
+            transform: translateX(-50%) translateY(-10%);
+        }
+    }
+
+    /* interactive gradient */
+    .gradient-bg {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2));
+    top: 0;
+    left: 0;
+
+        .svgBlur {
+            display: none;
+        }
+
+        .noiseBg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            mix-blend-mode: soft-light;
+            opacity: 0.3;
+        }
+        .gradients-container {
+            filter: url(#goo) blur(40px) ;
+            width: 100%;
+            height: 100%;
+        }
+
+        .g1 {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(var(--color1), 0.8) 0, rgba(var(--color1), 0) 50%) no-repeat;
+            mix-blend-mode: var(--blending);
+
+            width: var(--circle-size);
+            height: var(--circle-size);
+            top: calc(50% - var(--circle-size) / 2);
+            left: calc(50% - var(--circle-size) / 2);
+
+            transform-origin: center center;
+            animation: moveVertical 30s ease infinite;
+
+            opacity: 1;
+        }
+
+        .g2 {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(var(--color2), 0.8) 0, rgba(var(--color2), 0) 50%) no-repeat;
+            mix-blend-mode: var(--blending);
+
+            width: var(--circle-size);
+            height: var(--circle-size);
+            top: calc(50% - var(--circle-size) / 2);
+            left: calc(50% - var(--circle-size) / 2);
+
+            transform-origin: calc(50% - 400px);
+            animation: moveInCircle 20s reverse infinite;
+
+            opacity: 1;
+        }
+
+        .g3 {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(var(--color3), 0.8) 0, rgba(var(--color3), 0) 50%) no-repeat;
+            mix-blend-mode: var(--blending);
+
+            width: var(--circle-size);
+            height: var(--circle-size);
+            top: calc(50% - var(--circle-size) / 2 + 200px);
+            left: calc(50% - var(--circle-size) / 2 - 500px);
+
+            transform-origin: calc(50% + 400px);
+            animation: moveInCircle 40s linear infinite;
+
+            opacity: 1;
+        }
+
+        .g4 {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(var(--color4), 0.8) 0, rgba(var(--color4), 0) 50%) no-repeat;
+            mix-blend-mode: var(--blending);
+
+            width: var(--circle-size);
+            height: var(--circle-size);
+            top: calc(50% - var(--circle-size) / 2);
+            left: calc(50% - var(--circle-size) / 2);
+
+            transform-origin: calc(50% - 200px);
+            animation: moveHorizontal 40s ease infinite;
+
+            opacity: 0.7;
+        }
+
+        .g5 {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(var(--color5), 0.8) 0, rgba(var(--color5), 0) 50%) no-repeat;
+            mix-blend-mode: var(--blending);
+
+            width: calc(var(--circle-size) * 2);
+            height: calc(var(--circle-size) * 2);
+            top: calc(50% - var(--circle-size));
+            left: calc(50% - var(--circle-size));
+
+            transform-origin: calc(50% - 800px) calc(50% + 200px);
+            animation: moveInCircle 20s ease infinite;
+
+            opacity: 1;
+        }
+
+        .interactive {
+            position: absolute;
+            background: radial-gradient(circle at center, rgba(var(--color-interactive), 0.8) 0, rgba(var(--color-interactive), 0) 50%) no-repeat;
+            mix-blend-mode: var(--blending);
+
+            width: 100%;
+            height: 100%;
+            top: -50%;
+            left: -50%;
+
+            opacity: 0.7;
+        }
+    }
+
+    
