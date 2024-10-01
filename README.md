@@ -3,7 +3,7 @@
 Node memories requirements:
 
 Cloning the repo:
-git clone https://github.com/caJoey/caJoey.github.io.git
+git clone https://github.com/CovidMemories/CovidMemories.git
 
 Installation requirements (may require using linux or WSL idk I use WSL with VSCode personally):
 1. download npm / node
