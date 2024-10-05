@@ -560,11 +560,6 @@ function populatePlayListContentTable(){
 
   });
 
-// async function getRows(){
-//     const response = await fetch("https://script.google.com/macros/s/AKfycbwO9inOdUOeZuzibFaqFrMmoZMPqEtzqHYzStUUpX8vL0dANHa4oVDJBo-5GtKqQIxP/exec");
-//     return await response.json();
-// }
-
 // returns audio element of ith playlist, jth row
 function audioAt(i, j){
   return playlistRows[i][j].cells[AUDIO_COL].querySelector("audio");
@@ -792,6 +787,37 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
   table.appendChild(row);
 }
 
+// User attempts to login
+// TODO: use <input> so that user's password appears as
+// * instead of actual thing
+async function login(){
+  try{
+    const guess = prompt("Enter Secret Password");
+    const query = "/login?Password=" + guess;
+    // returns true if user guessed correct password
+    const data = await fetch(query,
+      { method: "POST" }
+    );
+    const dataJSON = await data.json()
+    const guessResult = dataJSON.guessResult;
+    // guessed right
+    if (guessResult == 0) {
+      alert("Welcome User");
+    }
+    // guessed wrong
+    else if (guessResult == 1){
+      alert("Incorrect Password");
+    }
+    // user was already logged in
+    else{
+      alert("You are already logged in!");
+    }
+    console.error("guessResult = " + guessResult);
+  }
+  catch (err){
+    console.error("login function error: " + err);
+  }
+}
 
 async function getRows(){
     try{
@@ -800,6 +826,6 @@ async function getRows(){
         return dataJSON;
     }
     catch (err) {
-        console.error("error: " + err);
+        console.error("getRows error: " + err);
     }
 }

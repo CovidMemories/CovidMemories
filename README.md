@@ -10,6 +10,8 @@ Installation requirements (may require using linux or WSL idk I use WSL with VSC
 then run the following:
 2. npm install mongodb
 3. npm install express
+4. npm install express-session
+
 Or just npm install might do it
 
 To initialize app:

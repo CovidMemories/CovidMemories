@@ -1,8 +1,20 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
+const session = require('express-session');
 
 // this is our server or something idk
 const app = express();
+
+// make it so each user has their own session (and their own "loggedIn" boolean)
+app.use(session({
+  // protect session ID cookie
+  // TODO: use an environment variable to make it actually secure
+  secret: "superSecretPassword",
+  // only modify session if something changed
+  resave: false,
+  // do not save new sessions that have not been modified
+  saveUninitialized: true,
+}));
 
 // Replace the uri string with your connection string.
 const uri = "mongodb+srv://hyperaudiogroup:sYEV0X8FhOm52cj2@hypercluster.u41mzta.mongodb.net/?retryWrites=true&w=majority&appName=hyperCluster";
@@ -12,10 +24,10 @@ const client = new MongoClient(uri);
 // connect to mongo first
 client.connect(err => {
   if (err) {
-    console.log("mongo connection fail", err);
+    console.error("mongo connection fail", err);
     return;
   }
-  console.log("connected to mongo -");
+  console.error("connected to mongo -");
 });
 
 // add our index.js and index.html static files
@@ -50,7 +62,55 @@ app.get('/getRows', async (req, res) => {
   }
 });
 
-// listen for incoming requests on port 3000
+// user attempts to log in, set their "loggedIn" boolean to true if successful
+// Note: req.session stores session info for person logging in
+app.post('/login', async (req, res) => {
+  const guess = req.query.Password;
+  console.error("guess " + guess);
+  // connect to the database
+  const database = client.db('hyperAudioDB');
+  const passwords = database.collection("ValidPasswords");
+
+  const query = { Password: guess };
+  // check if the guess is in the database
+  const guessedRight = await passwords.findOne(query);
+  // 0 == success
+  // 1 == incorrect password
+  // 2 == user already logged in
+  var guessResult = -1
+  // user already logged in
+  if(req.session.loggedIn == true){
+    guessResult = 2
+  }
+  else if(guessedRight){
+    // save user
+    req.session.loggedIn = true;
+    guessResult = 0;
+  }
+  else{
+    guessResult = 1;
+  }
+  // return true if user correctly guess
+  res.json({ guessResult: guessResult })
+});
+
+// user is attempting to delete a row, only works if they are logged in
+app.post('/delete', (req, res) => {
+  // only do the thing if user is logged in
+  if(req.session.loggedIn == true){
+    // ...
+  }
+});
+
+// user is attempting to add a row, only works if they are logged in
+app.post('/add', (req, res) => {
+  // only do the thing if user is logged in
+  if(req.session.loggedIn == true){
+    // ...
+  }
+});
+
+// listen for incoming requests on port 8080
 app.listen(8080, () =>{
   console.error("server started, port 8080");
 });
