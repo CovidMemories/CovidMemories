@@ -30,17 +30,17 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("loader").style.display = "block";
 });
 
-// function volumeSlider(audioElement) {
-//   var volumeSlider = document.getElementById('volume-slider');
+function volumeSlider(audioElement) {
+  var volumeSlider = document.getElementById('volume-slider');
 
-//   // Set initial volume level
-//   audioElement.volume = volumeSlider.value / 100;
+  // Set initial volume level
+  audioElement.volume = volumeSlider.value / 100;
 
-//   // Update volume level when slider is moved
-//   volumeSlider.addEventListener('input', function() {
-//       audioElement.volume = volumeSlider.value / 100;
-//   });
-// }
+  // Update volume level when slider is moved
+  volumeSlider.addEventListener('input', function() {
+      audioElement.volume = volumeSlider.value / 100;
+  });
+}
 document.addEventListener('DOMContentLoaded', () => {
   const interBubble = document.querySelector('.interactive');
   let curX = 0;
@@ -760,7 +760,7 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
 
     // update sliders
     audioSlider(audioElement);
-    // volumeSlider(audioElement);
+    volumeSlider(audioElement);
 
     // update the title and artist display
     var title = this.dataset.title;;
