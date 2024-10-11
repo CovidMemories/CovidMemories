@@ -403,6 +403,26 @@
         transition: background-color 0.3s ease;
       }
 
+      /* add row button (green plus) */
+      .add-row{
+        background: url("images/add.png"); 
+        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
+        width: 32px; 
+        height: 32px;
+        padding: 0;
+        border: none;
+        outline:none;  
+
+        background-color: darkgray;
+        background-size: 30px 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 40px; 
+        height: 40px; 
+        transition: background-color 0.3s ease;
+      }
+
       .branch-point{
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
         cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;

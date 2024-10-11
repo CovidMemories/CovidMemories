@@ -1,10 +1,16 @@
 const AUDIO_COL = 5;
+// each index is a theme, each theme holds rows for that theme
 var playlistRows = [];
+
+// each index is a theme, theme[i] = :
+// [rowIndex, plusButton, showMoreButton]
+var buttonSwaps = []; // allows us to swap out buttons accordingly
 var currPlaylist = 0;
 var currTrack = 0;
 // true = don't hide the pause button (workaround for pause button being weird)
 var dontHidePause = false;
 var table;
+var dropdownMenu;
 
 // put each of the names into an array
 var names = [];
@@ -23,7 +29,7 @@ var branchArray = [];
 // maps "i,j" -> index of branch (if i,j is the start or end of a branch)
 var getBranch = {};
 // each branch will have a unique ID
-let branchNum = 0;
+var branchNum = 0;
 
 //  show loader when the page loads
 document.addEventListener("DOMContentLoaded", function() {
@@ -327,7 +333,7 @@ function populatePlayListContentTable(){
     table = document.getElementsByClassName("table")[0];
 
   // get dropdownMenu so we can add to it
-  var dropdownMenu = document.getElementsByClassName("dropdown-menu")[0];
+  dropdownMenu = document.getElementsByClassName("dropdown-menu")[0];
 
   // iterate through each sheet
   for(let j = 0; j < Object.keys(sheets).length; j++){
@@ -341,6 +347,8 @@ function populatePlayListContentTable(){
     }
     // stores all the rows of the current playlist, will be added to playlistRows
     playlistRowsAdd = [];
+    // same thing but with our buttonSwaps
+    buttonSwapsAdd = [];
     
     // add button with correct playlist name to dropdown menu
     let button = document.createElement("button");
@@ -359,8 +367,14 @@ function populatePlayListContentTable(){
       
       //check if normal audio block
        if (values[i][5] != "Branch") {
-        addRow(table, values, i, playlistRowsAdd, rowPointer, j, false);
+        // not a branch, add stuff for making '+' appear
+        let tempRow = [];
+        tempRow.push(rowPointer);
+        let addButton = `<button class="add-row" onclick="addHandler(${j}, ${rowPointer})"></button>`
+        tempRow.push(addButton);
+        addRow(table, values, i, playlistRowsAdd, rowPointer, j, false, tempRow);
         rowPointer++;
+        buttonSwapsAdd.push(tempRow);
       } 
 
       // this is a branch block
@@ -391,7 +405,6 @@ function populatePlayListContentTable(){
         var playButtonCell = row.insertCell(5);
 
         // have it say branching point: <theme1> or <theme2>
-        //nameSpot.innerHTML = btnShowMore;
         speakerSpot.innerHTML = "BRANCHING POINT: " + url;
 
         //dropdown css
@@ -459,7 +472,7 @@ function populatePlayListContentTable(){
           if(branch1Rows[ii][4] == "Branch" || branch1Rows[ii][5] == "Branch"){
             continue;
           }
-          addRow(table, branch1Rows, ii, playlistRowsAdd, rowPointer, j, true);
+          addRow(table, branch1Rows, ii, playlistRowsAdd, rowPointer, j, true, []);
           rowPointer++;
         }
         
@@ -484,15 +497,17 @@ function populatePlayListContentTable(){
           if(branch2Rows[ii][4] == "Branch" || branch2Rows[ii][5] == "Branch"){
             continue;
           }
-          addRow(table, branch2Rows, ii, playlistRowsAdd, rowPointer, j, true);
+          addRow(table, branch2Rows, ii, playlistRowsAdd, rowPointer, j, true, []);
           rowPointer++;
         }
       }
     }
     // add next list of rows
     playlistRows.push(playlistRowsAdd);
+    buttonSwaps.push(buttonSwapsAdd);
   }
 });
+// console.error(buttonSwaps);
 // console.error(branchArray);
 // console.error(getBranch);
 }
@@ -565,7 +580,12 @@ function audioAt(i, j){
   return playlistRows[i][j].cells[AUDIO_COL].querySelector("audio");
 }
 
-// returns number of non branch rows (excludes theme) in theme's playlist
+// returns button element of ith playlist, jth row
+function buttonAt(i, j){
+  return playlistRows[i][j].cells[0].querySelector("button");
+}
+
+// returns number of non branch rows (excludes theme) in themeName's playlist
 function rowCount(themeName, sheets){
   // cache the rowCount if this is called multiple times, wont repeat work
   if(themeName in rowCountCache){
@@ -675,8 +695,8 @@ function stringIt(playlistNum, trackNum){
 }
 
 // adds 1 row to table 
-// branchHide true = hide the row anyways (branches start hidden)
-function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
+// isBranch true = hide the row anyways (branches start hidden)
+function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, tempRow){
   // grab column values from values matrix
   var url = values[i][0];
   var name = values[i][1];
@@ -692,7 +712,7 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
   // add a row
   playlistRowsAdd.push(row);
   // set initial playlist to main one
-  if(j != 0 || branchHide){
+  if(j != 0 || isBranch){
     row.style.display = 'none';
   }
   var nameSpot = row.insertCell(0);
@@ -701,8 +721,11 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
   var themeSpot = row.insertCell(3);
   var descriptionSpot = row.insertCell(4);
   var playButtonCell = row.insertCell(5);
-  let btnShowMore = ' <button class="show-more" data-url="' + url + '" data-name="' + name + '" data-track="' + track + '" data-date="' + date + '"></button> ';
-  
+  let btnShowMore = `<button class="show-more" onclick="showPopup('${url}', '${name}', '${track}', '${date}')"></button>`
+  // if this isnt a branch, add button so we can hide it later
+  if(!isBranch){
+    tempRow.push(btnShowMore)
+  }
   // insert actual values into the row
   nameSpot.innerHTML = btnShowMore;
   speakerSpot.innerHTML = '<i>' + '"' + track + '"' + '</i>';
@@ -717,15 +740,6 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
     playNext(false);
   });
   let temp = rowPointer;
-  document.querySelectorAll('.show-more').forEach(button => {
-    button.addEventListener('click', (event) => {
-      const url = event.currentTarget.getAttribute('data-url');
-      const name = event.currentTarget.getAttribute('data-name');
-      const track = event.currentTarget.getAttribute('data-track');
-      const date = event.currentTarget.getAttribute('data-date');
-      showPopup(url, name, track, date);
-    });
-  });
   // when node gets played, pause all the others
   playButtonCell.querySelector("audio").addEventListener("play", function() {
     // console.error("play called");
@@ -785,6 +799,48 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, branchHide){
   });
 
   table.appendChild(row);
+}
+
+// resets everything, repopulates table
+function reset(){
+  playlistRows = [];
+  buttonSwaps = [];
+  currPlaylist = 0;
+  currTrack = 0;
+  // true = don't hide the pause button (workaround for pause button being weird)
+  dontHidePause = false;
+  table = [];
+  dropdownMenu = [];
+  // stores ith branch object
+  branchArray = [];
+  // maps "i,j" -> index of branch (if i,j is the start or end of a branch)
+  getBranch = {};
+  // each branch will have a unique ID
+  branchNum = 0;
+  table = document.getElementsByClassName("table")[0];
+  table.replaceChildren(); // reset
+  dropdownMenu = document.getElementsByClassName("dropdown-menu")[0];
+  dropdownMenu.replaceChildren(); // reset
+  populatePlayListContentTable();
+}
+
+// reveals all add buttons for the current playlist
+function revealAddButtons(){
+  let swaps = buttonSwaps[currPlaylist];
+  for(let i = 0; i < swaps.length; i++){
+    let swap = swaps[i];
+    let buttonSpot = buttonAt(currPlaylist, swap[0]);
+    buttonSpot.outerHTML = swap[1];
+    console.error(buttonSpot);
+    console.error(swap[2]);
+    console.error(swap[1]);
+    console.error();
+  }
+}
+
+// user clicks add/plus button on this row
+function addHandler(i, j){
+  console.error("poggers");
 }
 
 // User attempts to login
