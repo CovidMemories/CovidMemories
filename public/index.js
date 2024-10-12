@@ -11,6 +11,7 @@ var currTrack = 0;
 var dontHidePause = false;
 var table;
 var dropdownMenu;
+var addButtonPressed = false;
 
 // put each of the names into an array
 var names = [];
@@ -70,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function showPopup(url, name, track, date) {
-  console.log("Popup triggered with track: " + track + "," + "date: " + date + ", name: " + name); // Debugging line
   Swal.fire({
       title: track,
       html: `Date: ${date} <br> Filename: ${name} <br> URL: <a href="${url}" target="_blank">download</a>`,
@@ -130,8 +130,6 @@ function openAudioUrl() {
 function updateTitleAndArtist(title, artist) {
   document.getElementById('title').textContent = title;
   document.getElementById('artist').textContent = artist;
-
-  console.log('Updating title and artist:', title, artist); // Debug log
   const titleElement = document.getElementById('title');
   const artistElement = document.getElementById('artist');
 
@@ -275,7 +273,6 @@ function playNext(override) {
         var audioElement = audioAt(currPlaylist, currTrack+1)
         audioElement.currentTime = 0;
         audioElement.play();
-        // console.error("playing normal");
       }
     }
     // load in next playlist, play first
@@ -305,6 +302,12 @@ function switchPlaylist(playlistNum){
 
   var audioElement = audioAt(currPlaylist, currTrack);
   audioElement.pause();
+
+  // reset addButton
+  if(addButtonPressed){
+    toggleAddButtons();
+  }
+
   currPlaylist = playlistNum;
   currTrack = 0;
 
@@ -370,7 +373,8 @@ function populatePlayListContentTable(){
         // not a branch, add stuff for making '+' appear
         let tempRow = [];
         tempRow.push(rowPointer);
-        let addButton = `<button class="add-row" onclick="addHandler(${j}, ${rowPointer})"></button>`
+        var playlistOrder = values[i][3];
+        let addButton = `<button class="add-row" onclick="addHandler('${sheetName}', ${playlistOrder})"></button>`
         tempRow.push(addButton);
         addRow(table, values, i, playlistRowsAdd, rowPointer, j, false, tempRow);
         rowPointer++;
@@ -507,9 +511,6 @@ function populatePlayListContentTable(){
     buttonSwaps.push(buttonSwapsAdd);
   }
 });
-// console.error(buttonSwaps);
-// console.error(branchArray);
-// console.error(getBranch);
 }
 
   //used for displaying info on the webpage like navigation and forms
@@ -546,7 +547,6 @@ function populatePlayListContentTable(){
                 file_description:e1.find('file_description').val(),
                 track_name:e1.find('.track_name').val(),
               };
-              console.log(a1);
 
               google.script.run.withSuccessHandler(function(data)
               {      
@@ -701,7 +701,6 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
   var url = values[i][0];
   var name = values[i][1];
   var speaker = values[i][2];
-  var playlistOrder = values[i][3];
   var theme = values[i][4];
   var description = values[i][5];
   var track = values[i][6];
@@ -742,7 +741,6 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
   let temp = rowPointer;
   // when node gets played, pause all the others
   playButtonCell.querySelector("audio").addEventListener("play", function() {
-    // console.error("play called");
     // reset the background color of the previous row
     playlistRows[currPlaylist][currTrack].style.backgroundColor = "";
     playlistRows[currPlaylist][currTrack].style.color = "";
@@ -751,7 +749,6 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
     if(currPlaylist != j || currTrack != temp){
       var lastAudio = audioAt(currPlaylist, currTrack);
       dontHidePause = true;
-      // console.error("pausing last audio lol");
       // resets the boolean since .pause() wont call pause function if lastAudio is already paused
       if (!lastAudio.paused){
         lastAudio.pause();
@@ -784,10 +781,8 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
 
     document.querySelector('.pause').style.display = 'inline-block';
     document.querySelector('.play').style.display = 'none';
-    // console.error("------------------");
   });
   playButtonCell.querySelector("audio").addEventListener("pause", () => {
-    // console.error("pause called");
     if (dontHidePause == true){
       // console.error("dontHidePause on");
       dontHidePause = false;
@@ -795,7 +790,6 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
     }
     document.querySelector('.pause').style.display = 'none';
     document.querySelector('.play').style.display = 'inline-block';
-    // console.error("------------------");
   });
 
   table.appendChild(row);
@@ -803,8 +797,11 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
 
 // resets everything, repopulates table
 function reset(){
+  // reset addButton
+  if(addButtonPressed){
+    toggleAddButtons();
+  }
   playlistRows = [];
-  buttonSwaps = [];
   currPlaylist = 0;
   currTrack = 0;
   // true = don't hide the pause button (workaround for pause button being weird)
@@ -821,26 +818,117 @@ function reset(){
   table.replaceChildren(); // reset
   dropdownMenu = document.getElementsByClassName("dropdown-menu")[0];
   dropdownMenu.replaceChildren(); // reset
+  buttonSwaps = [];
   populatePlayListContentTable();
 }
 
-// reveals all add buttons for the current playlist
-function revealAddButtons(){
+// toggles between showing or hiding "+" buttons
+function toggleAddButtons(){
+  var addButton = document.getElementById("addButton");
   let swaps = buttonSwaps[currPlaylist];
-  for(let i = 0; i < swaps.length; i++){
-    let swap = swaps[i];
-    let buttonSpot = buttonAt(currPlaylist, swap[0]);
-    buttonSpot.outerHTML = swap[1];
-    console.error(buttonSpot);
-    console.error(swap[2]);
-    console.error(swap[1]);
-    console.error();
+  // not pressed, show stuff
+  if(!addButtonPressed){
+    for(let i = 0; i < swaps.length; i++){
+      let swap = swaps[i];
+      let buttonSpot = buttonAt(currPlaylist, swap[0]);
+      buttonSpot.outerHTML = swap[1];
+    }
+    addButton.style.backgroundColor = 'rgba(77, 77, 77, 0.7)';
   }
+  // pressed, unshow stuff
+  else{
+    for(let i = 0; i < swaps.length; i++){
+      let swap = swaps[i];
+      let buttonSpot = buttonAt(currPlaylist, swap[0]);
+      buttonSpot.outerHTML = swap[2];
+    }
+    addButton.style.backgroundColor = 'rgba(211, 211, 211, 0.70)';
+  }
+  // toggle
+  addButtonPressed = !addButtonPressed;
 }
 
 // user clicks add/plus button on this row
-function addHandler(i, j){
-  console.error("poggers");
+async function addHandler(playlistName, playlistOrder){
+  const loggedIn = await isLoggedIn();
+  // first loggedIn checkpoint
+  if(!loggedIn){
+    Swal.fire({
+      title: "You need to be logged in to add rows",
+    });
+    return;
+  }
+  // ask user if they want to add a row above or below this row
+  const inputOptions = {
+    "Above": "Above",
+    "Below": "Below"
+  };
+  //
+  const { value: aboveOrBelow } = await Swal.fire({
+    title: "Add row above or below this one",
+    input: "radio",
+    inputOptions
+  });
+  // user exited the popup, they dont want to add a row
+  if(!aboveOrBelow){
+    return;
+  }
+  if(aboveOrBelow == "Below"){
+    playlistOrder++;
+  }
+
+  // prompt user to enter row data
+  // build html form to present to user
+  htmlString = ``;
+  entries = [
+    "URL", "FileName", "Speaker", 
+    "Description", "TrackName", "Date"
+  ];
+  for(let i = 0; i < entries.length; i++){
+    const entry = entries[i];
+    htmlString += `<input id="swal-input${i}" class="swal2-input">`;
+    htmlString += `<p>${entry}</p>`;
+  }
+  const { value: rowValues } = await Swal.fire({
+    title: "Fill in row values",
+    html: htmlString,
+    showCancelButton: true,
+    preConfirm: () =>{
+      var returner = [];
+      for(let i = 0; i < entries.length; i++){
+        returner.push(document.getElementById(`swal-input${i}`).value);
+      }
+      return returner;
+    }
+  });
+
+  // user cancelled
+  if(!rowValues) return;
+
+  // build and send query to actually add a row to the database
+  var query = `/add?`;
+  for(let i = 0; i < entries.length; i++){
+    const entry = entries[i];
+    query += `${entry}=${rowValues[i]}&`;
+  }
+  query += `PlaylistOrder=${playlistOrder}&Theme=${playlistName}`;
+  console.log("query: " + query);
+  const data = await fetch(query,
+    { method: "POST" }
+  );
+  const dataJSON = await data.json();
+  const addResult = await dataJSON.addResult;
+  if(!addResult){
+    Swal.fire({
+      title: "You need to be logged in to add rows",
+    });
+    return
+  }
+  Swal.fire({
+    title: "Successful addition! Refreshing...",
+  });
+  // reset makes the added row appear (refreshes db)
+  reset();
 }
 
 // User attempts to login
@@ -849,6 +937,10 @@ function addHandler(i, j){
 async function login(){
   try{
     const guess = prompt("Enter Secret Password");
+    if(!guess){
+      alert("Incorrect Password");
+      return
+    }
     const query = "/login?Password=" + guess;
     // returns true if user guessed correct password
     const data = await fetch(query,
@@ -868,7 +960,6 @@ async function login(){
     else{
       alert("You are already logged in!");
     }
-    console.error("guessResult = " + guessResult);
   }
   catch (err){
     console.error("login function error: " + err);
@@ -884,4 +975,19 @@ async function getRows(){
     catch (err) {
         console.error("getRows error: " + err);
     }
+}
+
+// returns whether or not user is logged in
+async function isLoggedIn(){
+  try{
+    const query = "/login"
+    const data = await fetch(query,
+      { method: "POST" }
+    );
+    const dataJSON = await data.json()
+    return dataJSON.isLoggedIn;
+  }
+  catch (err){
+    console.error("isLoggedIn function error: " + err);
+  }
 }

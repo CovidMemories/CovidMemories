@@ -48,11 +48,14 @@ app.get('/getRows', async (req, res) => {
       let nextPlayList = database.collection(playlistNames[i]);
       // grab all documents (rows) from next playlist
       let rows = nextPlayList.find();
-      // fill first 2 (to make it work with our current code)
-      returner[i] = [playlistNames[i], []];
+      returner[i] = [];
       for await (const doc of rows){
         returner[i].push([doc["URL"], doc["FileName"], doc["Speaker"], doc["PlaylistOrder"], doc["Theme"], doc["Description"], doc["TrackName"], doc["Date"]]);
-      } 
+      }
+      // sort based on playlistOrder ascending
+      returner[i].sort((a,b) => a[3] - b[3]);
+      // fill first 2 (to make it work with our current code)
+      returner[i] = [playlistNames[i], []].concat(returner[i]);
     }
     res.json(returner);
     console.error("done!");
@@ -66,7 +69,10 @@ app.get('/getRows', async (req, res) => {
 // Note: req.session stores session info for person logging in
 app.post('/login', async (req, res) => {
   const guess = req.query.Password;
-  console.error("guess " + guess);
+  if(!guess){
+    res.json({ isLoggedIn: req.session.loggedIn });
+    return;
+  }
   // connect to the database
   const database = client.db('hyperAudioDB');
   const passwords = database.collection("ValidPasswords");
@@ -77,10 +83,10 @@ app.post('/login', async (req, res) => {
   // 0 == success
   // 1 == incorrect password
   // 2 == user already logged in
-  var guessResult = -1
+  var guessResult = -1;
   // user already logged in
   if(req.session.loggedIn == true){
-    guessResult = 2
+    guessResult = 2;
   }
   else if(guessedRight){
     // save user
@@ -91,7 +97,7 @@ app.post('/login', async (req, res) => {
     guessResult = 1;
   }
   // return true if user correctly guess
-  res.json({ guessResult: guessResult })
+  res.json({ guessResult: guessResult });
 });
 
 // user is attempting to delete a row, only works if they are logged in
@@ -104,9 +110,49 @@ app.post('/delete', (req, res) => {
 
 // user is attempting to add a row, only works if they are logged in
 app.post('/add', (req, res) => {
-  // only do the thing if user is logged in
-  if(req.session.loggedIn == true){
-    // ...
+  try{
+    // only do the thing if user is logged in (check #2)
+    if(req.session.loggedIn == false){
+      res.json({ addResult: false });
+      return;
+    }
+    // grab row pieces
+    const PlaylistOrder = parseInt(req.query.PlaylistOrder);
+    const Theme = req.query.Theme;
+    // connect to the database
+    const db = client.db('hyperAudioDB');
+    const collection = db.collection(Theme);
+    // get all documents that we need to increment ($gte == >=)
+    const filter = { PlaylistOrder: { $gte: PlaylistOrder } };
+    const update = { $inc: { PlaylistOrder: 1 } };
+    // increment many documents
+    // console.log("filter: " + filter);
+    // console.log("update: " + update);
+    // console.log("PlaylistOrder: " + PlaylistOrder, typeof PlaylistOrder);
+    // console.log("Theme: " + Theme);
+    // console.log("updating...\n")
+    collection.updateMany(filter, update)
+    .then((a) => {
+      // create doc to insert
+      const doc = {
+        URL: req.query.URL,
+        FileName: req.query.FileName,
+        Speaker: req.query.Speaker,
+        PlaylistOrder: PlaylistOrder,
+        Theme: Theme,
+        Description: req.query.Description,
+        TrackName: req.query.TrackName,
+        Date: req.query.Date
+      }
+      collection.insertOne(doc)
+      .then((b) => {
+        // return only after update is done so we dont reset before update
+        res.json({ addResult: true });
+      });
+    });
+  }
+  catch(err){
+    console.error("error adding " + err);
   }
 });
 
