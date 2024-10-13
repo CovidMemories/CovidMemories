@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+
+    <title> Covid Memories Application </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Covid Memories">
+    <meta name="author" content="Covid Memories Demo">
+
+    <!-- stylesheets -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <!--cloudflare scripts -->
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- scripts -->
+
+    <script src="index.js"></script> 
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
+
+</head>
+
+<body style="overflow: hidden;">
+            
+    <div class="container-a"> 
+        <div class="left-panel">        
+            <div class="gradient-bg">
+                <svg viewBox="0 0 100vw 100vw" xmlns='http://www.w3.org/2000/svg' class="noiseBg">
+                  <filter id='noiseFilterBg'>
+                    <feTurbulence type='fractalNoise' baseFrequency='0.6'stitchTiles='stitch' />
+                  </filter>
+                  <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilterBg)' />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="svgBlur">
+                  <defs>
+                    <filter id="goo">
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+                      <feBlend in="SourceGraphic" in2="goo" />
+                    </filter>
+                  </defs>
+                </svg>
+
+                <div class="gradients-container">
+                  <div class="g1"></div>
+                  <div class="g2"></div>
+                  <div class="g3"></div>
+                  <div class="g4"></div>
+                  <div class="g5"></div>
+                  <div class="interactive"></div>
+                </div>
+            </div> 
+        </div>
+    </div>  
+                 
+              <div class="container-c">
+                <!--[home > start]-->
+                    <div class="container-b">
+                        <div class="card">
+
+                            <svg viewBox="0 0 100% 100%" xmlns='http://www.w3.org/2000/svg' class="noise" >
+                              <filter id='noiseFilter'>
+                                <feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch' />
+                              </filter>
+                              <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilter)' />
+                            </svg>
+
+                            <div class="content">
+                                <h1 style="font-size: 30px; letter-spacing: 5px; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;">Covid Memories</h1>    
+                                
+                                <p style="text-align: left;"> Covid Memories is a curated collection of personal narratives and reflections from the early days of the pandemic. Our Covid Memories Manager tool allows users to manage, add, and remove audio files with playback functionality, without the need of Alexa or other smart speaker devices. This project connects to Google Sheets to provide back-end management of content for those with little to no programming experience. This Covid Memories Demo is currently under construction by undergraduate students from Western Washington University's computer science department.</p>
+                            
+                                <br>
+                                <p> &#127900; <b>This is an audio interactive platform - turn up your volume </b> &#127900; </p>  
+                            </div>    
+                          </div>
+
+                          <button onclick="location.href='index.html'" class="home-button"><span>explore </span></button>
+                          
+                          <div class="gradient-bg" style="visibility: hidden;"></div>
+                    </div>
+                    </div>
+                
+            
+</body>
+</html>
