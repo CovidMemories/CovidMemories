@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
     
     html {
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         margin: 0 !important;
         padding: 0 !important;
         outline: 0 !important;
@@ -80,6 +79,11 @@
         border-radius: 20px;
         box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 26px 0 rgba(0, 0, 0, 0.3);
         background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* container for centering content */
+    .container-center{
+        text-align: center;
     }
 
     .left-panel {
@@ -165,7 +169,6 @@
     }
 
     .controls {
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
         margin-left: -15px;
     }
 
@@ -202,14 +205,12 @@
 
     .volumeUp{
         background: url('https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-volume-control-10-24.png?raw=true') no-repeat scroll;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         width: 24px; 
         height: 24px;
     }
 
     .volumeDown{
         background: url('https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-volume-control-12-24.png?raw=true') no-repeat scroll;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         width: 24px; 
         height: 24px;
     }
@@ -263,7 +264,6 @@
     
     .info {
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-info-7-32.png?raw=true); 
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -282,12 +282,10 @@
         position: relative;
         width: 326px;
         z-index: 1;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
     }
 
     .playlist li {
         color: #EEEEEE;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         margin: 0 0 5px 15px;
     }
 
@@ -299,12 +297,10 @@
         width: 100%;
         height: 20px;
         position: relative;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
     }
     .custom-slider::-webkit-slider-runnable-track {
         width: 100%;
         height: 17px;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
     }
 
     .custom-slider::-webkit-slider-thumb {
@@ -316,7 +312,6 @@
         background-color: transparent; 
         position: relative;
         z-index: 2;
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
     }
 
     .span-text {
@@ -383,10 +378,59 @@
         display: block;
       }
 
+
+      .home-button{
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        border: none;
+        z-index: 10;
+        top: 82%;
+        right: 30%;
+        max-width: 600px;
+        color: grey;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        width: 40%;
+        border-radius: 20px;
+      }
+
+      .home-button span {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+      
+      .home-button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
+        transition: 0.5s;
+      }
+
+      .home-button:hover{
+        background-color: white;
+      }
+      
+      .home-button:hover span {
+        padding-right: 25px;
+      }
+      
+      .home-button:hover span:after {
+        opacity: 1;
+        right: 0;
+      }
+
       /* show more button */
       .show-more{
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-paste-filled-32.png?raw=true); 
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -406,7 +450,6 @@
       /* add row button (green plus) */
       .add-row{
         background: url("images/add.png"); 
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -425,7 +468,6 @@
 
       .branch-point{
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/black_cursor.png?raw=true), auto;
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -545,17 +587,14 @@
     
     nav-item1:hover {
         background-color: #0056b3;  
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
     }
 
     nav-item2:hover {
         background-color: #0056b3;  
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto;
     }
 
     nav-item3:hover {
-        background-color: #0056b3; 
-        cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; 
+        background-color: #0056b3;  
     }
     
     /* alternating colors between rows */
