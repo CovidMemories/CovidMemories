@@ -74,7 +74,7 @@
 
     /* container for playlist content card */
     .container-d{
-        padding-top: 20px;
+        padding-top: 30px;
         background-color: white;
         border-radius: 20px;
         box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.35), 0 12px 26px 0 rgba(0, 0, 0, 0.3);

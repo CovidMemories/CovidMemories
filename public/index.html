@@ -35,7 +35,7 @@
 
 </head>
 
-<body onload="populatePlayListContentTable()">
+<body onload="populatePlayListContentTable()" style="background: url(https://preview.redd.it/blue-abstract-background-1920x1080-v0-8tfo71635u6b1.jpg?auto=webp&s=e6f96126660d7b08ddecf1a71791ce0c58c8de61) no-repeat scroll center top;">
     
 
     <div class="container-a">
@@ -86,34 +86,7 @@
                      
                     </div>
                 </div>
-            </div>
-
-              <div class="gradient-bg">
-                <svg viewBox="0 0 100vw 100vw" xmlns='http://www.w3.org/2000/svg' class="noiseBg">
-                  <filter id='noiseFilterBg'>
-                    <feTurbulence type='fractalNoise' baseFrequency='0.6'stitchTiles='stitch' />
-                  </filter>
-                  <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilterBg)' />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="svgBlur">
-                  <defs>
-                    <filter id="goo">
-                      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
-                      <feBlend in="SourceGraphic" in2="goo" />
-                    </filter>
-                  </defs>
-                </svg>
-
-                <div class="gradients-container">
-                  <div class="g1"></div>
-                  <div class="g2"></div>
-                  <div class="g3"></div>
-                  <div class="g4"></div>
-                  <div class="g5"></div>
-                  <div class="interactive"></div>
-                </div>
-              </div>      
+            </div>     
         </div>
         </div>
 
@@ -123,7 +96,7 @@
             <nav class="navbar">
                 <ul class="navbar__menu">
                     <li class="navbar__item">
-                      <button onclick="location.href='index.html'" class="nav-item1"><span class="hover-text">Home</span></button>
+                      <button onclick="location.href='home.html'" class="nav-item1"><span class="hover-text">Home</span></button>
                     </li>
                     <li class="navbar__item">
                       <button class="nav-item2" id="addButton" onclick="toggleAddButtons()"><span class="hover-text">Add Row</span></button>        
@@ -142,24 +115,6 @@
 
         <div class="right-panel">
                 <!--[home > start]-->
-                    <div class="container-b"> 
-                        <div class="card">
-
-                            <svg viewBox="0 0 100% 100%" xmlns='http://www.w3.org/2000/svg' class="noise" >
-                              <filter id='noiseFilter'>
-                                <feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch' />
-                              </filter>
-                              <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilter)' />
-                            </svg>
-
-                            <div class="content">
-                              <h1 style="font-size: 30px; letter-spacing: 5px; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;">Covid Memories</h1>
-                              <p>Covid Memories is a curated collection of personal narratives and reflections from the early days of the pandemic. Our Covid Memories Manager tool allows users to manage, add, and remove audio files with playback functionality, without the need of Alexa or other smart speaker devices. This project connects to Google Sheets to provide back-end management of content for those with little to no programming experience. This Covid Memories Demo is currently under construction by undergraduate students from Western Washington University's computer science department.</p>
-                            </div>
-                          </div>
-                          <div class="gradient-bg" style="visibility: hidden;"></div>
-                    </div>
-
                     <div class="container-d">
                         <div class="text-center">
                             <!-- <button class="info"></button> -->
