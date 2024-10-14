@@ -20,4 +20,8 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
+          
+      - name: Free Code Coverage
+        uses: SamuelCabralCruz/free-code-coverage@v0.0.13
+            
 
