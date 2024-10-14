@@ -28,14 +28,12 @@ const { playNext } = require('../../public/index');
 
 test('plays next track when autoplay is enabled', () => {
   playNext(false);
-  
   expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1);
   expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled(); 
 });
 
 test('plays next track regardless of autoplay when override is true', () => {
   playNext(true); 
-  
   expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1); 
   expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled(); 
 });
@@ -43,12 +41,18 @@ test('plays next track regardless of autoplay when override is true', () => {
 test('switches to next playlist and plays first track', () => {
   currTrack = 2; 
   currPlaylist = 0; 
-  
   playNext(false); 
-  
   expect(switchPlaylist).toHaveBeenCalledWith(1); 
   expect(audioAt).toHaveBeenCalledWith(1, 0); 
   expect(audioAt(1, 0).play).toHaveBeenCalled(); 
+});
+
+test('does not fail when at the end of the playlist', () => {
+  currTrack = 2; // Last track in the first playlist
+  currPlaylist = 0; // First playlist
+  playNext(false); // Should switch to next playlist
+  expect(switchPlaylist).toHaveBeenCalledWith(1);
+  expect(audioAt).toHaveBeenCalledWith(1, 0);
 });
 
 
