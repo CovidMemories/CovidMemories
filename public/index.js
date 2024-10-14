@@ -284,7 +284,7 @@ function playNext(override) {
     }
   }
 }
-module.exports = { playNext };
+
 
 // switches playlist from currPlaylist (global) to playlistNum, doesnt play
 function switchPlaylist(playlistNum){
@@ -795,7 +795,7 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
 
   table.appendChild(row);
 }
-module.exports = { addRow };
+
 
 // resets everything, repopulates table
 function reset(){
@@ -993,3 +993,8 @@ async function isLoggedIn(){
     console.error("isLoggedIn function error: " + err);
   }
 }
+module.exports = {
+  addRow,
+  playNext
+};
+
