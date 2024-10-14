@@ -2,7 +2,8 @@ name: push_test
 on: 
   push:
     branches:
-      - main  
+      - main 
+      -testing
 
 jobs:
   start_up_jobs:
