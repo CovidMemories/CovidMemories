@@ -1,3 +1,4 @@
+global.$ = require('jquery');
 const { updateTitleAndArtist } = require('../../public/index');
 
 beforeEach(() => {
