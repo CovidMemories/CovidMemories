@@ -1,6 +1,5 @@
-
-const { playNext } = require('../../public/index'); 
 global.$ = require('jquery');
+const { playNext } = require('../../public/index'); 
 // mock global variables
 let currTrack, currPlaylist, playlistRows, getBranch, branchArray;
 
