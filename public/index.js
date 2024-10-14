@@ -995,6 +995,7 @@ async function isLoggedIn(){
 }
 module.exports = {
   addRow,
-  playNext
+  playNext,
+  updateTitleAndArtist
 };
 
