@@ -284,6 +284,7 @@ function playNext(override) {
     }
   }
 }
+module.exports = { playNext };
 
 // switches playlist from currPlaylist (global) to playlistNum, doesnt play
 function switchPlaylist(playlistNum){
