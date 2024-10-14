@@ -1,5 +1,5 @@
 
-const { playNext } = require('./public/index'); 
+const { playNext } = require('../../public/index'); 
 
 // mock global variables
 let currTrack, currPlaylist, playlistRows, getBranch, branchArray;
