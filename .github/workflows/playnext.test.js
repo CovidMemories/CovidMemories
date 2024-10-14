@@ -1,6 +1,6 @@
 global.$ = require('jquery');
 
-const { playNext, addRow } = require('../../public/index'); 
+const { playNext, addRow } = require('../../public/index');
 
 let currTrack;
 let currPlaylist;
@@ -24,11 +24,13 @@ beforeEach(() => {
 
     playlistRows = [
         [
-            {},
-            {},
-            {}
+            { cells: [{}, {}, {}, {}, {}, { querySelector: jest.fn(() => ({ play: jest.fn(), currentTime: 0 })) }] },
+            { cells: [{}, {}, {}, {}, {}, { querySelector: jest.fn(() => ({ play: jest.fn(), currentTime: 0 })) }] },
+            { cells: [{}, {}, {}, {}, {}, { querySelector: jest.fn(() => ({ play: jest.fn(), currentTime: 0 })) }] }
         ],
-        []
+        [
+            { cells: [{}, {}, {}, {}, {}, { querySelector: jest.fn(() => ({ play: jest.fn(), currentTime: 0 })) }] }
+        ]
     ];
 
     const values = [
@@ -55,28 +57,36 @@ beforeEach(() => {
 test('plays next track when autoplay is enabled', () => {
     playNext(false);
     expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1);
-    expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled(); 
+    expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled();
 });
 
 test('plays next track regardless of autoplay when override is true', () => {
-    playNext(true); 
-    expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1); 
-    expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled(); 
+    document.getElementById('autoplay').checked = false;
+
+    playNext(true);
+
+    expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1);
+    expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled();
 });
 
-test('switches to next playlist and plays first track', () => {
-    currTrack = 2; 
-    currPlaylist = 0; 
-    playNext(false); 
-    expect(switchPlaylist).toHaveBeenCalledWith(1); 
-    expect(audioAt).toHaveBeenCalledWith(1, 0); 
-    expect(audioAt(1, 0).play).toHaveBeenCalled(); 
-});
+test('switches to next playlist and plays first track when current playlist ends', () => {
+    currTrack = 2;
+    currPlaylist = 0;
 
-test('does not fail when at the end of the playlist', () => {
-    currTrack = 2; 
-    currPlaylist = 0; 
-    playNext(false); 
+    playNext(false);
+
     expect(switchPlaylist).toHaveBeenCalledWith(1);
     expect(audioAt).toHaveBeenCalledWith(1, 0);
+    expect(audioAt(1, 0).play).toHaveBeenCalled();
 });
+
+test('does not fail when at the end of the playlist and no more playlists exist', () => {
+    currTrack = 2;
+    currPlaylist = 1;
+
+    playNext(false);
+
+    expect(switchPlaylist).not.toHaveBeenCalled();
+    expect(audioAt).not.toHaveBeenCalledWith(1, 0);
+});
+
