@@ -20,6 +20,7 @@ jobs:
         run: |
           npm install
           npm install --save-dev jest-environment-jsdom
+          npm install --save-dev jquery
 
       - name: Build the MEMORIES
         run: |
