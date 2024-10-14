@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -15,11 +17,6 @@
     "mongodb": "^6.6.2"
   },
   "devDependencies": {}
-  
-  "scripts": {
-  "test": "jest",
-  "test:coverage": "jest --coverage"
-}
 
 }
 
