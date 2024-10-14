@@ -1,6 +1,5 @@
 global.$ = require('jquery');
-
-const { playNext, addRow } = require('../../public/index');
+const { playNext } = require('../../public/index');
 
 let currTrack;
 let currPlaylist;
@@ -17,8 +16,6 @@ beforeEach(() => {
     document.body.innerHTML = `
         <input type="checkbox" id="autoplay" checked />
         <div id="playlistContent"></div>
-        <div id="playlistDropdown" class="dropdown-menu"></div>
-        <div id="loader" style="display: none;"></div>
         <table class="table"></table>
     `;
 
@@ -33,17 +30,6 @@ beforeEach(() => {
         ]
     ];
 
-    const values = [
-        ["url1", "FileName1", "Speaker1", 0, "Theme1", "Description1", "TrackName1", "Date1"],
-        ["url2", "FileName2", "Speaker2", 1, "Theme1", "Description2", "TrackName2", "Date2"],
-        ["url3", "FileName3", "Speaker3", 2, "Theme2", "Description3", "TrackName3", "Date3"]
-    ];
-
-    values.forEach((value, i) => {
-        const table = document.querySelector(".table");
-        addRow(table, values, i, playlistRows[currPlaylist], i, currPlaylist, false, []);
-    });
-
     global.audioAt = jest.fn((playlistIndex, trackIndex) => ({
         currentTime: 0,
         play: jest.fn(),
@@ -56,6 +42,7 @@ beforeEach(() => {
 
 test('plays next track when autoplay is enabled', () => {
     playNext(false);
+
     expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1);
     expect(audioAt(currPlaylist, 1).play).toHaveBeenCalled();
 });
