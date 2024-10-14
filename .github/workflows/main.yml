@@ -19,6 +19,7 @@ jobs:
           npm install
           npm install --save-dev jest-environment-jsdom
           npm install --save-dev jquery
+          npm install --save-dev supertest
 
       - name: Build the MEMORIES
         run: |
