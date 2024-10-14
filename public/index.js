@@ -795,6 +795,7 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
 
   table.appendChild(row);
 }
+module.exports = { addRow };
 
 // resets everything, repopulates table
 function reset(){
