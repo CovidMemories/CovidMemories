@@ -996,6 +996,9 @@ async function isLoggedIn(){
 module.exports = {
   addRow,
   playNext,
-  updateTitleAndArtist
+  updateTitleAndArtist, 
+  clearFields,
+  toggleVisibility,
+  validateEmail
 };
 
