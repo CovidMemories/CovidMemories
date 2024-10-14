@@ -15,8 +15,11 @@
     "mongodb": "^6.6.2"
   },
   "devDependencies": {}
+  
+  "scripts": {
+  "test": "jest",
+  "test:coverage": "jest --coverage"
 }
-"scripts": {
-  "test": "jest"
+
 }
 
