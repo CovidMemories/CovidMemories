@@ -4,7 +4,7 @@ let currTrack, currPlaylist, playlistRows, getBranch, branchArray;
 
 beforeEach(() => {
   currTrack = 0;
-  currPlaylist = 0;
+  currPlaylist = 1;
   const playlistRows = [
   [
     ["url1", "FileName1", "Speaker1", 0, "Theme1", "Description1", "TrackName1", "Date1"],
