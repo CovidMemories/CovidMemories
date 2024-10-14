@@ -1,3 +1,7 @@
+
+global.TextEncoder = require('util').TextEncoder;
+global.TextDecoder = require('util').TextDecoder;
+
 const express = require('express');
 const session = require('express-session');
 const request = require('supertest');
@@ -95,3 +99,4 @@ test('returns already logged in if session is active', async () => {
     expect(response.status).toBe(200);
     expect(response.body.guessResult).toBe(2);
 });
+
