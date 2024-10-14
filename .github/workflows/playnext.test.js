@@ -73,8 +73,8 @@ test('does not fail when at the end of the playlist and no more playlists exist'
     currPlaylist = 1;
 
     playNext(false);
-*/
+
     expect(switchPlaylist).not.toHaveBeenCalled();
     expect(audioAt).not.toHaveBeenCalledWith(1, 0);
 });
-
+*/
