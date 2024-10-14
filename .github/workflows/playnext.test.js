@@ -1,5 +1,7 @@
 global.$ = require('jquery');
 
+const { playNext, addRow } = require('../../public/index'); // Adjust the path as necessary
+
 let currTrack, currPlaylist, getBranch, branchArray;
 let playlistRows;
 
@@ -40,8 +42,6 @@ beforeEach(() => {
   global.switchPlaylist = jest.fn();
 });
 
-const { playNext } = require('../../public/index');
-
 test('plays next track when autoplay is enabled', () => {
   playNext(false);
   expect(audioAt).toHaveBeenCalledWith(currPlaylist, 1);
@@ -70,6 +70,7 @@ test('does not fail when at the end of the playlist', () => {
   expect(switchPlaylist).toHaveBeenCalledWith(1);
   expect(audioAt).toHaveBeenCalledWith(1, 0);
 });
+
 
 
 
