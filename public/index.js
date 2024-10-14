@@ -285,6 +285,7 @@ function playNext(override) {
   }
 }
 
+
 // switches playlist from currPlaylist (global) to playlistNum, doesnt play
 function switchPlaylist(playlistNum){
   // set playlist content to display current playlist
@@ -795,6 +796,7 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
   table.appendChild(row);
 }
 
+
 // resets everything, repopulates table
 function reset(){
   // reset addButton
@@ -991,3 +993,9 @@ async function isLoggedIn(){
     console.error("isLoggedIn function error: " + err);
   }
 }
+module.exports = {
+  addRow,
+  playNext,
+  updateTitleAndArtist
+};
+

@@ -4,7 +4,9 @@
   "description": "Node memories requirements:",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +16,16 @@
     "express-session": "^1.18.0",
     "mongodb": "^6.6.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "jquery": "^3.6.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
 }
+
+
+
+
