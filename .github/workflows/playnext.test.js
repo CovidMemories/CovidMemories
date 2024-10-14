@@ -1,11 +1,12 @@
 global.$ = require('jquery');
 
-let currTrack, currPlaylist, playlistRows, getBranch, branchArray;
+let currTrack, currPlaylist, getBranch, branchArray;
+let playlistRows; 
 
 beforeEach(() => {
   currTrack = 0;
   currPlaylist = 1;
-  playlistRows = [
+  playlistRows = [ 
     [
       ["url1", "FileName1", "Speaker1", 0, "Theme1", "Description1", "TrackName1", "Date1"],
       ["url2", "FileName2", "Speaker2", 1, "Theme1", "Description2", "TrackName2", "Date2"]
@@ -62,6 +63,7 @@ test('does not fail when at the end of the playlist', () => {
   expect(switchPlaylist).toHaveBeenCalledWith(1);
   expect(audioAt).toHaveBeenCalledWith(1, 0);
 });
+
 
 
 
