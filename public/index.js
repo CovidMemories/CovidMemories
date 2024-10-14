@@ -997,8 +997,7 @@ module.exports = {
   addRow,
   playNext,
   updateTitleAndArtist, 
-  clearFields,
-  toggleVisibility,
-  validateEmail
+  volumeSlider
+  
 };
 
