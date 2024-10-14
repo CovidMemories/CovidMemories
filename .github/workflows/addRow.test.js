@@ -21,5 +21,5 @@ test('addRow adds a new row to the table', () => {
     const row = table.rows[0];
    expect(row.cells[1].textContent).toContain('Track Name 1');  
     expect(row.cells[2].textContent).toContain('Speaker 1');  
-    expect(row.cells[5].textContent).toContain('Description 1');
+    expect(row.cells[4].textContent).toContain('Description 1');
 });
