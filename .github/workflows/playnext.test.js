@@ -5,15 +5,15 @@ let currTrack, currPlaylist, playlistRows, getBranch, branchArray;
 beforeEach(() => {
   currTrack = 0;
   currPlaylist = 1;
-  const playlistRows = [
-  [
-    ["url1", "FileName1", "Speaker1", 0, "Theme1", "Description1", "TrackName1", "Date1"],
-    ["url2", "FileName2", "Speaker2", 1, "Theme1", "Description2", "TrackName2", "Date2"]
-  ],
-  [
-    ["url3", "FileName3", "Speaker3", 0, "Theme2", "Description3", "TrackName3", "Date3"]
-  ]
-];
+  playlistRows = [
+    [
+      ["url1", "FileName1", "Speaker1", 0, "Theme1", "Description1", "TrackName1", "Date1"],
+      ["url2", "FileName2", "Speaker2", 1, "Theme1", "Description2", "TrackName2", "Date2"]
+    ],
+    [
+      ["url3", "FileName3", "Speaker3", 0, "Theme2", "Description3", "TrackName3", "Date3"]
+    ]
+  ];
   
   document.body.innerHTML = `
     <input type="checkbox" id="autoplay" checked />
