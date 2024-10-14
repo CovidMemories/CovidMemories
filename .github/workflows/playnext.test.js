@@ -1,6 +1,6 @@
 
 const { playNext } = require('../../public/index'); 
-
+global.$ = require('jquery');
 // mock global variables
 let currTrack, currPlaylist, playlistRows, getBranch, branchArray;
 
@@ -13,7 +13,11 @@ beforeEach(() => {
     ['track4', 'track5'] 
   ];
   
-  document.body.innerHTML = `<input type="checkbox" id="autoplay" checked />`;
+    document.body.innerHTML = `
+    <input type="checkbox" id="autoplay" checked />
+    <div class="screen_home"></div>
+    <div class="screen_data"></div>
+  `;
 
   // mocking functions and arrays
   getBranch = {};
@@ -57,4 +61,8 @@ test('switches to next playlist and plays first track', () => {
   expect(audioAt).toHaveBeenCalledWith(1, 0); 
   expect(audioAt(1, 0).play).toHaveBeenCalled(); 
 });
+
+
+
+
 
