@@ -19,7 +19,7 @@ test('addRow adds a new row to the table', () => {
 
     expect(table.rows.length).toBe(1); 
     const row = table.rows[0];
-    expect(row.cells[1].innerHTML).toContain('Track 1');  // Check name
-    expect(row.cells[2].innerHTML).toContain('Speaker 1');  // Check speaker
-    expect(row.cells[5].innerHTML).toContain('Description');  
+   expect(row.cells[1].textContent).toContain('Track Name 1');  
+    expect(row.cells[2].textContent).toContain('Speaker 1');  
+    expect(row.cells[5].textContent).toContain('Description 1');
 });
