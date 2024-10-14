@@ -16,8 +16,13 @@
     "express-session": "^1.18.0",
     "mongodb": "^6.6.2"
   },
-  "devDependencies": {}
-
+  "devDependencies": {
+    "jest": "^29.0.0" 
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
 }
+
 
 
