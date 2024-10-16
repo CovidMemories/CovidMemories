@@ -378,15 +378,13 @@
         display: block;
       }
 
-
       .home-button{
-        position: absolute;
+        position: relative;
         background-color: rgba(255, 255, 255, 0.9);
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
         border: none;
         z-index: 10;
-        top: 82%;
-        right: 30%;
+        top: 80px;
         max-width: 600px;
         color: grey;
         padding: 15px 32px;
@@ -426,6 +424,28 @@
       .home-button:hover span:after {
         opacity: 1;
         right: 0;
+      }
+
+      .upload-audio{
+        position: relative; 
+        background-color: white;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        border: none;
+        z-index: 10;
+        max-width: 600px;
+        color: grey;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        width: 40%;
+        border-radius: 20px;
+      }
+
+      .upload-audio:hover{
+        background-color: rgba(255, 255, 255, 0.9);
       }
 
       /* show more button */
