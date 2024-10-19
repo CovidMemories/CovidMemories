@@ -102,9 +102,26 @@ app.post('/login', async (req, res) => {
 
 // user is attempting to delete a row, only works if they are logged in
 app.post('/delete', (req, res) => {
-  // only do the thing if user is logged in
-  if(req.session.loggedIn == true){
-    // ...
+  try{
+    // only do the thing if user is logged in (check #2)
+    if(req.session.loggedIn == false){
+      res.json({ addResult: false });
+      return;
+    }
+    // grab row pieces
+    const PlaylistOrder = parseInt(req.query.PlaylistOrder);
+    const Theme = req.query.Theme;
+    // connect to the database
+    const db = client.db('hyperAudioDB');
+    const collection = db.collection(Theme);
+    const query = { PlaylistOrder: PlaylistOrder };
+    collection.deleteOne(query).then((a) =>{
+      // return only after update is done so we dont reset before update
+      res.json({ addResult: true });
+    });
+  }
+  catch(err){
+    console.error("error deleting " + err);
   }
 });
 
@@ -118,10 +135,10 @@ app.post('/add', (req, res) => {
     }
     // grab row pieces
     const PlaylistOrder = parseInt(req.query.PlaylistOrder);
-    const Theme = req.query.Theme;
+    const PlaylistName = req.query.PlaylistName;
     // connect to the database
     const db = client.db('hyperAudioDB');
-    const collection = db.collection(Theme);
+    const collection = db.collection(PlaylistName);
     // get all documents that we need to increment ($gte == >=)
     const filter = { PlaylistOrder: { $gte: PlaylistOrder } };
     const update = { $inc: { PlaylistOrder: 1 } };
@@ -139,7 +156,7 @@ app.post('/add', (req, res) => {
         FileName: req.query.FileName,
         Speaker: req.query.Speaker,
         PlaylistOrder: PlaylistOrder,
-        Theme: Theme,
+        Theme: req.query.Theme,
         Description: req.query.Description,
         TrackName: req.query.TrackName,
         Date: req.query.Date

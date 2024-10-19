@@ -486,6 +486,25 @@
         transition: background-color 0.3s ease;
       }
 
+      /* delete row button (red minus) */
+      .delete-row{
+        background: url("images/delete.png"); 
+        width: 32px; 
+        height: 32px;
+        padding: 0;
+        border: none;
+        outline:none;  
+
+        background-color: darkgray;
+        background-size: 30px 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 40px; 
+        height: 40px; 
+        transition: background-color 0.3s ease;
+      }
+
       .branch-point{
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
         width: 32px; 
@@ -546,7 +565,7 @@
       }
 
       .nav-item3{
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-archive-1-24.png?raw=true); 
+        background: url("images/db_delete.png"); 
         background-color:rgba(211, 211, 211, 0.70);
         background-size: 24px 24px;
         background-position: center;
