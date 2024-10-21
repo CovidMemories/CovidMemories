@@ -1,10 +1,10 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
 const session = require('express-session');
-
+const argon2 = require('argon2');
 // this is our server or something idk
 const app = express();
-
+app.use(express.json());// for parsing json
 // make it so each user has their own session (and their own "loggedIn" boolean)
 app.use(session({
   // protect session ID cookie
@@ -64,40 +64,60 @@ app.get('/getRows', async (req, res) => {
     console.error("error with /getRows -", err);
   }
 });
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+app.post("/signup", async (req, res) => {
+  try{
 
+  const data = {
+    name: req.body.username,
+    password: req.body.password
+  }
+    const database = client.db('hyperAudioDB'); 
+    const passwords = database.collection('users');
+    const exisitingUser = await collection.findOne({ name: data.name });
+    if(exisitingUser){
+       return res.send("User already exists");
+    }else{
+      const hash = await argon2.hash(data.password);
+      data.password = hash;
+      const userdata = await collection.insertOne(data);
+      res.send("User created");
+    }
+  }catch(err){
+    console.error("error signing up", err);
+    res.status(500).send("Internal server error");
+  }
+});
 // user attempts to log in, set their "loggedIn" boolean to true if successful
 // Note: req.session stores session info for person logging in
 app.post('/login', async (req, res) => {
-  const guess = req.query.Password;
-  if(!guess){
-    res.json({ isLoggedIn: req.session.loggedIn });
-    return;
-  }
   // connect to the database
-  const database = client.db('hyperAudioDB');
-  const passwords = database.collection("ValidPasswords");
-
-  const query = { Password: guess };
-  // check if the guess is in the database
-  const guessedRight = await passwords.findOne(query);
-  // 0 == success
-  // 1 == incorrect password
-  // 2 == user already logged in
-  var guessResult = -1;
-  // user already logged in
-  if(req.session.loggedIn == true){
-    guessResult = 2;
-  }
-  else if(guessedRight){
-    // save user
+  try{
+    const database = client.db('hyperAudioDB');
+    const passwords = database.collection('users');
+    const data = {
+      name: req.body.username,
+      password: req.body.password
+    }
+    const check = collection.findOne({ name: req.body.username });
+    if(!check){
+      res.send("User not found");
+    }
+    const isPasswordCorrect = await argon2.verify(check.password, req.body.password);
+    if(!isPasswordCorrect){
+      return res.send("Incorrect password");
+    }
+    
+    res.send("home")
     req.session.loggedIn = true;
-    guessResult = 0;
+    req.session.username = req.body.username;
+    res.send("logged in");
+  }catch{
+    res.send("wrong details")
   }
-  else{
-    guessResult = 1;
-  }
-  // return true if user correctly guess
-  res.json({ guessResult: guessResult });
+
 });
 
 // user is attempting to delete a row, only works if they are logged in
