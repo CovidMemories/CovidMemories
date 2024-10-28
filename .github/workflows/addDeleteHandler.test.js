@@ -19,7 +19,10 @@ beforeEach(() => {
 });
 
 test('addHandler adds a row when confirmed', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
+   
+    fetch
+        .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))  
+        .mockResponseOnce(JSON.stringify({ addResult: true }));  
 
     Swal.fire
         .mockResolvedValueOnce({ value: 'Below' }) 
@@ -35,7 +38,10 @@ test('addHandler adds a row when confirmed', async () => {
 });
 
 test('deleteHandler deletes a row when confirmed', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
+    
+    fetch
+        .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))  
+        .mockResponseOnce(JSON.stringify({ addResult: true }));  
 
     Swal.fire.mockResolvedValueOnce({ value: true }); 
 
