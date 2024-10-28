@@ -4,6 +4,7 @@ global.$ = global.jQuery = $;
 
 const Swal = require('sweetalert2');
 jest.mock('sweetalert2');
+global.Swal = Swal;  
 
 const { addHandler, deleteHandler } = require('../../public/index'); 
 
@@ -18,7 +19,6 @@ beforeEach(() => {
 });
 
 test('addHandler adds a row when confirmed', async () => {
-
     fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire
@@ -35,7 +35,6 @@ test('addHandler adds a row when confirmed', async () => {
 });
 
 test('deleteHandler deletes a row when confirmed', async () => {
-    
     fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire.mockResolvedValueOnce({ value: true }); 
@@ -46,6 +45,9 @@ test('deleteHandler deletes a row when confirmed', async () => {
         expect.stringContaining('/delete?'),
         expect.objectContaining({ method: 'POST' })
     );
+    expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
+});
+
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 });
 
