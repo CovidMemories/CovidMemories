@@ -1079,6 +1079,8 @@ module.exports = {
   addRow,
   playNext,
   updateTitleAndArtist, 
-  volumeSlider
+  volumeSlider,
+  deleteHandler,
+  addHandler
   
 };
