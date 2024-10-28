@@ -13,6 +13,7 @@ beforeEach(() => {
     Swal.fire.mockReset();
     document.body.innerHTML = `
         <div id="playlistContent"></div>
+        <div id="playlistDropdown"></div> 
         <button id="addButton"></button>
         <button id="deleteButton"></button>
         <table class="table"></table> 
@@ -20,7 +21,6 @@ beforeEach(() => {
         <input type="checkbox" id="autoplay"> 
     `;
 });
-
 
 test('addHandler adds a row when confirmed', async () => {
    
