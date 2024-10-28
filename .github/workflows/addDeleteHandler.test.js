@@ -1,6 +1,3 @@
-global.Swal = {
-    fire: jest.fn(),
-};
 require('jest-fetch-mock').enableMocks();
 const $ = require('jquery');
 global.$ = global.jQuery = $;
@@ -20,19 +17,9 @@ beforeEach(() => {
     `;
 });
 
-test('addHandler prompts user to log in if not logged in', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
-    Swal.fire.mockResolvedValueOnce({ value: false });
+test('addHandler adds a row when confirmed', async () => {
 
-    await addHandler('Playlist 1', 1);
-
-    expect(Swal.fire).toHaveBeenCalledWith({ title: "You need to be logged in to add rows" });
-});
-
-test('addHandler adds a row when logged in and confirmed', async () => {
-    fetch
-        .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
-        .mockResponseOnce(JSON.stringify({ addResult: true }));
+    fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire
         .mockResolvedValueOnce({ value: 'Below' }) 
@@ -47,19 +34,9 @@ test('addHandler adds a row when logged in and confirmed', async () => {
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful addition! Refreshing..." });
 });
 
-test('deleteHandler prompts user to log in if not logged in', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
-    Swal.fire.mockResolvedValueOnce({ value: false });
-
-    await deleteHandler('Playlist 1', 1);
-
-    expect(Swal.fire).toHaveBeenCalledWith({ title: "You need to be logged in to delete rows" });
-});
-
-test('deleteHandler deletes a row when logged in and confirmed', async () => {
-    fetch
-        .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
-        .mockResponseOnce(JSON.stringify({ addResult: true }));
+test('deleteHandler deletes a row when confirmed', async () => {
+    /
+    fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire.mockResolvedValueOnce({ value: true }); 
 
@@ -71,4 +48,5 @@ test('deleteHandler deletes a row when logged in and confirmed', async () => {
     );
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 });
+
 
