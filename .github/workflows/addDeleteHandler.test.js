@@ -48,5 +48,4 @@ test('deleteHandler deletes a row when confirmed', async () => {
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 });
 
-    expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 
