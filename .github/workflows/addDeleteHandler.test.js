@@ -1,7 +1,6 @@
 global.Swal = {
     fire: jest.fn(),
 };
-
 require('jest-fetch-mock').enableMocks();
 const $ = require('jquery');
 global.$ = global.jQuery = $;
@@ -9,10 +8,11 @@ global.$ = global.jQuery = $;
 const Swal = require('sweetalert2');
 jest.mock('sweetalert2');
 
-const { addHandler, deleteHandler } = require('../../public/index'); // Adjust path if necessary
+const { addHandler, deleteHandler } = require('../../public/index'); 
 
 beforeEach(() => {
     fetch.resetMocks();
+    Swal.fire.mockReset();
     document.body.innerHTML = `
         <div id="playlistContent"></div>
         <button id="addButton"></button>
@@ -22,9 +22,10 @@ beforeEach(() => {
 
 test('addHandler prompts user to log in if not logged in', async () => {
     fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
-    Swal.fire.mockResolvedValue({ value: false });
+    Swal.fire.mockResolvedValue({}); 
 
     await addHandler('Playlist 1', 1);
+
     expect(Swal.fire).toHaveBeenCalledWith({ title: "You need to be logged in to add rows" });
 });
 
@@ -34,8 +35,10 @@ test('addHandler adds a row when logged in and confirmed', async () => {
         .mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire
-        .mockResolvedValueOnce({ value: 'Below' })
-        .mockResolvedValueOnce({ value: ['https://example.com', 'FileName', 'Speaker', 'Description', 'TrackName', '2021-01-01', 'Theme'] });
+        .mockResolvedValueOnce({ value: 'Below' }) 
+        .mockResolvedValueOnce({
+            value: ['https://example.com', 'FileName', 'Speaker', 'Description', 'TrackName', '2021-01-01', 'Theme'],
+        }); 
 
     await addHandler('Playlist 1', 1);
 
@@ -48,9 +51,10 @@ test('addHandler adds a row when logged in and confirmed', async () => {
 
 test('deleteHandler prompts user to log in if not logged in', async () => {
     fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
-    Swal.fire.mockResolvedValue({ value: false });
+    Swal.fire.mockResolvedValue({}); 
 
     await deleteHandler('Playlist 1', 1);
+
     expect(Swal.fire).toHaveBeenCalledWith({ title: "You need to be logged in to delete rows" });
 });
 
@@ -59,7 +63,7 @@ test('deleteHandler deletes a row when logged in and confirmed', async () => {
         .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
         .mockResponseOnce(JSON.stringify({ addResult: true }));
 
-    Swal.fire.mockResolvedValueOnce({ value: true });
+    Swal.fire.mockResolvedValueOnce({ value: true }); 
 
     await deleteHandler('Playlist 1', 1);
 
