@@ -1,40 +1,20 @@
-require('jest-fetch-mock').enableMocks();
-const $ = require('jquery');
-global.$ = global.jQuery = $;
-
 const Swal = require('sweetalert2');
 jest.mock('sweetalert2');
+
 global.Swal = Swal;
 
-jest.mock('../../public/index', () => {
-    const originalModule = jest.requireActual('../../public/index');
-    return {
-        ...originalModule,
-        getRows: jest.fn(() => Promise.resolve([{ 0: 'Playlist 1', 1: 'Data Row' }])),
-    };
-});
+const fetchMock = require('jest-fetch-mock');
+fetchMock.enableMocks();
 
 const { addHandler, deleteHandler } = require('../../public/index');
 
 beforeEach(() => {
     fetch.resetMocks();
     Swal.fire.mockReset();
-    document.body.innerHTML = `
-        <div id="playlistContent"></div>
-        <div id="playlistDropdown"></div>
-        <button id="addButton"></button>
-        <button id="deleteButton"></button>
-        <table class="table"></table>
-        <div class="dropdown-menu"></div>
-        <input type="checkbox" id="autoplay">
-        <div id="loader" style="display: none;"></div>
-    `;
-    require('../../public/index').getRows.mockResolvedValue([{ 0: 'Playlist 1', 1: 'Data Row' }]);
 });
 
 test('addHandler adds a row when confirmed', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
-        .mockResponseOnce(JSON.stringify({ addResult: true }));
+    fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire
         .mockResolvedValueOnce({ value: 'Below' })
@@ -50,8 +30,7 @@ test('addHandler adds a row when confirmed', async () => {
 });
 
 test('deleteHandler deletes a row when confirmed', async () => {
-    fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
-        .mockResponseOnce(JSON.stringify({ addResult: true }));
+    fetch.mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire.mockResolvedValueOnce({ value: true });
 
