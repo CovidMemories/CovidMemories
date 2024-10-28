@@ -16,9 +16,11 @@ beforeEach(() => {
         <button id="addButton"></button>
         <button id="deleteButton"></button>
         <table class="table"></table> 
-        <div class="dropdown-menu"></div>
+        <div class="dropdown-menu"></div> 
+        <input type="checkbox" id="autoplay"> 
     `;
 });
+
 
 test('addHandler adds a row when confirmed', async () => {
    
