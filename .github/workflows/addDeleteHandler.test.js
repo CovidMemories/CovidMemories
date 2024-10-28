@@ -1,3 +1,7 @@
+global.Swal = {
+    fire: jest.fn(),
+};
+
 require('jest-fetch-mock').enableMocks();
 const $ = require('jquery');
 global.$ = global.jQuery = $;
