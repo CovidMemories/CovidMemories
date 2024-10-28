@@ -1,6 +1,9 @@
+require('jest-fetch-mock').enableMocks();
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
 const Swal = require('sweetalert2');
 jest.mock('sweetalert2');
-
 global.Swal = Swal;
 
 const fetchMock = require('jest-fetch-mock');
