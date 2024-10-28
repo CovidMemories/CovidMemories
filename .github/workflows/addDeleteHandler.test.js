@@ -4,35 +4,41 @@ global.$ = global.jQuery = $;
 
 const Swal = require('sweetalert2');
 jest.mock('sweetalert2');
-global.Swal = Swal;  
+global.Swal = Swal;
 
-const { addHandler, deleteHandler } = require('../../public/index'); 
+jest.mock('../../public/index', () => {
+    const originalModule = jest.requireActual('../../public/index');
+    return {
+        ...originalModule,
+        getRows: jest.fn(() => Promise.resolve([{ 0: 'Playlist 1', 1: 'Data Row' }])),
+    };
+});
+
+const { addHandler, deleteHandler } = require('../../public/index');
 
 beforeEach(() => {
     fetch.resetMocks();
     Swal.fire.mockReset();
     document.body.innerHTML = `
-        <div id="playlistContent"></div> 
-        <div id="playlistDropdown"></div> 
+        <div id="playlistContent"></div>
+        <div id="playlistDropdown"></div>
         <button id="addButton"></button>
         <button id="deleteButton"></button>
-        <table class="table"></table> 
+        <table class="table"></table>
         <div class="dropdown-menu"></div>
         <input type="checkbox" id="autoplay">
-        <div id="loader" style="display: none;">
+        <div id="loader" style="display: none;"></div>
     `;
+    require('../../public/index').getRows.mockResolvedValue([{ 0: 'Playlist 1', 1: 'Data Row' }]);
 });
 
-
 test('addHandler adds a row when confirmed', async () => {
-   
-    fetch
-        .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))  
-        .mockResponseOnce(JSON.stringify({ addResult: true }));  
+    fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
+        .mockResponseOnce(JSON.stringify({ addResult: true }));
 
     Swal.fire
-        .mockResolvedValueOnce({ value: 'Below' }) 
-        .mockResolvedValueOnce({ value: ['https://example.com', 'FileName', 'Speaker', 'Description', 'TrackName', '2021-01-01', 'Theme'] }); 
+        .mockResolvedValueOnce({ value: 'Below' })
+        .mockResolvedValueOnce({ value: ['https://example.com', 'FileName', 'Speaker', 'Description', 'TrackName', '2021-01-01', 'Theme'] });
 
     await addHandler('Playlist 1', 1);
 
@@ -44,12 +50,10 @@ test('addHandler adds a row when confirmed', async () => {
 });
 
 test('deleteHandler deletes a row when confirmed', async () => {
-    
-    fetch
-        .mockResponseOnce(JSON.stringify({ isLoggedIn: true }))  
-        .mockResponseOnce(JSON.stringify({ addResult: true }));  
+    fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: true }))
+        .mockResponseOnce(JSON.stringify({ addResult: true }));
 
-    Swal.fire.mockResolvedValueOnce({ value: true }); 
+    Swal.fire.mockResolvedValueOnce({ value: true });
 
     await deleteHandler('Playlist 1', 1);
 
@@ -59,5 +63,4 @@ test('deleteHandler deletes a row when confirmed', async () => {
     );
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 });
-
 
