@@ -15,6 +15,8 @@ beforeEach(() => {
         <div id="playlistContent"></div>
         <button id="addButton"></button>
         <button id="deleteButton"></button>
+        <table class="table"></table> 
+        <div class="dropdown-menu"></div>
     `;
 });
 
