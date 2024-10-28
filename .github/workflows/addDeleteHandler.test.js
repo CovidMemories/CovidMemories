@@ -44,7 +44,7 @@ test('addHandler adds a row when logged in and confirmed', async () => {
         expect.stringContaining('/add?'),
         expect.objectContaining({ method: 'POST' })
     );
-    expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful addition! " });
+    expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful addition! Refreshing..." });
 });
 
 test('deleteHandler prompts user to log in if not logged in', async () => {
@@ -71,6 +71,4 @@ test('deleteHandler deletes a row when logged in and confirmed', async () => {
     );
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 });
-
-
 
