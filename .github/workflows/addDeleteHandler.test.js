@@ -1,7 +1,10 @@
 require('jest-fetch-mock').enableMocks();
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
 const Swal = require('sweetalert2');
 jest.mock('sweetalert2');
-const { addHandler, deleteHandler } = require('../../public/index'); y
+const { addHandler, deleteHandler } = require('../../public/index'); // Adjust path if necessary
 
 beforeEach(() => {
     fetch.resetMocks();
@@ -12,7 +15,7 @@ beforeEach(() => {
     `;
 });
 
-test('addHandler tells user to log in if not logged in', async () => {
+test('addHandler prompts user to log in if not logged in', async () => {
     fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
 
     await addHandler('Playlist 1', 1);
@@ -62,3 +65,4 @@ test('deleteHandler deletes a row when logged in and confirmed', async () => {
     );
     expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful deletion! Refreshing..." });
 });
+
