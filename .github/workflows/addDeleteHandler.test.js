@@ -12,15 +12,17 @@ beforeEach(() => {
     fetch.resetMocks();
     Swal.fire.mockReset();
     document.body.innerHTML = `
-        <div id="playlistContent"></div>
+        <div id="playlistContent"></div> 
         <div id="playlistDropdown"></div> 
         <button id="addButton"></button>
         <button id="deleteButton"></button>
         <table class="table"></table> 
-        <div class="dropdown-menu"></div> 
-        <input type="checkbox" id="autoplay"> 
+        <div class="dropdown-menu"></div>
+        <input type="checkbox" id="autoplay">
+        <div id="loader" style="display: none;">
     `;
 });
+
 
 test('addHandler adds a row when confirmed', async () => {
    
