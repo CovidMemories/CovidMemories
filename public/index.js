@@ -3,7 +3,7 @@ const AUDIO_COL = 5;
 var playlistRows = [];
 
 // each index is a theme, theme[i] = :
-// [rowIndex, plusButton, showMoreButton]
+// [rowIndex, addButton, deleteButton, showMoreButton]
 var buttonSwaps = []; // allows us to swap out buttons accordingly
 var currPlaylist = 0;
 var currTrack = 0;
@@ -12,6 +12,7 @@ var dontHidePause = false;
 var table;
 var dropdownMenu;
 var addButtonPressed = false;
+var deleteButtonPressed = false;
 
 // put each of the names into an array
 var names = [];
@@ -309,6 +310,11 @@ function switchPlaylist(playlistNum){
     toggleAddButtons();
   }
 
+  // reset deleteButton
+  if(deleteButtonPressed){
+    toggleDeleteButtons();
+  }
+
   currPlaylist = playlistNum;
   currTrack = 0;
 
@@ -371,12 +377,15 @@ function populatePlayListContentTable(){
       
       //check if normal audio block
        if (values[i][5] != "Branch") {
-        // not a branch, add stuff for making '+' appear
+        // not a branch, add stuff for add and delete buttons
         let tempRow = [];
         tempRow.push(rowPointer);
         var playlistOrder = values[i][3];
         let addButton = `<button class="add-row" onclick="addHandler('${sheetName}', ${playlistOrder})"></button>`
         tempRow.push(addButton);
+        let deleteButton = `<button class="delete-row" onclick="deleteHandler('${sheetName}', ${playlistOrder})"></button>`
+        tempRow.push(deleteButton);
+
         addRow(table, values, i, playlistRowsAdd, rowPointer, j, false, tempRow);
         rowPointer++;
         buttonSwapsAdd.push(tempRow);
@@ -799,9 +808,12 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
 
 // resets everything, repopulates table
 function reset(){
-  // reset addButton
+  // reset add and delete buttons
   if(addButtonPressed){
     toggleAddButtons();
+  }
+  if(deleteButtonPressed){
+    toggleDeleteButtons();
   }
   playlistRows = [];
   currPlaylist = 0;
@@ -830,6 +842,10 @@ function toggleAddButtons(){
   let swaps = buttonSwaps[currPlaylist];
   // not pressed, show stuff
   if(!addButtonPressed){
+    // toggle off delete if delete is toggled on
+    if (deleteButtonPressed) {
+      toggleDeleteButtons();
+    }
     for(let i = 0; i < swaps.length; i++){
       let swap = swaps[i];
       let buttonSpot = buttonAt(currPlaylist, swap[0]);
@@ -842,7 +858,7 @@ function toggleAddButtons(){
     for(let i = 0; i < swaps.length; i++){
       let swap = swaps[i];
       let buttonSpot = buttonAt(currPlaylist, swap[0]);
-      buttonSpot.outerHTML = swap[2];
+      buttonSpot.outerHTML = swap[3];
     }
     addButton.style.backgroundColor = 'rgba(211, 211, 211, 0.70)';
   }
@@ -850,7 +866,37 @@ function toggleAddButtons(){
   addButtonPressed = !addButtonPressed;
 }
 
-// user clicks add/plus button on this row
+// toggles between showing or hiding "+" buttons
+function toggleDeleteButtons(){
+  var deleteButton = document.getElementById("deleteButton");
+  let swaps = buttonSwaps[currPlaylist];
+  // not pressed, show stuff
+  if(!deleteButtonPressed){
+    // toggle off add if add is toggled on
+    if (addButtonPressed) {
+      toggleAddButtons();
+    }
+    for(let i = 0; i < swaps.length; i++){
+      let swap = swaps[i];
+      let buttonSpot = buttonAt(currPlaylist, swap[0]);
+      buttonSpot.outerHTML = swap[2];
+    }
+    deleteButton.style.backgroundColor = 'rgba(77, 77, 77, 0.7)';
+  }
+  // pressed, unshow stuff
+  else{
+    for(let i = 0; i < swaps.length; i++){
+      let swap = swaps[i];
+      let buttonSpot = buttonAt(currPlaylist, swap[0]);
+      buttonSpot.outerHTML = swap[3];
+    }
+    deleteButton.style.backgroundColor = 'rgba(211, 211, 211, 0.70)';
+  }
+  // toggle
+  deleteButtonPressed = !deleteButtonPressed;
+}
+
+// user clicks add button on this row
 async function addHandler(playlistName, playlistOrder){
   const loggedIn = await isLoggedIn();
   // first loggedIn checkpoint
@@ -884,7 +930,7 @@ async function addHandler(playlistName, playlistOrder){
   htmlString = ``;
   entries = [
     "URL", "FileName", "Speaker", 
-    "Description", "TrackName", "Date"
+    "Description", "TrackName", "Date", "Theme"
   ];
   for(let i = 0; i < entries.length; i++){
     const entry = entries[i];
@@ -913,8 +959,7 @@ async function addHandler(playlistName, playlistOrder){
     const entry = entries[i];
     query += `${entry}=${rowValues[i]}&`;
   }
-  query += `PlaylistOrder=${playlistOrder}&Theme=${playlistName}`;
-  console.log("query: " + query);
+  query += `PlaylistOrder=${playlistOrder}&PlaylistName=${playlistName}`;
   const data = await fetch(query,
     { method: "POST" }
   );
@@ -930,6 +975,43 @@ async function addHandler(playlistName, playlistOrder){
     title: "Successful addition! Refreshing...",
   });
   // reset makes the added row appear (refreshes db)
+  reset();
+}
+
+// user clicks delete button on this row
+async function deleteHandler(playlistName, playlistOrder){
+  const loggedIn = await isLoggedIn();
+  // first loggedIn checkpoint
+  if(!loggedIn){
+    Swal.fire({
+      title: "You need to be logged in to delete rows",
+    });
+    return;
+  }
+  const { value: confirmDelete } = await Swal.fire({
+    title: "Are you sure you want to delete the row?",
+    showCancelButton: true
+  });
+  // clicked cancel button
+  if (!confirmDelete) return
+  // use playlistOrder as the primary key because no 2 documents
+  // should have same playlistOrder
+  const query = `/delete?PlaylistOrder=${playlistOrder}&Theme=${playlistName}`
+  const data = await fetch(query,
+    { method: "POST" }
+  );
+  const dataJSON = await data.json();
+  const addResult = await dataJSON.addResult;
+  if(!addResult){
+    Swal.fire({
+      title: "You need to be logged in to add rows",
+    });
+    return
+  }
+  Swal.fire({
+    title: "Successful deletion! Refreshing...",
+  });
+  // reset makes the deleted row disappear (refreshes db)
   reset();
 }
 
@@ -1000,4 +1082,3 @@ module.exports = {
   volumeSlider
   
 };
-
