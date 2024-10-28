@@ -22,7 +22,7 @@ beforeEach(() => {
 
 test('addHandler prompts user to log in if not logged in', async () => {
     fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
-    Swal.fire.mockResolvedValue({}); 
+    Swal.fire.mockResolvedValueOnce({ value: false });
 
     await addHandler('Playlist 1', 1);
 
@@ -36,9 +36,7 @@ test('addHandler adds a row when logged in and confirmed', async () => {
 
     Swal.fire
         .mockResolvedValueOnce({ value: 'Below' }) 
-        .mockResolvedValueOnce({
-            value: ['https://example.com', 'FileName', 'Speaker', 'Description', 'TrackName', '2021-01-01', 'Theme'],
-        }); 
+        .mockResolvedValueOnce({ value: ['https://example.com', 'FileName', 'Speaker', 'Description', 'TrackName', '2021-01-01', 'Theme'] }); 
 
     await addHandler('Playlist 1', 1);
 
@@ -46,12 +44,12 @@ test('addHandler adds a row when logged in and confirmed', async () => {
         expect.stringContaining('/add?'),
         expect.objectContaining({ method: 'POST' })
     );
-    expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful addition! Refreshing..." });
+    expect(Swal.fire).toHaveBeenCalledWith({ title: "Successful addition! " });
 });
 
 test('deleteHandler prompts user to log in if not logged in', async () => {
     fetch.mockResponseOnce(JSON.stringify({ isLoggedIn: false }));
-    Swal.fire.mockResolvedValue({}); 
+    Swal.fire.mockResolvedValueOnce({ value: false });
 
     await deleteHandler('Playlist 1', 1);
 
