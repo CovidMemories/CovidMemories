@@ -10,7 +10,7 @@ then run the following:
 3. npm install express
 4. npm install express-session
 
-Or just npm install might do it
+Or just npm install
 
 To initialize app:
 npm init -y
