@@ -71,56 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
   move();
 });
 
-function editHandler(url, track, speaker, theme, description, rowIndex) {
-  Swal.fire({
-    title: "Edit Contents",
-    html: `
-      <label>URL</label>
-      <input id="popup-url" class="swal2-input" value="${url}" readonly>
-      <label>Track</label>
-      <input id="popup-track" class="swal2-input" value="${track}">
-      <label>Speaker</label>
-      <input id="popup-speaker" class="swal2-input" value="${speaker}">
-      <label>Theme</label>
-      <input id="popup-theme" class="swal2-input" value="${theme}">
-      <label>Description</label>
-      <input id="popup-description" class="swal2-input" value="${description}">
-    `,
-    showCloseButton: true,
-    showCancelButton: true,
-    confirmButtonText: "Save Changes",
-    preConfirm: () => {
-      // Retrieve edited values
-      const newTrack = document.getElementById('popup-track').value;
-      const newSpeaker = document.getElementById('popup-speaker').value;
-      const newTheme = document.getElementById('popup-theme').value;
-      const newDescription = document.getElementById('popup-description').value;
-
-      // Return values to update row
-      return { newTrack, newSpeaker, newTheme, newDescription };
-    }
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Update row with new values
-      const row = document.getElementsByClassName("table")[0].rows[rowIndex+1];
-      row.cells[0].innerHTML = `<button class="show-more" onclick="editHandler('${url}', '${result.value.newTrack}', '${result.value.newSpeaker}', '${result.value.newTheme}', '${result.value.newDescription}', ${rowIndex})"></button>`;
-      row.cells[1].innerHTML = `<i>"${result.value.newTrack}"</i>`;
-      row.cells[2].innerHTML = result.value.newSpeaker;
-      row.cells[3].innerHTML = result.value.newTheme;
-      row.cells[4].innerHTML = result.value.newDescription;
-
-      // Show confirmation message
-      Swal.fire({
-        title: 'Changes Saved!',
-        icon: 'success',
-        timer: 1500,
-        showConfirmButton: false
-      });
-    }
-  });
-}
-
-
 
 // creates seek and volume slider for audio player 
 function audioSlider(audioElement) {
@@ -937,6 +887,55 @@ function toggleDeleteButtons(){
   }
   // toggle
   deleteButtonPressed = !deleteButtonPressed;
+}
+
+function editHandler(url, track, speaker, theme, description, rowIndex) {
+  Swal.fire({
+    title: "Edit Contents",
+    html: `
+      <label>URL</label>
+      <input id="popup-url" class="swal2-input" value="${url}" readonly>
+      <label>Track</label>
+      <input id="popup-track" class="swal2-input" value="${track}">
+      <label>Speaker</label>
+      <input id="popup-speaker" class="swal2-input" value="${speaker}">
+      <label>Theme</label>
+      <input id="popup-theme" class="swal2-input" value="${theme}">
+      <label>Description</label>
+      <input id="popup-description" class="swal2-input" value="${description}">
+    `,
+    showCloseButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Save Changes",
+    preConfirm: () => {
+      // Retrieve edited values
+      const newTrack = document.getElementById('popup-track').value;
+      const newSpeaker = document.getElementById('popup-speaker').value;
+      const newTheme = document.getElementById('popup-theme').value;
+      const newDescription = document.getElementById('popup-description').value;
+
+      // return values to update row
+      return { newTrack, newSpeaker, newTheme, newDescription };
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      
+      // update row with new values
+      const row = document.getElementsByClassName("table")[0].rows[rowIndex+1];
+      row.cells[0].innerHTML = `<button class="show-more" onclick="editHandler('${url}', '${result.value.newTrack}', '${result.value.newSpeaker}', '${result.value.newTheme}', '${result.value.newDescription}', ${rowIndex})"></button>`;
+      row.cells[1].innerHTML = `<i>"${result.value.newTrack}"</i>`;
+      row.cells[2].innerHTML = result.value.newSpeaker;
+      row.cells[3].innerHTML = result.value.newTheme;
+      row.cells[4].innerHTML = result.value.newDescription;
+
+      Swal.fire({
+        title: 'Changes Saved!',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
 }
 
 // user clicks add button on this row
