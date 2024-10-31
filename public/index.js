@@ -976,28 +976,30 @@ async function login(){
     const password = prompt("Password");
     if(!password || !username){
       alert("Fields Cannot Be Empty");
-      return
     }
-    
+    const check = collection.findOne({ name: req.body.username });
+    if(!check){
+      res.send("User not found");
+    }
+    const isPasswordCorrect = await argon2.verify(check.password, req.body.password);
+    if(!isPasswordCorrect){
+      return res.send("Incorrect password");
+    }
     const query = "/login?Password=" + guess;
     // returns true if user guessed correct password
     const data = await fetch(query,
       { method: "POST" }
     );
+        
+    res.send("home")
+    req.session.loggedIn = true;
+    req.session.username = req.body.username;
+    res.send("logged in");
+    }catch{
+      res.send("wrong details")
+    }
     const dataJSON = await data.json()
     const guessResult = dataJSON.guessResult;
-    // guessed right
-    if (guessResult == 0) {
-      alert("Welcome User");
-    }
-    // guessed wrong
-    else if (guessResult == 1){
-      alert("Incorrect Password");
-    }
-    // user was already logged in
-    else{
-      alert("You are already logged in!");
-    }
   }
   catch (err){
     console.error("login function error: " + err);
