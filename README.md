@@ -19,5 +19,5 @@ To run:
 run the command:
 npm start
 
-Once it's started, go to
+Once it's started, go to the link:
 http://localhost:8080/
