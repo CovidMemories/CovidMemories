@@ -97,14 +97,16 @@ app.get('/getRows', async (req, res) => {
 // user attempts to log in, set their "loggedIn" boolean to true if successful
 // Note: req.session stores session info for person logging in
 app.post('/login', async (req, res) => {
-  const guess = req.query.Password;
+  const username = req.query.Username;
+  const password = req.query.Password;
   if(!guess){
     res.json({ isLoggedIn: req.session.loggedIn });
     return;
   }
+  
   // connect to the database
   const database = client.db('hyperAudioDB');
-  const passwords = database.collection("ValidPasswords");
+  const passwords = database.collection("users");
 
   const query = { Password: guess };
   // check if the guess is in the database
