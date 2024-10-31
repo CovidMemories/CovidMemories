@@ -1,7 +1,5 @@
 # How to run website on local computer for testing
 
-Node memories requirements:
-
 Cloning the repo:
 git clone https://github.com/CovidMemories/CovidMemories.git
 
