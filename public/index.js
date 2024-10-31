@@ -723,7 +723,7 @@ function addRow(table, values, i, playlistRowsAdd, rowPointer, j, isBranch, temp
   var themeSpot = row.insertCell(3);
   var descriptionSpot = row.insertCell(4);    
   var playButtonCell = row.insertCell(5);
-  let btnShowMore = `<button class="show-more" onclick="editHandler('${url}', '${track}', '${speaker}', '${theme}', '${description}', ${rowPointer})"></button>`
+  let btnShowMore = `<button class="show-more" onclick="editHandler('${track}', '${speaker}', '${theme}', '${description}', ${rowPointer})"></button>`
   // if this isnt a branch, add button so we can hide it later
   if(!isBranch){
     tempRow.push(btnShowMore)
@@ -889,12 +889,10 @@ function toggleDeleteButtons(){
   deleteButtonPressed = !deleteButtonPressed;
 }
 
-function editHandler(url, track, speaker, theme, description, rowIndex) {
+function editHandler(track, speaker, theme, description, rowIndex) {
   Swal.fire({
     title: "Edit Contents",
     html: `
-      <label>URL</label>
-      <input id="popup-url" class="swal2-input" value="${url}" readonly>
       <label>Track</label>
       <input id="popup-track" class="swal2-input" value="${track}">
       <label>Speaker</label>
@@ -922,7 +920,7 @@ function editHandler(url, track, speaker, theme, description, rowIndex) {
       
       // update row with new values
       const row = document.getElementsByClassName("table")[0].rows[rowIndex+1];
-      row.cells[0].innerHTML = `<button class="show-more" onclick="editHandler('${url}', '${result.value.newTrack}', '${result.value.newSpeaker}', '${result.value.newTheme}', '${result.value.newDescription}', ${rowIndex})"></button>`;
+      row.cells[0].innerHTML = `<button class="show-more" onclick="editHandler('${result.value.newTrack}', '${result.value.newSpeaker}', '${result.value.newTheme}', '${result.value.newDescription}', ${rowIndex})"></button>`;
       row.cells[1].innerHTML = `<i>"${result.value.newTrack}"</i>`;
       row.cells[2].innerHTML = result.value.newSpeaker;
       row.cells[3].innerHTML = result.value.newTheme;
