@@ -78,6 +78,16 @@ function showPopup(url, name, track, date) {
       showCloseButton: true,
   });
 }
+function login(function(req,res0)){
+  var user = req.body.username;
+  var email = req.body.user.email;
+  var pass = req.body.password;
+  var data = {
+    "user": user,
+    "email": email,
+    "pass": pass
+  }
+}
 
 // creates seek and volume slider for audio player 
 function audioSlider(audioElement) {
