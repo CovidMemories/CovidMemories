@@ -930,17 +930,55 @@ async function addHandler(playlistName, playlistOrder){
   // reset makes the added row appear (refreshes db)
   reset();
 }
-
+type LoginForm = {
+  username: string
+  password: string
+}
+let usernameInput: HTMLInputElement
+let passwordInput: HTMLInputElement
+Swal.fire<LoginForm>({
+  title: 'Login Form', 
+  html: '
+    <input type = "text" id="username" class="swal2-input" placeholder="Username" required>
+    <input type = "password" id="password" class="swal2-input" placeholder="Password" required>
+    ',
+    confirmButtonText: 'Sign in',
+    focusConfirm: false,
+    closeOnConfirm: false,
+    allowOutsideClick, 
+    
+  
+    didOpen: () => {
+    const popup = Swal.getPopup()!
+    usernameInput = popup.querySelector('#username') as HTMLInputElement
+    passwordInput = popup.querySelector('#password') as HTMLInputElement
+    usernameInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
+    passwordInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
+  },
+  preConfirm:(){
+    try{
+      const 
+      const  = prompt("Enter Secret Password");
+      if(!guess){
+        alert("Incorrect Password");
+        return
+    }
+  }
+  
+})
+/*
 // User attempts to login
 // TODO: use <input> so that user's password appears as
 // * instead of actual thing
 async function login(){
   try{
-    const guess = prompt("Enter Secret Password");
-    if(!guess){
-      alert("Incorrect Password");
+    const username = prompt("Username");
+    const password = prompt("Password");
+    if(!password || !username){
+      alert("Fields Cannot Be Empty");
       return
     }
+    
     const query = "/login?Password=" + guess;
     // returns true if user guessed correct password
     const data = await fetch(query,
@@ -965,6 +1003,7 @@ async function login(){
     console.error("login function error: " + err);
   }
 }
+*/
 
 async function getRows(){
     try{
