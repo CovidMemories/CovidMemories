@@ -41,23 +41,23 @@ app.get('/getRows', async (req, res) => {
     console.error("getting....");
     const database = client.db('hyperAudioDB');
     // this holds each playlist name (hardcoded)
-    const playlistNames = ['Main Playlist', 'Coping', 'Feelings', 'Early Days','Routines','Technology','Alisa','Thea','Tyler','Tobin', ];
-
+    const playlistNames = ['Main Playlist', 'Coping', 'Feelings', 'Early Days',
+      'Routines', 'Technology', 'Alisa', 'Thea', 'Tyler', 'Tobin'];
+    // maps playlistName -> [list of rows in the playlist]
     let returner = {};
-    for(let i = 0; i < playlistNames.length; i++){
-      let nextPlayList = database.collection(playlistNames[i]);
+    for(let i in playlistNames){
+      const name = playlistNames[i]
+      let nextPlayList = database.collection(name);
       // grab all documents (rows) from next playlist
       let rows = nextPlayList.find();
-      returner[i] = [];
+      returner[name] = [];
       for await (const doc of rows){
-        returner[i].push([doc["URL"], doc["FileName"], doc["Speaker"], doc["PlaylistOrder"], doc["Theme"], doc["Description"], doc["TrackName"], doc["Date"]]);
+        returner[name].push([doc["URL"], doc["FileName"], doc["Speaker"], doc["PlaylistOrder"], doc["Theme"], doc["Description"], doc["TrackName"], doc["Date"]]);
       }
       // sort based on playlistOrder ascending
-      returner[i].sort((a,b) => a[3] - b[3]);
-      // fill first 2 (to make it work with our current code)
-      returner[i] = [playlistNames[i], []].concat(returner[i]);
+      returner[name].sort((a,b) => a[3] - b[3]);
     }
-    res.json(returner);
+    res.json({playlists: returner});
     console.error("done!");
   }
   catch (err) {

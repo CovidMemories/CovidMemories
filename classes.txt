@@ -1,0 +1,31 @@
+1. Row
+Vars:
+ - row (element)
+ - audio element (element)
+methods:
+ - get{any column of row}
+ - playAudio
+ - pauseAudio
+
+2. Branch (extends row)
+
+3. Playlist (contains branches and rows)
+Vars:
+ - name (string)
+ - current row (int)
+ - rows (list of Rows)
+ Methods:
+  - hideAllRows()
+  - showAllRows()
+  - playNext()
+  - pause()
+  - play()
+
+4. Table 
+Vars:
+ - list of playlists (arr)
+ - current playlist (int)
+ - dropdownMenu (element)
+Methods:
+// switches to playlistNum playlist
+ - switchPlaylist(playlistNum)
