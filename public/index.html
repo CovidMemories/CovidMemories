@@ -28,7 +28,6 @@
 
   <!-- scripts -->
 
-  <script type="module" src="index.js"></script>
   <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
   <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
@@ -43,8 +42,7 @@
   <script type="module">
     import { populatePlayListContentTable } from "./index.js";
     window.addEventListener("DOMContentLoaded", () => {
-      console.error("hello");
-      populatePlayListContentTable();
+      populatePlayListContentTable(0);
     });
   </script>
 
@@ -79,10 +77,10 @@
             </div>
 
             <div class="controls">
-              <button class="rew" onclick="rewind()"></button>
-              <button class="play" onclick="playAudioNode()"></button>
-              <button class="pause" onclick="stopAudio()"></button>
-              <button class="fwd" onclick="playNext(true)"></button>
+              <button id="rew" class="rew"></button>
+              <button id="play" class="play"></button>
+              <button id="pause" class="pause"></button>
+              <button id="fwd" class="fwd"></button>
             </div>
 
             <div class="tracker">
@@ -114,15 +112,15 @@
           <button onclick="location.href='home.html'" class="nav-item1"><span class="hover-text">Home</span></button>
         </li>
         <li class="navbar__item">
-          <button class="nav-item2" id="addButton" onclick="toggleAddButtons()"><span class="hover-text">Add
-              Row</span></button>
+          <button class="nav-item2" id="modifyButton"><span
+              class="hover-text">Modify</span></button>
         </li>
         <li class="navbar__item">
-          <button onclick="toggleDeleteButtons()" class="nav-item3" id="deleteButton"><span
-              class="hover-text">Delete</span></button>
+          <button class="nav-item3" id="randomButton"><span
+              class="hover-text">Random</span></button>
         </li>
         <li class="navbar__item">
-          <button href="#" class="nav-item4" onclick="login()">
+          <button id = "loginButton" href="#" class="nav-item4">
             <span class="hover-text">Log In</span>
           </button>
         </li>
@@ -145,7 +143,7 @@
               style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; background-color: gray;">
               select a playlist
             </button>
-            <div id="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
           </div>
 
           <div class="dropdown-branch"></div>
@@ -159,12 +157,12 @@
         <table class="table" id="playlistTable">
           <thead>
             <tr>
-              <th scope="col"> <br><br> </th>
+              <th scope="col"></th>
               <th scope="col"><br>Name<br></th>
               <th scope="col"><br>Speaker<br></th>
               <th scope="col"><br>Theme<br></th>
               <th scope="col"><br>Description<br></th>
-              <th scope="col"><br><br> </th>
+              <!-- <th scope="col"><br><br> </th> -->
             </tr>
           </thead>
         </table>

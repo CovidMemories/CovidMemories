@@ -31,9 +31,8 @@ client.connect(err => {
 });
 
 // add our index.js and index.html static files
-app.use(express.static('public'));
-
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public', {index: 'home.html'}));
+// app.use(express.static('public'));
 
 // this can get called by another js file 
 app.get('/getRows', async (req, res) => {
@@ -175,5 +174,6 @@ app.post('/add', (req, res) => {
 
 // listen for incoming requests on port 8080
 app.listen(8080, () =>{
-  console.error("server started, port 8080");
+  console.log("server started, port 8080");
+  console.log("http://localhost:8080/");
 });
