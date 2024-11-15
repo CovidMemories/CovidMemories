@@ -505,6 +505,25 @@
         transition: background-color 0.3s ease;
       }
 
+      /* edit row button (orange pen) */
+      .edit-row{
+        background: url("images/edit.png"); 
+        width: 32px; 
+        height: 32px;
+        padding: 0;
+        border: none;
+        outline:none;  
+
+        background-color: darkgray;
+        background-size: 30px 30px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        width: 40px; 
+        height: 40px; 
+        transition: background-color 0.3s ease;
+      }
+
       .branch-point{
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
         width: 32px; 
@@ -548,7 +567,7 @@
       }
 
       .nav-item2{
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-database-9-24.png?raw=true); 
+        background: url("images/database.png"); 
         background-color:rgba(211, 211, 211, 0.70);
         background-size: 24px 24px;
         background-position: center;
@@ -565,7 +584,7 @@
       }
 
       .nav-item3{
-        background: url("images/db_delete.png"); 
+        background: url("images/random.png");
         background-color:rgba(211, 211, 211, 0.70);
         background-size: 24px 24px;
         background-position: center;

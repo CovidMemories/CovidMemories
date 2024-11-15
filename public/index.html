@@ -2,158 +2,174 @@
 <html>
 
 <head>
-    <base target="_top">
+  <base target="_top">
 
-    <title> Covid Memories Application </title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <title> Covid Memories Application </title>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Covid Memories">
-    <meta name="author" content="Covid Memories Demo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Covid Memories">
+  <meta name="author" content="Covid Memories Demo">
 
-    <!-- stylesheets -->
+  <!-- stylesheets -->
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    <!--cloudflare scripts -->
+  <!--cloudflare scripts -->
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- scripts -->
+  <!-- scripts -->
 
-    <script src="index.js"></script> 
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
+  <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
-<body onload="populatePlayListContentTable()" style="background: url(https://preview.redd.it/blue-abstract-background-1920x1080-v0-8tfo71635u6b1.jpg?auto=webp&s=e6f96126660d7b08ddecf1a71791ce0c58c8de61) no-repeat fixed center top;">
-    
+<body onload="" style="background: url(https://preview.redd.it/blue-abstract-background-1920x1080-v0-8tfo71635u6b1.jpg?auto=webp&s=e6f96126660d7b08ddecf1a71791ce0c58c8de61) no-repeat fixed center top;">
 
-    <div class="container-a">
-        <!-- Left Panel for Audio Player -->
-        <div class="left-panel">
-            <div class="left-card">
+  <script type="module">
+    import { populatePlayListContentTable } from "./index.js";
+    window.addEventListener("DOMContentLoaded", () => {
+      populatePlayListContentTable(0);
+    });
+  </script>
 
-                <svg viewBox="0 0 100% 100%" xmlns='http://www.w3.org/2000/svg' class="noise" >
-                  <filter id='noiseFilter'>
-                    <feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch' />
-                  </filter>
-                  <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilter)' />
-                </svg>
+  <div class="container-a">
+    <!-- Left Panel for Audio Player -->
+    <div class="left-panel">
+      <div class="left-card">
 
-                <div class="left-content">
-                    <div class="playAllAutoPlay" id="autoplayBox" style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; margin-top: 70px; margin-left: 20px;">
-                        <input type="checkbox" id="autoplay" style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; visibility: hidden;"> 
-                    </div>
-                      
-                    <div class="player" id="audioPlayer" style="align-items: center; justify-content: center; display: flex;">
+        <svg viewBox="0 0 100% 100%" xmlns='http://www.w3.org/2000/svg' class="noise">
+          <filter id='noiseFilter'>
+            <feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='6' stitchTiles='stitch' />
+          </filter>
+          <rect width='100%' height='100%' preserveAspectRatio="xMidYMid meet" filter='url(#noiseFilter)' />
+        </svg>
 
-                      <div class="album">
-                        <div class="title" id="title"></div>
-                        <div class="artist" id="artist"></div>
-                        <div class="cover">
-                            <img id="album-cover" src="https://github.com/CarolineKYZ/Images/blob/main/album.png?raw=true.jpg" alt="Album Cover" style="width: 110px; height: 110px;">
-                        </div>
-                      </div>
-                      
-                      <div class="controls">
-                        <button class="rew" onclick="rewind()"></button>
-                        <button class="play" onclick="playAudioNode()"></button>
-                        <button class="pause" onclick="stopAudio()"></button>
-                        <button class="fwd" onclick="playNext(true)"></button>
-                      </div>  
+        <div class="left-content">
+          <div class="playAllAutoPlay" id="autoplayBox"
+            style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; margin-top: 70px; margin-left: 20px;">
+            <input type="checkbox" id="autoplay"
+              style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; visibility: hidden;">
+          </div>
 
-                      <div class="tracker">
-                        <input aria-label="Current Time" type="range" id="slider" value="0" aria-valuetext="00:00:00" class="custom-slider">
-                        <span class="ticker" id="current-time" class="span-text">00:00</span>
-                        <span class="full" id="full-time" class="span-text">00:00</span>
-                      </div>
-                      
-                      <div class="tracker2">
-                        <button class="volumeDown" disabled="disabled"></button>
-                        <input aria-label="Volume Control" type="range" id="volume-slider" value="100" class="volume-slider" styel="margin: 0 10px;">
-                        <button class="volumeUp" disabled="disabled"></button>
-                      </div> 
-                     
-                    </div>
-                </div>
-            </div>     
+          <div class="player" id="audioPlayer" style="align-items: center; justify-content: center; display: flex;">
+
+            <div class="album">
+              <div class="title" id="title"></div>
+              <div class="artist" id="artist"></div>
+              <div class="cover">
+                <img id="album-cover" src="https://github.com/CarolineKYZ/Images/blob/main/album.png?raw=true.jpg"
+                  alt="Album Cover" style="width: 110px; height: 110px;">
+              </div>
+            </div>
+
+            <div class="controls">
+              <button id="rew" class="rew"></button>
+              <button id="play" class="play"></button>
+              <button id="pause" class="pause"></button>
+              <button id="fwd" class="fwd"></button>
+            </div>
+
+            <div class="tracker">
+              <input aria-label="Current Time" type="range" id="slider" value="0" aria-valuetext="00:00:00"
+                class="custom-slider">
+              <span class="ticker" id="current-time" class="span-text">00:00</span>
+              <span class="full" id="full-time" class="span-text">00:00</span>
+            </div>
+
+            <div class="tracker2">
+              <button class="volumeDown" disabled="disabled"></button>
+              <input aria-label="Volume Control" type="range" id="volume-slider" value="100" class="volume-slider"
+                styel="margin: 0 10px;">
+              <button class="volumeUp" disabled="disabled"></button>
+            </div>
+
+          </div>
         </div>
-        </div>
-
-        
-        <!-- Right Panel for Content -->
-        <div class="container-c">
-            <nav class="navbar">
-                <ul class="navbar__menu">
-                    <li class="navbar__item">
-                      <button onclick="location.href='home.html'" class="nav-item1"><span class="hover-text">Home</span></button>
-                    </li>
-                    <li class="navbar__item">
-                      <button class="nav-item2" id="addButton" onclick="toggleAddButtons()"><span class="hover-text">Add Row</span></button>        
-                    </li>
-                    <li class="navbar__item">
-                      <button onclick="toggleDeleteButtons()" class="nav-item3" id="deleteButton"><span class="hover-text">Delete</span></button>  
-                            
-                    </li>
-                    <li class="navbar__item">
-                      <button href="#" class="nav-item4" onclick="login()">
-                        <span class="hover-text">Log In</span>
-                      </button>        
-                    </li>
-                  </ul>
-            </nav>
-
-        <div class="right-panel">
-                <!--[home > start]-->
-                    <div class="container-d">
-                        <div class="text-center">
-                            <!-- <button class="info"></button> -->
-                            <h1 id="playlistContent" class="mt-5" style="font-size: 30px; font-family: Arial, Helvetica, sans-serif; letter-spacing: 5px; color: white; text-transform: uppercase;"></h1>
-                            <br>
-
-                            <div class="dropdown" id="playlistDropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; background-color: gray;">
-                                    select a playlist
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
-                            </div>
-
-                            <div class="dropdown-branch"></div>
-                            <div class="loading" id=""loading></div>
-                            <div class="loader" id="loader"></div>
-
-                          <br>
-                          </div>
-                          <br>
-
-                        <table class="table" id="playlistTable">
-                        <thead>
-                            <tr>
-                                <th scope="col"> <br><br> </th> 
-                                <th scope="col"><br>Name<br></th>
-                                <th scope="col"><br>Speaker<br></th>
-                                <th scope="col"><br>Theme<br></th>
-                                <th scope="col"><br>Description<br></th>
-                                <th scope="col" ><br><br> </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
       </div>
-      </div>
+    </div>
   </div>
 
-  
+
+  <!-- Right Panel for Content -->
+  <div class="container-c">
+    <nav class="navbar">
+      <ul class="navbar__menu">
+        <li class="navbar__item">
+          <button onclick="location.href='home.html'" class="nav-item1"><span class="hover-text">Home</span></button>
+        </li>
+        <li class="navbar__item">
+          <button class="nav-item2" id="modifyButton"><span
+              class="hover-text">Modify</span></button>
+        </li>
+        <li class="navbar__item">
+          <button class="nav-item3" id="randomButton"><span
+              class="hover-text">Random</span></button>
+        </li>
+        <li class="navbar__item">
+          <button id = "loginButton" href="#" class="nav-item4">
+            <span class="hover-text">Log In</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="right-panel">
+      <!--[home > start]-->
+      <div class="container-d">
+        <div class="text-center">
+          <!-- <button class="info"></button> -->
+          <h1 id="playlistContent" class="mt-5"
+            style="font-size: 30px; font-family: Arial, Helvetica, sans-serif; letter-spacing: 5px; color: white; text-transform: uppercase;">
+          </h1>
+          <br>
+
+          <div class="dropdown" id="playlistDropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              style="cursor: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-cursor-4-24.png?raw=true), auto; background-color: gray;">
+              select a playlist
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+          </div>
+
+          <div class="dropdown-branch"></div>
+          <div class="loading" id="loading"></div>
+          <div class="loader" id="loader"></div>
+
+          <br>
+        </div>
+        <br>
+
+        <table class="table" id="playlistTable">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"><br>Name<br></th>
+              <th scope="col"><br>Speaker<br></th>
+              <th scope="col"><br>Theme<br></th>
+              <th scope="col"><br>Description<br></th>
+              <!-- <th scope="col"><br><br> </th> -->
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
 </body>
+
 </html>
