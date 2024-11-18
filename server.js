@@ -80,7 +80,7 @@ app.post("/signup", async (req, res) => {
     if(exisitingUser){
        return res.send("User already exists");
     }else{
-      const hash = await argon2.hash(data.password);
+      const hash = await argon2.hash(data.password, {type: argon2.argon2id});
       data.password = hash;
       const userdata = await collection.insertOne(data);
       res.send("User created");
