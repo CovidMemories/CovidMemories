@@ -26,6 +26,11 @@ jobs:
           npm install --save-dev jest-fetch-mock
           npm install --save-dev sweetalert2
           npm install --save-dev supertest
+          
+      - name: Clean previous installs
+        run: |
+          rm -rf node_modules
+          npm cache clean --force
 
       - name: Build the MEMORIES (optional step if you have a build process)
         run: |
