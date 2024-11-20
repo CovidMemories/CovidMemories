@@ -2,7 +2,7 @@ import Row from "./Row.js"
 
 class Playlist {
     name;
-    index; // index of current row
+    index; // index of current row 
     rows; // rows is list of Row objects in the playlist
     tableElement; // table element that this Playlist is in
     tableObject; // table object that this Playlist is in
