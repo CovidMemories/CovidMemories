@@ -33,7 +33,7 @@ jobs:
           npm install --save-dev sweetalert2
           npm install --save-dev supertest
 
-      - name: Build the MEMORIES (optional step if you have a build process)
+      - name: Build the MEMORIES 
         run: |
           npm run build --if-present
 
