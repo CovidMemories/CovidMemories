@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - CovidMemories
 on:
   push:
     branches:
-      - main
+      - revert
   workflow_dispatch:
 
 jobs:
