@@ -171,7 +171,7 @@ class Row {
             };
         }
     }
-    
+
     // show the edit button
     showEditButton(){
         if (!this.isBranchBody) {
