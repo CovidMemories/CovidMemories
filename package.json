@@ -1,7 +1,16 @@
 {
-  "name": "covidmemories",
+  "name": "memories",
   "version": "1.0.0",
-  "type": "module",
+  "description": "Node memories requirements:",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
     "express-session": "^1.18.0",
@@ -18,9 +27,6 @@
     "jest-fetch-mock": "^3.0.3",
     "supertest": "^6.2.4",
     "sweetalert2": "^11.14.5"
-  },
-  "scripts": {
-    "test": "jest"
   },
   "jest": {
     "testEnvironment": "jsdom",

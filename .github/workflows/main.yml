@@ -1,18 +1,13 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - CovidMemories
+name: push_test
 
 on:
   push:
     branches:
       - revert
-  workflow_dispatch:
 
 jobs:
-  build:
+  start_up_jobs:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -21,50 +16,27 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: Install dependencies
         run: |
           npm install
+          npm install --save-dev babel-jest @babel/preset-env jest-environment-jsdom jest-fetch-mock sweetalert2 supertest
+
+      - name: Set up Babel configuration
+        run: |
+          echo '{
+            "presets": ["@babel/preset-env"]
+          }' > .babelrc
+
+      - name: Build the MEMORIES
+        run: |
           npm run build --if-present
-          npm run test --if-present
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+      - name: Run tests with coverage
+        run: |
+          npm test -- --coverage
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
         with:
-          name: node-app
-          path: release.zip
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: node-app
-
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AEC9ED135D7F4BC6BCBB75A04D0952E4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A86E47A5F4F04ABC9D970E67F3130429 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_86769DAB978C49FF9573AC56A0AA87E5 }}
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'CovidMemories'
-          slot-name: 'Production'
-          package: .
+          name: coverage-report
+          path: ./coverage/

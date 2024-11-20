@@ -8,7 +8,7 @@ beforeEach(() => {
   const mockInsertCell = jest.fn().mockImplementation(() => {
     const mockCell = {
       appendChild: jest.fn(),
-      childNodes: [] 
+      childNodes: []
     };
     mockRow.cells.push(mockCell);
     return mockCell;

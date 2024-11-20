@@ -1,7 +1,7 @@
 import Table from '../../public/Table.js';
 import Playlist from '../../public/Playlist.js';
 
-jest.mock('../../public/Playlist.js'); 
+jest.mock('../../public/Playlist.js');
 
 describe('Table class', () => {
   let table;
