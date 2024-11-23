@@ -524,6 +524,84 @@
         transition: background-color 0.3s ease;
       }
 
+      .wallpapers{
+        margin-top: 350px;
+      }
+
+      .wallpapers button {
+        opacity: 0.7; 
+        transition: opacity 0.3s ease;
+      }
+      
+      .wallpapers button.active-wallpaper {
+        opacity: 1.0; 
+      }
+
+      #wallpaper-w1{
+        background: url(images/w1.png) no-repeat center center;
+        margin-left: 30px;
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        cursor: pointer;
+      }
+
+      #wallpaper-w2{
+        background: url(images/w2.png) no-repeat;
+        margin-left: 10px;
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        border: none;
+      }
+
+      #wallpaper-w3{
+        background: url(images/w3.png) no-repeat;
+        margin-left: 10px;
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        border: none;
+        cursor: pointer;
+      }
+
+      #wallpaper-w4{
+        background: url(images/w4.png) no-repeat;
+        margin-left: 10px;
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        border: none;
+        cursor: pointer;
+      }
+
+      #wallpaper-w5{
+        background: url(images/w5.png) no-repeat;
+        margin-left: 10px;
+        height: 40px;
+        width: 40px;
+        background-size: cover;
+        border: none;
+        cursor: pointer;
+      }
+
+      .wallpaper-main{
+        background: url(images/4k-Wallpaper-Main.jpg) no-repeat;
+      }
+
+      .wallpaper-secondary{
+        background: url(images/4k-Wallpaper-Secondary.jpg) no-repeat center center;
+        
+      }
+
+      .wallpaper-tertiary {
+        background: url(images/4k-Wallpaper-Tertiary.jpg) no-repeat center center;
+      }
+
+      .wallpaper-quaternary{
+        background: url(images/4k-Wallpaper-Quaternary.jpg) no-repeat center center;
+      }
+
       .branch-point{
         background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
         width: 32px; 

@@ -49,9 +49,40 @@ function randomTrack() {
 	table.randomTrack();
 }
 
+function changeWallpaper(imageUrl, buttonId) {
+	document.body.style.background = `url(${imageUrl}) no-repeat fixed center top`;	
+
+	// Reset active class for all buttons
+	const buttons = document.querySelectorAll('.wallpapers button');
+	buttons.forEach(button => button.classList.remove('active-wallpaper'));
+  
+	// Add active class to the clicked button
+	const activeButton = document.getElementById(buttonId);
+	if (activeButton) {
+	  activeButton.classList.add('active-wallpaper');
+	}
+}
+  
+
 // populate playlist content table
 export function populatePlayListContentTable(initialPlaylistIndex) {
 	// add functions to buttons since onClick doesnt work
+	document.getElementById("wallpaper-w1").onclick = () => {
+		console.log('Button clicked!'); 
+		changeWallpaper('images/4k-Wallpaper-Main.jpg', 'wallpaper-w1');
+	};
+	document.getElementById("wallpaper-w2").onclick = () => {
+		changeWallpaper('images/4k-Wallpaper-Secondary.jpg', 'wallpaper-w2');
+	};
+	document.getElementById("wallpaper-w3").onclick = () => {
+		changeWallpaper('images/4k-Wallpaper-Tertiary.jpg', 'wallpaper-w3');
+	};
+	document.getElementById("wallpaper-w4").onclick = () => {
+		changeWallpaper('images/4k-Wallpaper.jpg', 'wallpaper-w4');
+	};
+	document.getElementById("wallpaper-w5").onclick = () => {
+		changeWallpaper('images/4k-Wallpaper-Quartnary.jpg', 'wallpaper-w5');
+	};
 	document.getElementById("rew").onclick = () => {
 		playPrev();
 	};
