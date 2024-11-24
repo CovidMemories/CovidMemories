@@ -148,7 +148,7 @@
     }
 
     .cover {
-        background: transparent url(https://github.com/CarolineKYZ/Images/blob/main/album.png?raw=true.jpg) no-repeat scroll center top;
+        background: transparent url(images/album.png) no-repeat scroll center top;
         border-radius: 5px 5px 5px 5px;
         height: 94px;
         left: 20px;
@@ -184,33 +184,31 @@
     }
 
     .controls .play {
-        background: url('https://github.com/CarolineKYZ/Images/blob/main/play.png?raw=true') no-repeat scroll;
-
+        background: url(images/play.png) no-repeat scroll;
     }
 
     .controls .pause {
         display: none;
-        background: url('https://github.com/CarolineKYZ/Images/blob/main/pause.png?raw=true') no-repeat scroll;
-
+        background: url(images/pause.png) no-repeat scroll;
     }
 
     .controls .rew {
-        background: url('https://github.com/CarolineKYZ/Images/blob/main/reverse.png?raw=true') no-repeat scroll;
+        background: url(images/rev.png) no-repeat scroll;
     }
 
     .controls .fwd {
-        background: url('https://github.com/CarolineKYZ/Images/blob/main/skip.png?raw=true') no-repeat scroll;
+        background: url(images/fwd.png) no-repeat scroll;
 
     }
 
     .volumeUp{
-        background: url('https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-volume-control-10-24.png?raw=true') no-repeat scroll;
+        background: url(images/volume-up.png) no-repeat scroll;
         width: 24px; 
         height: 24px;
     }
 
     .volumeDown{
-        background: url('https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-volume-control-12-24.png?raw=true') no-repeat scroll;
+        background: url(images/volume-down.png) no-repeat scroll;
         width: 24px; 
         height: 24px;
     }
@@ -263,7 +261,7 @@
     }
     
     .info {
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-info-7-32.png?raw=true); 
+        background: url(images/info.png); 
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -450,7 +448,7 @@
 
       /* show more button */
       .show-more{
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-paste-filled-32.png?raw=true); 
+        background: url(images/show-more.png); 
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -603,7 +601,7 @@
       }
 
       .branch-point{
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-direction-5-32.png?raw=true); 
+        background: url(images/branch.png); 
         width: 32px; 
         height: 32px;
         padding: 0;
@@ -627,7 +625,7 @@
       }
 
       .nav-item1{
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/iconmonstr-home-6-24.png?raw=true); 
+        background: url(images/nav-home.png); 
         background-color:rgba(211, 211, 211, 0.70);
         background-size: 24px 24px;
         background-position: center;
@@ -679,7 +677,7 @@
       }
 
       .nav-item4{
-        background: url(https://github.com/CarolineKYZ/Images/blob/main/person_icon.png?raw=true); 
+        background: url(images/nav-account.png); 
         background-color:rgba(211, 211, 211, 0.70);
         background-size: 24px 24px;
         background-position: center;
