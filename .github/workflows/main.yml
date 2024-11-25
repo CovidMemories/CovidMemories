@@ -3,7 +3,7 @@ name: push_test
 on:
   push:
     branches:
-      - revert
+      - main
 
 jobs:
   start_up_jobs:
