@@ -930,18 +930,18 @@ async function addHandler(playlistName, playlistOrder){
   // reset makes the added row appear (refreshes db)
   reset();
 }
-type LoginForm = {
-  username: string
-  password: string
+const LoginForm = {
+  username: '',
+  password: ''
 }
-let usernameInput: HTMLInputElement
-let passwordInput: HTMLInputElement
+let usernameInput
+let passwordInput
 Swal.fire<LoginForm>({
   title: 'Login Form', 
-  html: '
-    <input type = "text" id="username" class="swal2-input" placeholder="Username" required>
-    <input type = "password" id="password" class="swal2-input" placeholder="Password" required>
-    ',
+  html: `
+    <input type="text" id="username" class="swal2-input" placeholder="Username" required>
+    <input type="password" id="password" class="swal2-input" placeholder="Password" required>
+  `,
     confirmButtonText: 'Sign in',
     focusConfirm: false,
     closeOnConfirm: false,
@@ -949,16 +949,19 @@ Swal.fire<LoginForm>({
     
   
     didOpen: () => {
-    const popup = Swal.getPopup()!
-    usernameInput = popup.querySelector('#username') as HTMLInputElement
-    passwordInput = popup.querySelector('#password') as HTMLInputElement
+    const popup = Swal.getPopup();
+    if (!popup) {
+      throw new Error('Popup not found');
+    }
+    usernameInput = /** @type {HTMLInputElement} */ (popup.querySelector('#username'));
+    passwordInput = /** @type {HTMLInputElement} */ (popup.querySelector('#password'));
     usernameInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
     passwordInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
   },
-  preConfirm:(){
+  preConfirm:() =>{
     try{
-      const 
-      const  = prompt("Enter Secret Password");
+      LoginForm.username = usernameInput.value;      
+      const guess = prompt("Enter Secret Password");
       if(!guess){
         alert("Incorrect Password");
         return
