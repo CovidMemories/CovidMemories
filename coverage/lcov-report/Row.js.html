@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.53% </span>
+                <span class="strong">43.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/112</span>
+                <span class='fraction'>53/123</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.08% </span>
+                <span class="strong">24% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/23</span>
+                <span class='fraction'>6/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.53% </span>
+                <span class="strong">43.08% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>51/112</span>
+                <span class='fraction'>53/123</span>
             </div>
         
             
@@ -312,7 +312,22 @@
 <a name='L247'></a><a href='#L247'>247</a>
 <a name='L248'></a><a href='#L248'>248</a>
 <a name='L249'></a><a href='#L249'>249</a>
-<a name='L250'></a><a href='#L250'>250</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -380,6 +395,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -444,6 +465,15 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -626,6 +656,12 @@ class Row {
 <span class="cstat-no" title="statement not covered" >            this.initBranchStart();</span>
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
+        // double click to play this row
+        const currLen = this.playlist.rows.length;
+        this.row.addEventListener("dblclick", <span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.playlist.playRow(currLen);</span>
+<span class="cstat-no" title="statement not covered" >            this.tableObject.showPauseButton();</span>
+        });
         // audio element stuff
         this.audioElement = document.createElement("audio");
         this.audioElement.src = this.url
@@ -692,9 +728,18 @@ class Row {
         });
 <span class="cstat-no" title="statement not covered" >        button2.className = "dropdown-item";</span>
 <span class="cstat-no" title="statement not covered" >        button2.textContent = this.branch2Name;</span>
+        // reset branch button, hides other branches
+        const button3 = <span class="cstat-no" title="statement not covered" >document.createElement("a");</span>
+<span class="cstat-no" title="statement not covered" >        button3.addEventListener("click", <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.playlist.hideBranch(numBranches);</span>
+<span class="cstat-no" title="statement not covered" >            this.playlist.hideBranch(numBranches + 1);</span>
+        });
+<span class="cstat-no" title="statement not covered" >        button3.className = "dropdown-item";</span>
+<span class="cstat-no" title="statement not covered" >        button3.textContent = "None";</span>
         // add buttons to dropdown menu
 <span class="cstat-no" title="statement not covered" >        dropdownDiv.appendChild(button1);</span>
 <span class="cstat-no" title="statement not covered" >        dropdownDiv.appendChild(button2);</span>
+<span class="cstat-no" title="statement not covered" >        dropdownDiv.appendChild(button3);</span>
         // add dropdownMenu to table
 <span class="cstat-no" title="statement not covered" >        dropdownSpot.appendChild(dropdownButton);</span>
 <span class="cstat-no" title="statement not covered" >        dropdownSpot.appendChild(dropdownDiv);</span>
@@ -817,7 +862,7 @@ export default Row;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-20T18:19:26.954Z
+                at 2024-11-29T01:32:25.320Z
             </div>
         <script src="prettify.js"></script>
         <script>

@@ -36,14 +36,23 @@ class Playlist {
             neighborIndex = i + 1;
         }
         // hide neighbor
-        const neighborRange = this.branches[neighborIndex];
-        for (let j = neighborRange[0]; j < neighborRange[1]; j++) {
-            this.rows[j].hideRow();
-        }
+        this.hideBranch(neighborIndex);
+        // const neighborRange = this.branches[neighborIndex];
+        // for (let j = neighborRange[0]; j < neighborRange[1]; j++) {
+        //     this.rows[j].hideRow();
+        // }
         // show this branch
         const thisRange = this.branches[i];
         for (let j = thisRange[0]; j < thisRange[1]; j++) {
             this.rows[j].showRow();
+        }
+    }
+
+    // hides ith branch
+    hideBranch(i) {
+        const range = this.branches[i];
+        for (let i = range[0]; i < range[1]; i++) {
+            this.rows[i].hideRow();
         }
     }
 

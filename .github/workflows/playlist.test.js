@@ -29,6 +29,7 @@ describe('Playlist class', () => {
         appendChild: jest.fn(),
         childNodes: [],
       }),
+      addEventListener: jest.fn()
     };
 
     mockTable = {

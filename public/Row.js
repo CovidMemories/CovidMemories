@@ -63,6 +63,12 @@ class Row {
             this.initBranchStart();
             return;
         }
+        // double click to play this row
+        const currLen = this.playlist.rows.length;
+        this.row.addEventListener("dblclick", () => {
+            this.playlist.playRow(currLen);
+            this.tableObject.showPauseButton();
+        });
         // audio element stuff
         this.audioElement = document.createElement("audio");
         this.audioElement.src = this.url
@@ -129,9 +135,18 @@ class Row {
         });
         button2.className = "dropdown-item";
         button2.textContent = this.branch2Name;
+        // reset branch button, hides other branches
+        const button3 = document.createElement("a");
+        button3.addEventListener("click", () => {
+            this.playlist.hideBranch(numBranches);
+            this.playlist.hideBranch(numBranches + 1);
+        });
+        button3.className = "dropdown-item";
+        button3.textContent = "None";
         // add buttons to dropdown menu
         dropdownDiv.appendChild(button1);
         dropdownDiv.appendChild(button2);
+        dropdownDiv.appendChild(button3);
         // add dropdownMenu to table
         dropdownSpot.appendChild(dropdownButton);
         dropdownSpot.appendChild(dropdownDiv);

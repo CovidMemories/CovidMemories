@@ -18,7 +18,8 @@ beforeEach(() => {
   mockRow = {
     style: { display: '' },
     insertCell: mockInsertCell,
-    cells: []
+    cells: [],
+    addEventListener: jest.fn()
   };
 
   //  mock table with insertRow
