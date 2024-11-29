@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
 const session = require('express-session');
+const argon2 = require('argon2');
 
 // this is our server or something idk
 const app = express();
@@ -64,6 +65,58 @@ app.get('/getRows', async (req, res) => {
   }
 });
 
+app.post('/login', async (req, res) => {
+  // connect to the database
+  try{
+    const database = client.db('hyperAudioDB');
+    const userCollection = database.collection('users');
+    const data = {
+      name: req.body.email,
+      password: req.body.password
+    }
+
+    const user = userCollection.findOne({ name: req.body.email });
+    if(!user){
+      res.status(400).send("User not found");
+    }
+    const isPasswordCorrect = await argon2.verify(check.password, req.body.password);
+    if(!isPasswordCorrect){
+      return res.status(400).send("Incorrect password");
+    }
+    
+    req.session.loggedIn = true;
+    req.session.email = req.body.email;
+    res.send("logged in");
+  }catch(err){
+    console.error("error with login process:", err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+app.post("/register", async (req, res) => {
+  try{
+  const data = {
+    name: req.body.username,
+    password: req.body.password
+  }
+    const database = client.db('hyperAudioDB'); 
+    const userCollection = database.collection('users');
+    const exisitingUser = await userCollection.findOne({ name: data.name });
+    if(exisitingUser){
+       return res.send("User already exists");
+    }else{
+      const hash = await argon2.hash(data.password, {type: argon2.argon2id});
+      data.password = hash;
+      const userdata = await collection.insertOne(data);
+      res.send("User created");
+    }
+  }catch(err){
+    console.error("error signing up", err);
+    res.status(500).send("Internal server error");
+  }
+});
+/*
+
 // user attempts to log in, set their "loggedIn" boolean to true if successful
 // Note: req.session stores session info for person logging in
 app.post('/login', async (req, res) => {
@@ -98,7 +151,7 @@ app.post('/login', async (req, res) => {
   // return true if user correctly guess
   res.json({ guessResult: guessResult });
 });
-
+*/
 // user is attempting to delete a row, only works if they are logged in
 app.post('/delete', (req, res) => {
   try{

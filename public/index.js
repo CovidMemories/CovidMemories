@@ -320,6 +320,38 @@ const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnLogin-popup');
 const iconClose = document.querySelector('.icon-close');
 
+document.addEventListener('DOMContentLoaded', ()=> {
+	const login = localStorage.getElementById('loginForm');
+
+	loginform.addEventListener('submit', async (e)=> {
+		e.preventDefault();//stops auto refresh
+		
+		const formData = new FormData(loginForm);
+		const data = {
+			email: formData.get('email'),
+			password: formData.get('password')
+		};
+
+		try{
+			const response = await fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+			if(response.ok){
+				const json = await response.json();
+				alert("Welcome User");
+				//console.log(json);
+			}else{
+				console.error('Login failed', response.statusText);
+			}
+		}catch(error){
+			console.error('Error in login process:', error);
+		}
+	});
+});
 registerLink.addEventListener('click', ()=> {
     wrapper.classList.add('active');
 });
@@ -336,9 +368,11 @@ iconClose.addEventListener('click', ()=> {
     wrapper.classList.remove('active-popup');
     wrapper.classList.remove('active');
 });
+
 // User attempts to login
 // TODO: use <input> so that user's password appears as
 // * instead of actual thing
+/*
 async function login() {
 	try {
 		const guess = prompt("Enter Secret Password");
@@ -370,6 +404,7 @@ async function login() {
 		console.error("login function error: " + err);
 	}
 }
+	*/
 
 // returns whether or not user is logged in
 async function isLoggedIn() {
