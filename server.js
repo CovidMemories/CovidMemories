@@ -5,6 +5,7 @@ const argon2 = require('argon2');
 
 // this is our server or something idk
 const app = express();
+app.use(express.json());//json use
 
 // make it so each user has their own session (and their own "loggedIn" boolean)
 app.use(session({
@@ -68,8 +69,8 @@ app.get('/getRows', async (req, res) => {
 app.post('/login', async (req, res) => {
   // connect to the database
   try{
-    const database = client.db('hyperAudioDB');
-    const userCollection = database.collection('users');
+    const database = client.db('Login');
+    const userCollection = database.collection('user');
     const data = {
       name: req.body.email,
       password: req.body.password
@@ -99,11 +100,11 @@ app.post("/register", async (req, res) => {
     name: req.body.username,
     password: req.body.password
   }
-    const database = client.db('hyperAudioDB'); 
-    const userCollection = database.collection('users');
-    const exisitingUser = await userCollection.findOne({ name: data.name });
+    const database = client.db('Login'); 
+    const userCollection = database.collection('user');
+    const exisitingUser = await userCollection.findOne({ name: data.email });
     if(exisitingUser){
-       return res.send("User already exists");
+       return res.status.apply(400).send("User already exists");
     }else{
       const hash = await argon2.hash(data.password, {type: argon2.argon2id});
       data.password = hash;
