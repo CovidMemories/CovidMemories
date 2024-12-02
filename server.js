@@ -102,7 +102,7 @@ app.post('/login', async (req, res) => {
 // user is attempting to delete a row, only works if they are logged in
 app.post('/delete', (req, res) => {
   try{
-    // only do the thing if user is logged in (check #2)
+    // only do the thing if user is logged in
     if(req.session.loggedIn == false){
       res.json({ addResult: false });
       return;
@@ -127,7 +127,7 @@ app.post('/delete', (req, res) => {
 // user is attempting to add a row, only works if they are logged in
 app.post('/add', (req, res) => {
   try{
-    // only do the thing if user is logged in (check #2)
+    // only do the thing if user is logged in 
     if(req.session.loggedIn == false){
       res.json({ addResult: false });
       return;
@@ -142,11 +142,6 @@ app.post('/add', (req, res) => {
     const filter = { PlaylistOrder: { $gte: PlaylistOrder } };
     const update = { $inc: { PlaylistOrder: 1 } };
     // increment many documents
-    // console.log("filter: " + filter);
-    // console.log("update: " + update);
-    // console.log("PlaylistOrder: " + PlaylistOrder, typeof PlaylistOrder);
-    // console.log("Theme: " + Theme);
-    // console.log("updating...\n")
     collection.updateMany(filter, update)
     .then((a) => {
       // create doc to insert
@@ -169,6 +164,45 @@ app.post('/add', (req, res) => {
   }
   catch(err){
     console.error("error adding " + err);
+  }
+});
+
+// user is attempting to edit a row, only works if they are logged in
+app.post('/edit', (req, res) => {
+  try{
+    // only do the thing if user is logged in 
+    if(req.session.loggedIn == false){
+      res.json({ addResult: false });
+      return;
+    }
+    // grab row pieces
+    const PlaylistOrder = parseInt(req.query.PlaylistOrder);
+    const PlaylistName = req.query.PlaylistName;
+    console.error(PlaylistOrder, PlaylistName);
+    // connect to the database
+    const db = client.db('hyperAudioDB');
+    const collection = db.collection(PlaylistName);
+    // update the document
+    const filter = { PlaylistOrder: PlaylistOrder };
+    const update = {
+      $set: {
+        URL: req.query.URL,
+        FileName: req.query.FileName,
+        Speaker: req.query.Speaker,
+        Theme: req.query.Theme,
+        Description: req.query.Description,
+        TrackName: req.query.TrackName,
+        Date: req.query.Date
+      }
+    };
+    collection.updateOne(filter, update)
+    .then((a) => {
+      // return only after update is done so we dont reset before update
+      res.json({ editResult: true });
+    });
+  }
+  catch(err){
+    console.error("error editing " + err);
   }
 });
 

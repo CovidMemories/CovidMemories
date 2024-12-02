@@ -217,19 +217,18 @@ class Row {
     // user clicks add button on this row
     addHandler() {
         addHandler(this.playlist.name, this.playlistOrder);
-        console.log("clicked add button on " + this.trackName);
     }
 
     // user clicks delete button on this row
     deleteHandler() {
         deleteHandler(this.playlist.name, this.playlistOrder);
-        console.log("clicked delete button on " + this.trackName);
     }
 
     // user clicks edit button on this row
     editHandler() {
-        editHandler(this.trackName, this.speaker, this.theme, this.description, this.rowIndex);
-        console.log("clicked edit button on " + this.trackName);
+        // stuff we will edit
+        let editStuff = [this.url, this.fileName, this.speaker, this.description, this.trackName, this.date, this.theme];
+        editHandler(editStuff, this.playlist.name, this.playlistOrder);
     }
 
     // play this row

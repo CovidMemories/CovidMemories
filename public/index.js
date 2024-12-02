@@ -68,7 +68,6 @@ function changeWallpaper(imageUrl, buttonId) {
 export function populatePlayListContentTable(initialPlaylistIndex) {
 	// add functions to buttons since onClick doesnt work
 	document.getElementById("wallpaper-w1").onclick = () => {
-		console.log('Button clicked!'); 
 		changeWallpaper('images/4k-Wallpaper-Main.jpg', 'wallpaper-w1');
 	};
 	document.getElementById("wallpaper-w2").onclick = () => {
@@ -110,7 +109,10 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 
 // resets everything, 
 function reset() {
-	table.table.replaceChildren();
+	// replace all children until just the head remains
+	while (table.table.rows.length > 1) {
+		table.table.deleteRow(1);
+	}
 	table.dropdownMenu.replaceChildren();
 	const saveIndex = table.index;
 	populatePlayListContentTable(saveIndex);
@@ -149,57 +151,73 @@ function modify() {
 	});
 }
 
-export function editHandler(track, speaker, theme, description, rowIndex) {
-	Swal.fire({
+// user clicks edit button on this row
+export async function editHandler(editStuff, playlistName, playlistOrder) {
+	const loggedIn = await isLoggedIn();
+	if (!loggedIn) {
+		Swal.fire({
+			title: "You need to be logged in to edit rows",
+		});
+		return;
+	}
+	console.log(editStuff);
+	// prompt user to edit row data
+	// build html form to present to user
+	let htmlString = ``;
+	const entries = [
+		"URL", "FileName", "Speaker",
+		"Description", "TrackName", "Date", "Theme"
+	];
+	for (let i = 0; i < entries.length; i++) {
+		const entry = entries[i];
+		htmlString += `<input id="swal-input${i}" class="swal2-input" value=${editStuff[i]}>`;
+		htmlString += `<p>${entry}</p>`;
+	}
+	console.log(htmlString);
+	const { value: rowValues } = await Swal.fire({
 		title: "Edit Contents",
-		html: `
-      <label>Track</label>
-      <input id="popup-track" class="swal2-input" value="${track}">
-      <label>Speaker</label>
-      <input id="popup-speaker" class="swal2-input" value="${speaker}">
-      <label>Theme</label>
-      <input id="popup-theme" class="swal2-input" value="${theme}">
-      <label>Description</label>
-      <input id="popup-description" class="swal2-input" value="${description}">
-    `,
-		showCloseButton: true,
+		html: htmlString,
 		showCancelButton: true,
-		confirmButtonText: "Save Changes",
 		preConfirm: () => {
-			// Retrieve edited values
-			const newTrack = document.getElementById('popup-track').value;
-			const newSpeaker = document.getElementById('popup-speaker').value;
-			const newTheme = document.getElementById('popup-theme').value;
-			const newDescription = document.getElementById('popup-description').value;
-
-			// return values to update row
-			return { newTrack, newSpeaker, newTheme, newDescription };
-		}
-	}).then((result) => {
-		if (result.isConfirmed) {
-
-			// update row with new values
-			const row = document.getElementsByClassName("table")[0].rows[rowIndex + 1];
-			row.cells[0].innerHTML = `<button class="show-more" onclick="editHandler('${result.value.newTrack}', '${result.value.newSpeaker}', '${result.value.newTheme}', '${result.value.newDescription}', ${rowIndex})"></button>`;
-			row.cells[1].innerHTML = `<i>"${result.value.newTrack}"</i>`;
-			row.cells[2].innerHTML = result.value.newSpeaker;
-			row.cells[3].innerHTML = result.value.newTheme;
-			row.cells[4].innerHTML = result.value.newDescription;
-
-			Swal.fire({
-				title: 'Changes Saved!',
-				icon: 'success',
-				timer: 1500,
-				showConfirmButton: false
-			});
+			var returner = [];
+			for (let i = 0; i < entries.length; i++) {
+				returner.push(document.getElementById(`swal-input${i}`).value);
+			}
+			return returner;
 		}
 	});
+	// assume all are the same, cancel edit
+	let isSame = true;
+	for (let i = 0; i < rowValues.length; i++) {
+		if (rowValues[i] != editStuff[i]) {
+			isSame = false;
+			break;
+		}
+	}
+	// no edits made
+	if (isSame) return;
+
+	// build and send query to actually add a row to the database
+	var query = `/edit?`;
+	for (let i = 0; i < entries.length; i++) {
+		const entry = entries[i];
+		query += `${entry}=${rowValues[i]}&`;
+	}
+	query += `PlaylistOrder=${playlistOrder}&PlaylistName=${playlistName}`;
+	console.log("query " + query);
+	await fetch(query,
+		{ method: "POST" }
+	);
+	Swal.fire({
+		title: "Successful edit! Refreshing...",
+	});
+	// refresh the table
+	reset();
 }
 
 // user clicks add button on this row
 export async function addHandler(playlistName, playlistOrder) {
 	const loggedIn = await isLoggedIn();
-	// first loggedIn checkpoint
 	if (!loggedIn) {
 		Swal.fire({
 			title: "You need to be logged in to add rows",
@@ -260,28 +278,19 @@ export async function addHandler(playlistName, playlistOrder) {
 		query += `${entry}=${rowValues[i]}&`;
 	}
 	query += `PlaylistOrder=${playlistOrder}&PlaylistName=${playlistName}`;
-	const data = await fetch(query,
+	await fetch(query,
 		{ method: "POST" }
 	);
-	const dataJSON = await data.json();
-	const addResult = await dataJSON.addResult;
-	if (!addResult) {
-		Swal.fire({
-			title: "You need to be logged in to add rows",
-		});
-		return
-	}
 	Swal.fire({
 		title: "Successful addition! Refreshing...",
 	});
-	// reset makes the added row appear (refreshes db)
+	// reset makes the added row appear (refreshes table)
 	reset();
 }
 
 // user clicks delete button on this row
 export async function deleteHandler(playlistName, playlistOrder) {
 	const loggedIn = await isLoggedIn();
-	// first loggedIn checkpoint
 	if (!loggedIn) {
 		Swal.fire({
 			title: "You need to be logged in to delete rows",
@@ -302,12 +311,6 @@ export async function deleteHandler(playlistName, playlistOrder) {
 	);
 	const dataJSON = await data.json();
 	const addResult = await dataJSON.addResult;
-	if (!addResult) {
-		Swal.fire({
-			title: "You need to be logged in to add rows",
-		});
-		return
-	}
 	Swal.fire({
 		title: "Successful deletion! Refreshing...",
 	});
@@ -320,11 +323,27 @@ export async function deleteHandler(playlistName, playlistOrder) {
 // * instead of actual thing
 async function login() {
 	try {
-		const guess = prompt("Enter Secret Password");
-		if (!guess) {
-			alert("Incorrect Password");
-			return
+		const loggedIn = await isLoggedIn();
+		if (loggedIn) {
+			Swal.fire({
+				title: 'You are Already Logged In!',
+				icon: 'info',
+				timer: 1500,
+				showConfirmButton: false
+			});
+			return;
 		}
+		const { value: guess } = await Swal.fire({
+			title: "Enter Secret Password",
+			input: "password",
+			inputPlaceholder: "Enter your secret password",
+			inputAttributes: {
+				maxlength: "10",
+				autocapitalize: "off",
+				autocorrect: "off"
+			}
+		});
+		if (!guess) return;
 		const query = "/login?Password=" + guess;
 		// returns true if user guessed correct password
 		const data = await fetch(query,
@@ -334,15 +353,30 @@ async function login() {
 		const guessResult = dataJSON.guessResult;
 		// guessed right
 		if (guessResult == 0) {
-			alert("Welcome User");
+			Swal.fire({
+				title: 'Welcome User',
+				icon: 'success',
+				timer: 1500,
+				showConfirmButton: false
+			});
 		}
 		// guessed wrong
 		else if (guessResult == 1) {
-			alert("Incorrect Password");
+			Swal.fire({
+				title: 'Incorrect Password',
+				icon: 'error',
+				timer: 1500,
+				showConfirmButton: false
+			});
 		}
 		// user was already logged in
 		else {
-			alert("You are already logged in!");
+			Swal.fire({
+				title: 'You are Already Logged In!',
+				icon: 'info',
+				timer: 1500,
+				showConfirmButton: false
+			});
 		}
 	}
 	catch (err) {

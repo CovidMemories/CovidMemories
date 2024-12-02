@@ -37,10 +37,6 @@ class Playlist {
         }
         // hide neighbor
         this.hideBranch(neighborIndex);
-        // const neighborRange = this.branches[neighborIndex];
-        // for (let j = neighborRange[0]; j < neighborRange[1]; j++) {
-        //     this.rows[j].hideRow();
-        // }
         // show this branch
         const thisRange = this.branches[i];
         for (let j = thisRange[0]; j < thisRange[1]; j++) {
