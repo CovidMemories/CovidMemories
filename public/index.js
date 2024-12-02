@@ -1,5 +1,5 @@
 import Table from "./Table.js"
-
+//const argon2 = require('argon2');
 var table;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -319,13 +319,17 @@ const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
 const btnPopup = document.querySelector('.btnLogin-popup');
 const iconClose = document.querySelector('.icon-close');
+const registerForm = document.getElementById('registerForm');
+const loginForm = document.getElementById('loginForm');
 
-document.addEventListener('DOMContentLoaded', ()=> {
-	const login = localStorage.getElementById('loginForm');
 
-	loginform.addEventListener('submit', async (e)=> {
+// document.addEventListener('DOMContentLoaded', ()=> {
+// 	const loginForm = localStorage.getElementById('loginForm');
+// 	const registerForm = localStorage.getElementById('registerForm');
+
+	loginForm.addEventListener("submit", async (e)=> {
 		e.preventDefault();//stops auto refresh
-		
+		console.log(req.body);
 		const formData = new FormData(loginForm);
 		const data = {
 			email: formData.get('email'),
@@ -343,14 +347,42 @@ document.addEventListener('DOMContentLoaded', ()=> {
 			if(response.ok){
 				const json = await response.json();
 				alert("Welcome User");
-				//console.log(json);
+				console.log(json);
 			}else{
-				console.error('Login failed', response.statusText);
+				console.error('Login failed');
 			}
 		}catch(error){
 			console.error('Error in login process:', error);
 		}
 	});
+
+registerForm.addEventListener('submit', async (e)=> {
+	e.preventDefault();//stops auto refresh
+	console.log(req.body);
+	const formData = new FormData(registerForm);
+	const data = {
+		email: formData.get('email'),
+		password: formData.get('password')
+	};
+
+	try{
+		const response = await fetch('/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		if(response.ok){
+			const json = await response.json();
+			alert("Welcome User");
+			console.log(json);
+		}else{
+			console.error('Registration failed');
+		}
+	}catch(error){
+		console.error('Error in Registration process:', error);
+	}
 });
 registerLink.addEventListener('click', ()=> {
     wrapper.classList.add('active');
@@ -372,39 +404,39 @@ iconClose.addEventListener('click', ()=> {
 // User attempts to login
 // TODO: use <input> so that user's password appears as
 // * instead of actual thing
-/*
-async function login() {
-	try {
-		const guess = prompt("Enter Secret Password");
-		if (!guess) {
-			alert("Incorrect Password");
-			return
-		}
-		const query = "/login?Password=" + guess;
-		// returns true if user guessed correct password
-		const data = await fetch(query,
-			{ method: "POST" }
-		);
-		const dataJSON = await data.json()
-		const guessResult = dataJSON.guessResult;
-		// guessed right
-		if (guessResult == 0) {
-			alert("Welcome User");
-		}
-		// guessed wrong
-		else if (guessResult == 1) {
-			alert("Incorrect Password");
-		}
-		// user was already logged in
-		else {
-			alert("You are already logged in!");
-		}
-	}
-	catch (err) {
-		console.error("login function error: " + err);
-	}
-}
-	*/
+
+// async function login() {
+// 	try {
+// 		const guess = prompt("Enter Secret Password");
+// 		if (!guess) {
+// 			alert("Incorrect Password");
+// 			return
+// 		}
+// 		const query = "/login?Password=" + guess;
+// 		// returns true if user guessed correct password
+// 		const data = await fetch(query,
+// 			{ method: "POST" }
+// 		);
+// 		const dataJSON = await data.json()
+// 		const guessResult = dataJSON.guessResult;
+// 		// guessed right
+// 		if (guessResult == 0) {
+// 			alert("Welcome User");
+// 		}
+// 		// guessed wrong
+// 		else if (guessResult == 1) {
+// 			alert("Incorrect Password");
+// 		}
+// 		// user was already logged in
+// 		else {
+// 			alert("You are already logged in!");
+// 		}
+// 	}
+// 	catch (err) {
+// 		console.error("login function error: " + err);
+// 	}
+// }
+
 
 // returns whether or not user is logged in
 async function isLoggedIn() {

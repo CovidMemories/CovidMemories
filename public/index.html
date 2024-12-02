@@ -44,6 +44,12 @@
     window.addEventListener("DOMContentLoaded", () => {
       populatePlayListContentTable(0);
     });
+
+    function login() {
+      // Your login logic here
+      console.log("Login function called");
+      return false; // Prevent form submission for demonstration
+    }
   </script>
 
   <div class="container-a">
@@ -163,34 +169,34 @@
           <br>
         </div>
         <br>
-
+        
         <div class="wrapper">
           <span class="icon-close">
               <ion-icon name="close"></ion-icon>
           </span>
-     
+
           <div class="form-box login">
               <h2>Login</h2>
-              <form id="loginForm" action="#">
+              <form id="loginForm">
                   <div class="input-box">
                       <span class="icon">
                           <ion-icon name="mail"></ion-icon>
                       </span>
-                      <input type="email" required>
+                      <input type="email" id="email" name="login-email" required>
                       <label>Email</label>
                   </div>
                   <div class="input-box">
                       <span class="icon">
                           <ion-icon name="lock-closed"></ion-icon>
                       </span>
-                      <input type="password" required>
+                      <input type="password" id="password" name="login-password" required>
                       <label>Password</label>
                   </div>
                   <div class="remember-forgot">
                       <label><input type="checkbox"> Remember me</label>
                       <a href="#">Forgot Password?</a>
                   </div>
-                  <button type="submit" class="btn">Login</button>
+                  <button type="submit" class="btn" >Login</button>
                   <div class="login-register">
                       <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
                   </div>
@@ -199,19 +205,19 @@
      
           <div class="form-box register">
               <h2>Registration</h2>
-              <form id="registrationForm" action="#">
+              <form id="registerForm" action="#">
                   <div class="input-box">
                       <span class="icon">
                           <ion-icon name="mail"></ion-icon>
                       </span>
-                      <input type="email" required>
+                      <input type="email" name="register-email" required>
                       <label>Email</label>
                   </div>
                   <div class="input-box">
                       <span class="icon">
                           <ion-icon name="lock-closed"></ion-icon>
                       </span>
-                      <input type="password" required>
+                      <input type="password" name="register-password" required>
                       <label>Password</label>
                   </div>
                   <div class="remember-forgot">

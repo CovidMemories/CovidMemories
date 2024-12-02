@@ -67,55 +67,67 @@ app.get('/getRows', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  // connect to the database
-  try{
-    const database = client.db('Login');
+  try {
+    // Create a shallow copy of the request object and omit the body
+    const requestCopy = Object.assign({}, req);
+    delete requestCopy.body;
+    console.log("Request object (without body):", requestCopy);
+
+    const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
-    const data = {
-      name: req.body.email,
-      password: req.body.password
+
+    const user = await userCollection.findOne({ name: req.body.email });
+    if (!user) {
+      console.error("user not found");
+      return res.status(404).send("User not found");
     }
 
-    const user = userCollection.findOne({ name: req.body.email });
-    if(!user){
-      res.status(400).send("User not found");
+    const isPasswordCorrect = await argon2.verify(user.password, req.body.password);
+    if (!isPasswordCorrect) {
+      console.error("wrong password");
+      res.status(400).send("Incorrect password");
+      return;
     }
-    const isPasswordCorrect = await argon2.verify(check.password, req.body.password);
-    if(!isPasswordCorrect){
-      return res.status(400).send("Incorrect password");
-    }
-    
+
     req.session.loggedIn = true;
     req.session.email = req.body.email;
     res.send("logged in");
-  }catch(err){
+  } catch (err) {
     console.error("error with login process:", err);
     res.status(500).send("Internal server error");
   }
 });
 
 app.post("/register", async (req, res) => {
-  try{
-  const data = {
-    name: req.body.username,
-    password: req.body.password
-  }
-    const database = client.db('Login'); 
+  console.log('Register form submitted 2');
+  try {
+    // Create a shallow copy of the request object and omit the body
+    const requestCopy = Object.assign({}, req);
+    delete requestCopy.body;
+    console.log("Request object (without body):", requestCopy);
+
+    const data = {
+      name: req.body.email,
+      password: req.body.password
+    };
+    const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
-    const exisitingUser = await userCollection.findOne({ name: data.email });
-    if(exisitingUser){
-       return res.status.apply(400).send("User already exists");
-    }else{
-      const hash = await argon2.hash(data.password, {type: argon2.argon2id});
+    const exisitingUser = await userCollection.findOne({ name: data.name });
+    if (exisitingUser) {
+      console.error("user exists");
+      return res.status(400).send("User already exists");
+    } else {
+      const hash = await argon2.hash(data.password, { type: argon2.argon2id });
       data.password = hash;
-      const userdata = await collection.insertOne(data);
-      res.send("User created");
+      const userdata = await userCollection.insertOne(data);
+      res.status(201).send("User registered successfully");
     }
-  }catch(err){
-    console.error("error signing up", err);
+  } catch (err) {
+    console.error("error signing up:", err);
     res.status(500).send("Internal server error");
   }
 });
+
 /*
 
 // user attempts to log in, set their "loggedIn" boolean to true if successful
