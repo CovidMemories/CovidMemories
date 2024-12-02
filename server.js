@@ -76,8 +76,8 @@ app.post('/login', async (req, res) => {
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
 
-    const user = await userCollection.findOne({ name: req.body.email });
-    if (!user) {
+    const user = await userCollection.findOne({ email: req.body.email });
+    if (!email) {
       console.error("user not found");
       return res.status(404).send("User not found");
     }
@@ -107,12 +107,12 @@ app.post("/register", async (req, res) => {
     console.log("Request object (without body):", requestCopy);
 
     const data = {
-      name: req.body.email,
+      email: req.body.email,
       password: req.body.password
     };
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
-    const exisitingUser = await userCollection.findOne({ name: data.name });
+    const exisitingUser = await userCollection.findOne({ email: data.email });
     if (exisitingUser) {
       console.error("user exists");
       return res.status(400).send("User already exists");
