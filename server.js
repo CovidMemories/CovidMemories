@@ -68,16 +68,12 @@ app.get('/getRows', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   try {
-    // Create a shallow copy of the request object and omit the body
-    const requestCopy = Object.assign({}, req);
-    delete requestCopy.body;
-    console.log("Request object (without body):", requestCopy);
 
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
 
     const user = await userCollection.findOne({ email: req.body.email });
-    if (!email) {
+    if (!user) {
       console.error("user not found");
       return res.status(404).send("User not found");
     }
@@ -101,10 +97,6 @@ app.post('/login', async (req, res) => {
 app.post("/register", async (req, res) => {
   console.log('Register form submitted 2');
   try {
-    // Create a shallow copy of the request object and omit the body
-    const requestCopy = Object.assign({}, req);
-    delete requestCopy.body;
-    console.log("Request object (without body):", requestCopy);
 
     const data = {
       email: req.body.email,
