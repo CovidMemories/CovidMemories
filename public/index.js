@@ -327,32 +327,32 @@ const loginForm = document.getElementById('loginForm');
 // 	const loginForm = localStorage.getElementById('loginForm');
 // 	const registerForm = localStorage.getElementById('registerForm');
 
-	loginForm.addEventListener("submit", async (e)=> {
-		e.preventDefault();//stops auto refresh
-		console.log(req.body);
-		const formData = new FormData(loginForm);
-		const data = {
-			email: formData.get('email'),
-			password: formData.get('password')
-		};
+loginForm.addEventListener("submit", async (e)=> {
+	e.preventDefault();//stops auto refresh
+	console.log(req.body);
+	const formData = new FormData(loginForm);
+	const data = {
+		email: formData.get('email'),
+		password: formData.get('password')
+	};
 
-		try{
-			const response = await fetch('/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
+	try{
+		const response = await fetch('/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
 				body: JSON.stringify(data)
 			});
-			if(response.ok){
-				const json = await response.json();
-				alert("Welcome User");
-				console.log(json);
-			}else{
-				console.error('Login failed');
-			}
-		}catch(error){
-			console.error('Error in login process:', error);
+		if(response.ok){
+			const json = await response.json();
+			alert("Welcome User");
+			console.log(json);
+		}else{
+			console.error('Login failed');
+		}
+	}catch(error){
+		console.error('Error in login process:', error);
 		}
 	});
 
