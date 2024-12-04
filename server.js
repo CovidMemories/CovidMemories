@@ -87,7 +87,7 @@ app.post('/login', async (req, res) => {
 
     req.session.loggedIn = true;
     req.session.email = req.body.email;
-    res.send("logged in");
+    //res.send("logged in");
   } catch (err) {
     console.error("error with login process:", err);
     res.status(500).send("Internal server error");
@@ -95,13 +95,14 @@ app.post('/login', async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  console.log('Register form submitted 2');
+  console.log("printing:", req.body);
   try {
-
+    
     const data = {
       email: req.body.email,
       password: req.body.password
     };
+    console.log(data);
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
     const exisitingUser = await userCollection.findOne({ email: data.email });

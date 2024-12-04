@@ -329,13 +329,16 @@ const loginForm = document.getElementById('loginForm');
 
 loginForm.addEventListener("submit", async (e)=> {
 	e.preventDefault();//stops auto refresh
-	console.log(req.body);
+	//e.currentTarget();
+	//console.log(e.currentTarget);
 	const formData = new FormData(loginForm);
+	console.log(Object.fromEntries(formData));
 	const data = {
-		email: formData.get('email'),
-		password: formData.get('password')
+		email: formData.get('login-email'),
+		password: formData.get('login-password')
 	};
-
+	
+	console.log(data);
 	try{
 		const response = await fetch('/login', {
 			method: 'POST',
@@ -345,7 +348,7 @@ loginForm.addEventListener("submit", async (e)=> {
 				body: JSON.stringify(data)
 			});
 		if(response.ok){
-			const json = await response.json();
+			const json = await response.text();
 			alert("Welcome User");
 			console.log(json);
 		}else{
@@ -358,13 +361,15 @@ loginForm.addEventListener("submit", async (e)=> {
 
 registerForm.addEventListener('submit', async (e)=> {
 	e.preventDefault();//stops auto refresh
-	console.log(req.body);
+	
 	const formData = new FormData(registerForm);
+	console.log(Object.fromEntries(formData));
 	const data = {
-		email: formData.get('email'),
-		password: formData.get('password')
+		email: formData.get('register-email'),
+		password: formData.get('register-password')
 	};
-
+	
+	console.log(data);
 	try{
 		const response = await fetch('/register', {
 			method: 'POST',
@@ -374,7 +379,7 @@ registerForm.addEventListener('submit', async (e)=> {
 			body: JSON.stringify(data)
 		});
 		if(response.ok){
-			const json = await response.json();
+			const json = await response.text();
 			alert("Welcome User");
 			console.log(json);
 		}else{
