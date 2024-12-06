@@ -157,7 +157,6 @@ app.post("/register", async (req, res) => {
 });
 
 
->>>>>>> bd943cc (deleting old login function)
 // user is attempting to delete a row, only works if they are logged in
 app.post('/delete', (req, res) => {
   try{
