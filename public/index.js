@@ -100,6 +100,9 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 	document.getElementById("modifyButton").onclick = () => {
 		modify();
 	};
+	document.getElementById("loginButton").onclick = () => {
+		login();
+	};
 	// initialize new table
 	table = new Table(initialPlaylistIndex);
 }
