@@ -6,8 +6,8 @@ jest.mock('../../public/Table.js');
 describe('index.js functionality', () => {
   let mockTableInstance;
 
-  beforeEach(() => {
-    // Mock DOM structure
+  beforeAll(() => {
+    // Mock DOM structure before the tests start
     document.body.innerHTML = `
       <div>
         <button id="rew"></button>
@@ -39,13 +39,17 @@ describe('index.js functionality', () => {
 
     Table.mockImplementation(() => mockTableInstance);
 
-    // Mock loginForm and addEventListener for it
+    // Mock loginForm and its methods
     const loginForm = document.createElement('form');
     loginForm.id = 'loginForm';
     document.body.appendChild(loginForm);
 
-    // Mock the addEventListener method
-    loginForm.addEventListener = jest.fn();  // Mock addEventListener to avoid errors
+    // Mock addEventListener method directly
+    loginForm.addEventListener = jest.fn(); // Mock addEventListener to avoid errors
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks(); // Clear mocks before each test to avoid cross-test interference
   });
 
   test('populatePlayListContentTable initializes Table and sets button handlers', () => {
@@ -75,4 +79,5 @@ describe('index.js functionality', () => {
     expect(mockTableInstance.pause).toHaveBeenCalled();
   });
 });
+
 
