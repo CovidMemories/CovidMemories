@@ -97,12 +97,6 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 	document.getElementById("randomButton").onclick = () => {
 		randomTrack();
 	};
-	document.getElementById("loginButton").onclick = () => {
-		login();
-	};
-	document.getElementById("modifyButton").onclick = () => {
-		modify();
-	};
 	// initialize new table
 	table = new Table(initialPlaylistIndex);
 }
