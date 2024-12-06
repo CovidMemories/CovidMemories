@@ -35,8 +35,7 @@
       "^.+\\.js$": "babel-jest"
     },
     "collectCoverage": true,
-    "coverageDirectory": "./coverage",
-    "setupFiles": ["<rootDir>/jest.setup.js"]  
+    "coverageDirectory": "./coverage"
   }
 }
 
