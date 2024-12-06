@@ -70,7 +70,13 @@ app.post('/login', async (req, res) => {
 
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
-
+    if (!req.body.email ) {
+      
+      res.json({ isLoggedIn: req.session.loggedIn });
+      return;
+      
+    
+    }
     const user = await userCollection.findOne({ email: req.body.email });
     if (!user) {
       console.error("user not found");
