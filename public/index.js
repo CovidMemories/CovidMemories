@@ -333,34 +333,45 @@ const loginForm = document.getElementById('loginForm');
 
 // Check if the code is running in a testing environment or a real browser
 if (typeof window !== "undefined" && typeof document !== "undefined") {
-  const loginForm = document.getElementById("loginForm");
+  const loginButton = document.getElementById("loginButton");
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault(); // Stops auto-refresh
+  if (loginButton) {
+    console.log("loginButton exists and event listener is being attached");
+
+    loginButton.addEventListener("click", () => {
+      console.log("Login button clicked!");
+
+      const loginForm = document.getElementById('loginForm');
       const formData = new FormData(loginForm);
       const data = {
         email: formData.get("login-email"),
         password: formData.get("login-password"),
       };
 
+      console.log("Form data:", data);
+
       try {
-        const response = await fetch("/login", {
+        fetch("/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
+        })
+        .then(response => response.text())
+        .then(json => {
+          if (json) {
+            alert("Welcome User");
+            console.log("Server response:", json);
+          } else {
+            console.error("Login failed");
+          }
+        })
+        .catch(error => {
+          console.error("Error in login process:", error);
         });
-
-        if (response.ok) {
-          const json = await response.text();
-          alert("Welcome User");
-        } else {
-          console.error("Login failed");
-        }
       } catch (error) {
-        console.error("Error in login process:", error);
+        console.error("Error inside click event handler:", error);
       }
     });
   }
