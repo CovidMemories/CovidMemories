@@ -363,7 +363,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   }
 }
 
-// Register Form logic remains the same
+// Register Form
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const registerForm = document.getElementById('registerForm');
 
@@ -404,7 +404,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   }
 }
 
-// UI Interaction (No need to modify these for login/register behavior)
+// UI Interaction 
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const registerLink = document.getElementById('registerLink');
   const loginLink = document.getElementById('loginLink');
