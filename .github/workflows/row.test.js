@@ -4,7 +4,7 @@ let mockTable;
 let mockRow;
 
 beforeEach(() => {
-  // ock DOM elements
+  // Mock the necessary DOM elements
   document.body.innerHTML = `
     <form id="loginForm">
       <input type="text" name="login-email" />
@@ -13,7 +13,7 @@ beforeEach(() => {
     <div id="playlistTable"></div>
   `;
 
-  // mock insertCell 
+  // Mock insertCell to simulate adding cells to the row
   const mockInsertCell = jest.fn().mockImplementation(() => {
     const mockCell = {
       appendChild: jest.fn(),
@@ -23,7 +23,7 @@ beforeEach(() => {
     return mockCell;
   });
 
-  // mock row with insertCell
+  // Mock row with insertCell
   mockRow = {
     style: { display: '' },
     insertCell: mockInsertCell,
@@ -31,12 +31,12 @@ beforeEach(() => {
     addEventListener: jest.fn()
   };
 
-  // mock table with insertRow
+  // Mock table with insertRow
   mockTable = {
     insertRow: jest.fn().mockReturnValue(mockRow),
   };
 
-  // mock document.getElementById to return the mock table
+  // Mock document.getElementById to return the mock table
   document.getElementById = jest.fn().mockReturnValue(mockTable);
 });
 
@@ -46,14 +46,14 @@ test("Row initializes correctly", () => {
   const tableObjectMock = { playNext: jest.fn() };
   const row = new Row(rowData, playlistMock, false, tableObjectMock);
 
-  // Verify row
+  // Verify the properties of the row
   expect(row.url).toBe("url");
   expect(row.fileName).toBe("fileName");
   expect(row.speaker).toBe("speaker");
   expect(row.playlistOrder).toBe(1);
   expect(row.row.style.display).toBe("none");
 
-  // Verify insertRow was called a
+  // Verify that insertRow was called and the row is properly mocked
   expect(document.getElementById).toHaveBeenCalledWith("playlistTable");
   expect(mockTable.insertRow).toHaveBeenCalled();
 
