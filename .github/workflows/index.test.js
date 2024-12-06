@@ -7,7 +7,7 @@ describe('index.js functionality', () => {
   let mockTableInstance;
 
   beforeEach(() => {
-    // mock DOM structure with wallpaper-w2 and wallpaper-w3 elements
+    // mock DOM structure
     document.body.innerHTML = `
       <div>
         <button id="rew"></button>
@@ -39,13 +39,11 @@ describe('index.js functionality', () => {
 
     Table.mockImplementation(() => mockTableInstance);
 
-    // Mock loginForm and prevent addEventListener errors
+    // Mock loginForm and addEventListener for it
     const loginForm = document.createElement('form');
     loginForm.id = 'loginForm';
     document.body.appendChild(loginForm);
-    loginForm.addEventListener = jest.fn();
-
-    jest.clearAllMocks();
+    loginForm.addEventListener = jest.fn(); // Mock the addEventListener to avoid errors
   });
 
   test('populatePlayListContentTable initializes Table and sets button handlers', () => {
@@ -54,7 +52,7 @@ describe('index.js functionality', () => {
     // verify Table
     expect(Table).toHaveBeenCalledWith(0);
 
-    // sim buttons and verify methods
+    // simulate button clicks and verify methods
     document.getElementById('rew').click();
     expect(mockTableInstance.playPrev).toHaveBeenCalled();
     document.getElementById('play').click();
