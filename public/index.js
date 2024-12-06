@@ -366,8 +366,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   }
 }
 
-
-// Check if the code is running in a testing environment or a real browser
+// Register Form logic remains the same
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const registerForm = document.getElementById('registerForm');
 
@@ -408,6 +407,7 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
   }
 }
 
+// UI Interaction (No need to modify these for login/register behavior)
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const registerLink = document.getElementById('registerLink');
   const loginLink = document.getElementById('loginLink');
@@ -443,15 +443,12 @@ if (typeof window !== "undefined" && typeof document !== "undefined") {
 
 // returns whether or not user is logged in
 async function isLoggedIn() {
-	try {
-		const query = "/login"
-		const data = await fetch(query,
-			{ method: "POST" }
-		);
-		const dataJSON = await data.json()
-		return dataJSON.isLoggedIn;
-	}
-	catch (err) {
-		console.error("isLoggedIn function error: " + err);
-	}
+  try {
+    const query = "/login";
+    const data = await fetch(query, { method: "POST" });
+    const dataJSON = await data.json();
+    return dataJSON.isLoggedIn;
+  } catch (err) {
+    console.error("isLoggedIn function error: " + err);
+  }
 }
