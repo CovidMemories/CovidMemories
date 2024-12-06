@@ -7,7 +7,6 @@ describe('Table class', () => {
   let table;
 
   beforeEach(() => {
-    // mock the DOM elements u
     document.body.innerHTML = `
       <div class="dropdown-menu"></div>
       <div id="loader"></div>
