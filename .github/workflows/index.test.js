@@ -6,40 +6,47 @@ jest.mock('../../public/Table.js');
 describe('index.js functionality', () => {
   let mockTableInstance;
 
-beforeEach(() => {
-  // mock DOM structure with wallpaper-w2 and wallpaper-w3 elements
-  document.body.innerHTML = `
-    <div>
-      <button id="rew"></button>
-      <button id="play"></button>
-      <button id="pause"></button>
-      <button id="fwd"></button>
-      <button id="randomButton"></button>
-      <button id="loginButton"></button>
-      <button id="modifyButton"></button>
-      <div id="playlistTable"></div>
-      <div class="dropdown-menu"></div>
-      <div id="playlistContent"></div>
-      <button id="wallpaper-w1"></button> <!-- Add wallpaper-w1 -->
-      <button id="wallpaper-w2"></button> <!-- Add wallpaper-w2 -->
-      <button id="wallpaper-w3"></button> <!-- Add wallpaper-w3 -->
-      <button id="wallpaper-w4"></button> <!-- Add wallpaper-w4 -->
-      <button id="wallpaper-w5"></button> <!-- Add wallpaper-w5 -->
-    </div>
-  `;
+  beforeEach(() => {
+    // mock DOM structure with wallpaper-w2 and wallpaper-w3 elements
+    document.body.innerHTML = `
+      <div>
+        <button id="rew"></button>
+        <button id="play"></button>
+        <button id="pause"></button>
+        <button id="fwd"></button>
+        <button id="randomButton"></button>
+        <button id="loginButton"></button>
+        <button id="modifyButton"></button>
+        <div id="playlistTable"></div>
+        <div class="dropdown-menu"></div>
+        <div id="playlistContent"></div>
+        <button id="wallpaper-w1"></button> <!-- Add wallpaper-w1 -->
+        <button id="wallpaper-w2"></button> <!-- Add wallpaper-w2 -->
+        <button id="wallpaper-w3"></button> <!-- Add wallpaper-w3 -->
+        <button id="wallpaper-w4"></button> <!-- Add wallpaper-w4 -->
+        <button id="wallpaper-w5"></button> <!-- Add wallpaper-w5 -->
+      </div>
+    `;
 
-  // mock Table
-  mockTableInstance = {
-    play: jest.fn(),
-    pause: jest.fn(),
-    playNext: jest.fn(),
-    playPrev: jest.fn(),
-    randomTrack: jest.fn(),
-  };
+    // mock Table
+    mockTableInstance = {
+      play: jest.fn(),
+      pause: jest.fn(),
+      playNext: jest.fn(),
+      playPrev: jest.fn(),
+      randomTrack: jest.fn(),
+    };
 
-  Table.mockImplementation(() => mockTableInstance);
-  jest.clearAllMocks();
-});
+    Table.mockImplementation(() => mockTableInstance);
+
+    // Mock loginForm and prevent addEventListener errors
+    const loginForm = document.createElement('form');
+    loginForm.id = 'loginForm';
+    document.body.appendChild(loginForm);
+    loginForm.addEventListener = jest.fn();
+
+    jest.clearAllMocks();
+  });
 
   test('populatePlayListContentTable initializes Table and sets button handlers', () => {
     populatePlayListContentTable(0);
