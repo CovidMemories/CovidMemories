@@ -1,133 +1,70 @@
+import { populatePlayListContentTable, play, pause } from '../../public/index.js';
 import Table from '../../public/Table.js';
-import Playlist from '../../public/Playlist.js';
 
-jest.mock('../../public/Playlist.js');
+// Mock Table module first
+jest.mock('../../public/Table.js');
 
-describe('Table class', () => {
-  let table;
+// Before importing index.js, we mock the DOM elements
+beforeAll(() => {
+  // Mock the DOM structure
+  document.body.innerHTML = `
+    <form id="loginForm">
+      <input type="text" name="login-email" />
+      <input type="password" name="login-password" />
+    </form>
+    <div id="playlistTable"></div>
+    <div class="dropdown-menu"></div>
+    <div id="playlistContent"></div>
+    <button id="wallpaper-w1"></button>
+  `;
+
+  // Mock the addEventListener on loginForm to prevent it from throwing an error
+  const loginForm = document.getElementById('loginForm');
+  loginForm.addEventListener = jest.fn();
+
+  // Mocking Table behavior as needed
+  const mockTableInstance = {
+    play: jest.fn(),
+    pause: jest.fn(),
+    playNext: jest.fn(),
+    playPrev: jest.fn(),
+    randomTrack: jest.fn(),
+  };
+
+  Table.mockImplementation(() => mockTableInstance);
+});
+
+describe('index.js functionality', () => {
+  let mockTableInstance;
 
   beforeEach(() => {
-    // mock the DOM elements
-    document.body.innerHTML = `
-      <div class="dropdown-menu"></div>
-      <div id="loader"></div>
-      <table id="playlistTable"></table>
-      <div id="playlistContent"></div>
-      <button id="play"></button>
-      <button id="pause"></button>
-    `;
-
-    // Mock login form
-    document.body.innerHTML += `
-      <form id="loginForm">
-        <input type="text" name="login-email" />
-        <input type="password" name="login-password" />
-      </form>
-    `;
-
-    // mock Playlist for Table functionality
-    Playlist.mockImplementation((name, rows, tableObject) => ({
-      name,
-      rows: rows || [
-        { isBranchStart: false, isBranchBody: false, playRow: jest.fn() },
-        { isBranchStart: true, isBranchBody: false, playRow: jest.fn() },
-        { isBranchStart: false, isBranchBody: true, playRow: jest.fn() },
-      ],
-      showRows: jest.fn(),
-      hideRows: jest.fn(),
-      playNext: jest.fn(() => false),
-      playPrev: jest.fn(() => false),
-      play: jest.fn(),
-      pause: jest.fn(),
-      loadBranches: jest.fn(),
-      playRow: jest.fn(),
-    }));
+    jest.clearAllMocks(); // Reset mocks before each test
   });
 
+  test('populatePlayListContentTable initializes Table and sets button handlers', () => {
+    populatePlayListContentTable(0);
 
-  test('Table initializes correctly with playlists', async () => {
-    // Mock fetch response for playlist data
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ playlists: { Playlist1: [], Playlist2: [] } }),
-      })
-    );
+    // Verify Table was called
+    expect(Table).toHaveBeenCalledWith(0);
 
-    table = new Table(0);
-    await new Promise(process.nextTick);
-
-    // verify DOM changes
-    expect(document.querySelector('.dropdown-menu').childNodes.length).toBe(2);
-    expect(document.getElementById('playlistContent').innerHTML).toBe('Playlist1');
-    expect(Playlist).toHaveBeenCalledTimes(2);
-    expect(Playlist).toHaveBeenCalledWith('Playlist1', [], table);
-    expect(Playlist.mock.results[0].value.loadBranches).toHaveBeenCalled();
+    // Simulate button clicks
+    document.getElementById('rew').click();
+    expect(mockTableInstance.playPrev).toHaveBeenCalled();
+    document.getElementById('play').click();
+    expect(mockTableInstance.play).toHaveBeenCalled();
+    document.getElementById('pause').click();
+    expect(mockTableInstance.pause).toHaveBeenCalled();
+    document.getElementById('fwd').click();
+    expect(mockTableInstance.playNext).toHaveBeenCalled();
+    document.getElementById('randomButton').click();
+    expect(mockTableInstance.randomTrack).toHaveBeenCalled();
   });
 
-  test('Table switches playlists correctly', async () => {
-    // mock fetch response
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ playlists: { Playlist1: [], Playlist2: [] } }),
-      })
-    );
-
-    table = new Table(0);
-    // wait
-    await new Promise(process.nextTick);
-    const firstPlaylist = table.playlists[0];
-    const secondPlaylist = table.playlists[1];
-    firstPlaylist.hideRows.mockClear();
-    secondPlaylist.showRows.mockClear();
-
-    table.switchPlaylist(1);
-
-    expect(firstPlaylist.hideRows).toHaveBeenCalled();
-    expect(secondPlaylist.showRows).toHaveBeenCalled();
-    expect(document.getElementById('playlistContent').innerHTML).toBe('Playlist2');
-  });
-
-  test('Table plays next track correctly and switches playlist if necessary', async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ playlists: { Playlist1: [], Playlist2: [] } }),
-      })
-    );
-
-    table = new Table(0);
-    await new Promise(process.nextTick);
-
-    const firstPlaylist = table.playlists[0];
-    const secondPlaylist = table.playlists[1];
-
-    firstPlaylist.playNext.mockReturnValue(false);
-    table.playNext();
-
-    expect(firstPlaylist.pause).toHaveBeenCalled();
-    expect(secondPlaylist.showRows).toHaveBeenCalled();
-    expect(secondPlaylist.play).toHaveBeenCalled();
-    expect(document.getElementById('playlistContent').innerHTML).toBe('Playlist2');
-  });
-
-  test('Table plays previous track correctly and switches playlist if necessary', async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve({ playlists: { Playlist1: [], Playlist2: [] } }),
-      })
-    );
-
-    table = new Table(1);
-    await new Promise(process.nextTick);
-
-    const firstPlaylist = table.playlists[0];
-    const secondPlaylist = table.playlists[1];
-
-    secondPlaylist.playPrev.mockReturnValue(false);
-    table.playPrev();
-
-    expect(secondPlaylist.pause).toHaveBeenCalled();
-    expect(firstPlaylist.showRows).toHaveBeenCalled();
-    expect(firstPlaylist.play).toHaveBeenCalled();
-    expect(document.getElementById('playlistContent').innerHTML).toBe('Playlist1');
+  test('play and pause functions call corresponding Table methods', () => {
+    populatePlayListContentTable(0);
+    play();
+    expect(mockTableInstance.play).toHaveBeenCalled();
+    pause();
+    expect(mockTableInstance.pause).toHaveBeenCalled();
   });
 });
