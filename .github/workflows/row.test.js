@@ -4,7 +4,7 @@ let mockTable;
 let mockRow;
 
 beforeEach(() => {
-  // Mock the necessary DOM elements
+  // Mock the necessary DOM elements that index.js expects
   document.body.innerHTML = `
     <form id="loginForm">
       <input type="text" name="login-email" />
@@ -46,18 +46,15 @@ test("Row initializes correctly", () => {
   const tableObjectMock = { playNext: jest.fn() };
   const row = new Row(rowData, playlistMock, false, tableObjectMock);
 
-  // Verify the properties of the row
   expect(row.url).toBe("url");
   expect(row.fileName).toBe("fileName");
   expect(row.speaker).toBe("speaker");
   expect(row.playlistOrder).toBe(1);
   expect(row.row.style.display).toBe("none");
 
-  // Verify that insertRow was called and the row is properly mocked
   expect(document.getElementById).toHaveBeenCalledWith("playlistTable");
   expect(mockTable.insertRow).toHaveBeenCalled();
 
-  // Verify that insertCell was called on the mock row and appendChild works
   expect(mockRow.insertCell).toHaveBeenCalled();
   expect(mockRow.insertCell).toHaveBeenCalledWith(0);
   const mockCell = mockRow.cells[0];
@@ -73,14 +70,12 @@ test("Edit button is displayed and triggers editHandler", () => {
   Row.prototype.editHandler = editHandlerMock;
   const row = new Row(rowData, playlistMock, false, tableObjectMock);
 
-  //  button is appended mock row during the test
   row.showEditButton();
   const buttonSpot = mockRow.cells[0];
 
   if (buttonSpot.childNodes.length === 0) {
     buttonSpot.childNodes.push(row.showMoreButton);
   }
-  //  button is added to the nodes for test to work correctly
   expect(buttonSpot.childNodes.length).toBeGreaterThan(0);
   expect(buttonSpot.childNodes[0].className).toBe("edit-row");
   buttonSpot.childNodes[0].click();
