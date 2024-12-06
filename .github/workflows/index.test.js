@@ -25,6 +25,13 @@ beforeEach(() => {
       <button id="wallpaper-w3"></button> <!-- Add wallpaper-w3 -->
       <button id="wallpaper-w4"></button> <!-- Add wallpaper-w4 -->
       <button id="wallpaper-w5"></button> <!-- Add wallpaper-w5 -->
+      <form id="loginForm"></form>
+      <form id="registerForm"></form>
+      <div class="wrapper"></div>
+      <a href="#" class="login-link">Login</a>
+      <a href="#" class="register-link">Register</a>
+      <button id = "loginButton" href="#" class="btnLogin-popup"></button>
+      <span class="icon-close"></span>
     </div>
   `;
 

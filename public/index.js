@@ -103,6 +103,90 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 	document.getElementById("modifyButton").onclick = () => {
 		modify();
 	};
+	const loginForm = document.getElementById('loginForm');
+	loginForm.addEventListener("submit", async (e) => {
+		e.preventDefault();//stops auto refresh
+		//e.currentTarget();
+		//console.log(e.currentTarget);
+		const formData = new FormData(loginForm);
+		console.log(Object.fromEntries(formData));
+		const data = {
+			email: formData.get('login-email'),
+			password: formData.get('login-password')
+		};
+
+		console.log(data);
+		try {
+			const response = await fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+			if (response.ok) {
+				const json = await response.text();
+				alert("Welcome User");
+				console.log(json);
+			} else {
+				console.error('Login failed');
+			}
+		} catch (error) {
+			console.error('Error in login process:', error);
+		}
+	});
+	const registerForm = document.getElementById('registerForm');
+	registerForm.addEventListener('submit', async (e)=> {
+		e.preventDefault();//stops auto refresh
+		
+		const formData = new FormData(registerForm);
+		console.log(Object.fromEntries(formData));
+		const data = {
+			email: formData.get('register-email'),
+			password: formData.get('register-password')
+		};
+		
+		console.log(data);
+		try{
+			const response = await fetch('/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+			if(response.ok){
+				const json = await response.text();
+				alert("Welcome User");
+				console.log(json);
+			}else{
+				console.error('Registration failed');
+			}
+		}catch(error){
+			console.error('Error in Registration process:', error);
+		}
+	});
+	const wrapper = document.querySelector('.wrapper');
+	const loginLink = document.querySelector('.login-link');
+	const registerLink = document.querySelector('.register-link');
+	const btnPopup = document.querySelector('.btnLogin-popup');
+	const iconClose = document.querySelector('.icon-close');
+	registerLink.addEventListener('click', () => {
+		wrapper.classList.add('active');
+	});
+
+	loginLink.addEventListener('click', () => {
+		wrapper.classList.remove('active');
+	});
+
+	btnPopup.addEventListener('click', () => {
+		wrapper.classList.add('active-popup');
+	});
+
+	iconClose.addEventListener('click', () => {
+		wrapper.classList.remove('active-popup');
+		wrapper.classList.remove('active');
+	});
 	// initialize new table
 	table = new Table(initialPlaylistIndex);
 }
@@ -318,97 +402,97 @@ export async function deleteHandler(playlistName, playlistOrder) {
 	reset();
 }
 
-const wrapper = document.querySelector('.wrapper');
-const loginLink = document.querySelector('.login-link');
-const registerLink = document.querySelector('.register-link');
-const btnPopup = document.querySelector('.btnLogin-popup');
-const iconClose = document.querySelector('.icon-close');
-const registerForm = document.getElementById('registerForm');
-const loginForm = document.getElementById('loginForm');
+// const wrapper = document.querySelector('.wrapper');
+// const loginLink = document.querySelector('.login-link');
+// const registerLink = document.querySelector('.register-link');
+// const btnPopup = document.querySelector('.btnLogin-popup');
+// const iconClose = document.querySelector('.icon-close');
+// const registerForm = document.getElementById('registerForm');
+// const loginForm = document.getElementById('loginForm');
 
 
 // document.addEventListener('DOMContentLoaded', ()=> {
 // 	const loginForm = localStorage.getElementById('loginForm');
 // 	const registerForm = localStorage.getElementById('registerForm');
 
-loginForm.addEventListener("submit", async (e)=> {
-	e.preventDefault();//stops auto refresh
-	//e.currentTarget();
-	//console.log(e.currentTarget);
-	const formData = new FormData(loginForm);
-	console.log(Object.fromEntries(formData));
-	const data = {
-		email: formData.get('login-email'),
-		password: formData.get('login-password')
-	};
+// loginForm.addEventListener("submit", async (e)=> {
+// 	e.preventDefault();//stops auto refresh
+// 	//e.currentTarget();
+// 	//console.log(e.currentTarget);
+// 	const formData = new FormData(loginForm);
+// 	console.log(Object.fromEntries(formData));
+// 	const data = {
+// 		email: formData.get('login-email'),
+// 		password: formData.get('login-password')
+// 	};
 	
-	console.log(data);
-	try{
-		const response = await fetch('/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-				body: JSON.stringify(data)
-			});
-		if(response.ok){
-			const json = await response.text();
-			alert("Welcome User");
-			console.log(json);
-		}else{
-			console.error('Login failed');
-		}
-	}catch(error){
-		console.error('Error in login process:', error);
-		}
-	});
+// 	console.log(data);
+// 	try{
+// 		const response = await fetch('/login', {
+// 			method: 'POST',
+// 			headers: {
+// 				'Content-Type': 'application/json'
+// 			},
+// 				body: JSON.stringify(data)
+// 			});
+// 		if(response.ok){
+// 			const json = await response.text();
+// 			alert("Welcome User");
+// 			console.log(json);
+// 		}else{
+// 			console.error('Login failed');
+// 		}
+// 	}catch(error){
+// 		console.error('Error in login process:', error);
+// 		}
+// 	});
 
-registerForm.addEventListener('submit', async (e)=> {
-	e.preventDefault();//stops auto refresh
+// registerForm.addEventListener('submit', async (e)=> {
+// 	e.preventDefault();//stops auto refresh
 	
-	const formData = new FormData(registerForm);
-	console.log(Object.fromEntries(formData));
-	const data = {
-		email: formData.get('register-email'),
-		password: formData.get('register-password')
-	};
+// 	const formData = new FormData(registerForm);
+// 	console.log(Object.fromEntries(formData));
+// 	const data = {
+// 		email: formData.get('register-email'),
+// 		password: formData.get('register-password')
+// 	};
 	
-	console.log(data);
-	try{
-		const response = await fetch('/register', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		});
-		if(response.ok){
-			const json = await response.text();
-			alert("Welcome User");
-			console.log(json);
-		}else{
-			console.error('Registration failed');
-		}
-	}catch(error){
-		console.error('Error in Registration process:', error);
-	}
-});
-registerLink.addEventListener('click', ()=> {
-    wrapper.classList.add('active');
-});
+// 	console.log(data);
+// 	try{
+// 		const response = await fetch('/register', {
+// 			method: 'POST',
+// 			headers: {
+// 				'Content-Type': 'application/json'
+// 			},
+// 			body: JSON.stringify(data)
+// 		});
+// 		if(response.ok){
+// 			const json = await response.text();
+// 			alert("Welcome User");
+// 			console.log(json);
+// 		}else{
+// 			console.error('Registration failed');
+// 		}
+// 	}catch(error){
+// 		console.error('Error in Registration process:', error);
+// 	}
+// });
+// registerLink.addEventListener('click', ()=> {
+//     wrapper.classList.add('active');
+// });
 
-loginLink.addEventListener('click', ()=> {
-    wrapper.classList.remove('active');
-});
+// loginLink.addEventListener('click', ()=> {
+//     wrapper.classList.remove('active');
+// });
 
-btnPopup.addEventListener('click', ()=> {
-    wrapper.classList.add('active-popup');
-});
+// btnPopup.addEventListener('click', ()=> {
+//     wrapper.classList.add('active-popup');
+// });
 
-iconClose.addEventListener('click', ()=> {
-    wrapper.classList.remove('active-popup');
-    wrapper.classList.remove('active');
-});
+// iconClose.addEventListener('click', ()=> {
+//     wrapper.classList.remove('active-popup');
+//     wrapper.classList.remove('active');
+// });
 
 
 // returns whether or not user is logged in
