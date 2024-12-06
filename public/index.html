@@ -44,12 +44,6 @@
     window.addEventListener("DOMContentLoaded", () => {
       populatePlayListContentTable(0);
     });
-
-    function login() {
-      // Your login logic here
-      console.log("Login function called");
-      return false; // Prevent form submission for demonstration
-    }
   </script>
 
   <div class="container-a">
@@ -136,7 +130,7 @@
               class="hover-text">Random</span></button>
         </li>
         <li class="navbar__item">
-          <button id = "loginButton" href="#" class="btnLogin-popup">
+          <button id = "loginButton" href="#" class="nav-item4">
             <span class="hover-text">Log In</span>
           </button>
         </li>
@@ -169,67 +163,6 @@
           <br>
         </div>
         <br>
-        
-        <div class="wrapper">
-          <span class="icon-close">
-              <ion-icon name="close"></ion-icon>
-          </span>
-
-          <div class="form-box login">
-              <h2>Login</h2>
-              <form id="loginForm">
-                  <div class="input-box">
-                      <span class="icon">
-                          <ion-icon name="mail"></ion-icon>
-                      </span>
-                      <input type="email" id="login-email" name="login-email" required>
-                      <label>Email</label>
-                  </div>
-                  <div class="input-box">
-                      <span class="icon">
-                          <ion-icon name="lock-closed"></ion-icon>
-                      </span>
-                      <input type="password" id="login-password" name="login-password" required>
-                      <label>Password</label>
-                  </div>
-                  <div class="remember-forgot">
-                      <label><input type="checkbox"> Remember me</label>
-                      <a href="#">Forgot Password?</a>
-                  </div>
-                  <button type="submit" class="btn" >Login</button>
-                  <div class="login-register">
-                      <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
-                  </div>
-              </form>
-          </div>
-     
-          <div class="form-box register">
-              <h2>Registration</h2>
-              <form id="registerForm" action="#">
-                  <div class="input-box">
-                      <span class="icon">
-                          <ion-icon name="mail"></ion-icon>
-                      </span>
-                      <input type="email" name="register-email" required>
-                      <label>Email</label>
-                  </div>
-                  <div class="input-box">
-                      <span class="icon">
-                          <ion-icon name="lock-closed"></ion-icon>
-                      </span>
-                      <input type="password" name="register-password" required>
-                      <label>Password</label>
-                  </div>
-                  <div class="remember-forgot">
-                      <label><input type="checkbox" required> I agree to the terms & conditions</label>
-                  </div>
-                  <button type="submit" class="btn">Register</button>
-                  <div class="login-register">
-                      <p>Already have an account? <a href="#" class="login-link">Login</a></p>
-                  </div>
-              </form>
-          </div>
-      </div>
 
         <table class="table" id="playlistTable">
           <thead>
