@@ -121,43 +121,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-/*
 
-// user attempts to log in, set their "loggedIn" boolean to true if successful
-// Note: req.session stores session info for person logging in
-app.post('/login', async (req, res) => {
-  const guess = req.query.Password;
-  if(!guess){
-    res.json({ isLoggedIn: req.session.loggedIn });
-    return;
-  }
-  // connect to the database
-  const database = client.db('hyperAudioDB');
-  const passwords = database.collection("ValidPasswords");
-
-  const query = { Password: guess };
-  // check if the guess is in the database
-  const guessedRight = await passwords.findOne(query);
-  // 0 == success
-  // 1 == incorrect password
-  // 2 == user already logged in
-  var guessResult = -1;
-  // user already logged in
-  if(req.session.loggedIn == true){
-    guessResult = 2;
-  }
-  else if(guessedRight){
-    // save user
-    req.session.loggedIn = true;
-    guessResult = 0;
-  }
-  else{
-    guessResult = 1;
-  }
-  // return true if user correctly guess
-  res.json({ guessResult: guessResult });
-});
-*/
 // user is attempting to delete a row, only works if they are logged in
 app.post('/delete', (req, res) => {
   try{
