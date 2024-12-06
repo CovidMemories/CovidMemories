@@ -7,6 +7,7 @@ describe('Table class', () => {
   let table;
 
   beforeEach(() => {
+    // mock the DOM elements
     document.body.innerHTML = `
       <div class="dropdown-menu"></div>
       <div id="loader"></div>
@@ -14,6 +15,14 @@ describe('Table class', () => {
       <div id="playlistContent"></div>
       <button id="play"></button>
       <button id="pause"></button>
+    `;
+
+    // Mock login form
+    document.body.innerHTML += `
+      <form id="loginForm">
+        <input type="text" name="login-email" />
+        <input type="password" name="login-password" />
+      </form>
     `;
 
     // mock Playlist for Table functionality
