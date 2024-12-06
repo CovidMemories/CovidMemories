@@ -22,7 +22,14 @@ describe('Playlist class', () => {
       <button id="pause"></button>
     `;
 
-    // mock row and cell interactions
+    // Mock login form
+    document.body.innerHTML += `
+      <form id="loginForm">
+        <input type="text" name="login-email" />
+        <input type="password" name="login-password" />
+      </form>
+    `;
+
     mockRow = {
       style: { display: '' },
       insertCell: jest.fn().mockReturnValue({
@@ -36,7 +43,6 @@ describe('Playlist class', () => {
       insertRow: jest.fn().mockReturnValue(mockRow),
     };
 
-    // mock Table object with methods
     mockTableObject = {
       realRows: jest.fn().mockReturnValue([]),
       updateTitleAndArtist: jest.fn(),
