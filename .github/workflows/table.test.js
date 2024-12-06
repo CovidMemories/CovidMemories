@@ -122,7 +122,4 @@ describe('Table class', () => {
     expect(firstPlaylist.play).toHaveBeenCalled();
     expect(document.getElementById('playlistContent').innerHTML).toBe('Playlist1');
   });
-
-
-
 });
