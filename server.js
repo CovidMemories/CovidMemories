@@ -1,10 +1,10 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
 const session = require('express-session');
-
+const argon2 = require('argon2');
 // this is our server or something idk
 const app = express();
-
+app.use(express.json());//json use
 // make it so each user has their own session (and their own "loggedIn" boolean)
 app.use(session({
   // protect session ID cookie

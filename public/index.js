@@ -318,71 +318,98 @@ export async function deleteHandler(playlistName, playlistOrder) {
 	reset();
 }
 
-// User attempts to login
-// TODO: use <input> so that user's password appears as
-// * instead of actual thing
-async function login() {
-	try {
-		const loggedIn = await isLoggedIn();
-		if (loggedIn) {
-			Swal.fire({
-				title: 'You are Already Logged In!',
-				icon: 'info',
-				timer: 1500,
-				showConfirmButton: false
+const wrapper = document.querySelector('.wrapper');
+const loginLink = document.querySelector('.login-link');
+const registerLink = document.querySelector('.register-link');
+const btnPopup = document.querySelector('.btnLogin-popup');
+const iconClose = document.querySelector('.icon-close');
+const registerForm = document.getElementById('registerForm');
+const loginForm = document.getElementById('loginForm');
+
+
+// document.addEventListener('DOMContentLoaded', ()=> {
+// 	const loginForm = localStorage.getElementById('loginForm');
+// 	const registerForm = localStorage.getElementById('registerForm');
+
+loginForm.addEventListener("submit", async (e)=> {
+	e.preventDefault();//stops auto refresh
+	//e.currentTarget();
+	//console.log(e.currentTarget);
+	const formData = new FormData(loginForm);
+	console.log(Object.fromEntries(formData));
+	const data = {
+		email: formData.get('login-email'),
+		password: formData.get('login-password')
+	};
+	
+	console.log(data);
+	try{
+		const response = await fetch('/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+				body: JSON.stringify(data)
 			});
-			return;
+		if(response.ok){
+			const json = await response.text();
+			alert("Welcome User");
+			console.log(json);
+		}else{
+			console.error('Login failed');
 		}
-		const { value: guess } = await Swal.fire({
-			title: "Enter Secret Password",
-			input: "password",
-			inputPlaceholder: "Enter your secret password",
-			inputAttributes: {
-				maxlength: "10",
-				autocapitalize: "off",
-				autocorrect: "off"
-			}
+	}catch(error){
+		console.error('Error in login process:', error);
+		}
+	});
+
+registerForm.addEventListener('submit', async (e)=> {
+	e.preventDefault();//stops auto refresh
+	
+	const formData = new FormData(registerForm);
+	console.log(Object.fromEntries(formData));
+	const data = {
+		email: formData.get('register-email'),
+		password: formData.get('register-password')
+	};
+	
+	console.log(data);
+	try{
+		const response = await fetch('/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
 		});
-		if (!guess) return;
-		const query = "/login?Password=" + guess;
-		// returns true if user guessed correct password
-		const data = await fetch(query,
-			{ method: "POST" }
-		);
-		const dataJSON = await data.json()
-		const guessResult = dataJSON.guessResult;
-		// guessed right
-		if (guessResult == 0) {
-			Swal.fire({
-				title: 'Welcome User',
-				icon: 'success',
-				timer: 1500,
-				showConfirmButton: false
-			});
+		if(response.ok){
+			const json = await response.text();
+			alert("Welcome User");
+			console.log(json);
+		}else{
+			console.error('Registration failed');
 		}
-		// guessed wrong
-		else if (guessResult == 1) {
-			Swal.fire({
-				title: 'Incorrect Password',
-				icon: 'error',
-				timer: 1500,
-				showConfirmButton: false
-			});
-		}
-		// user was already logged in
-		else {
-			Swal.fire({
-				title: 'You are Already Logged In!',
-				icon: 'info',
-				timer: 1500,
-				showConfirmButton: false
-			});
-		}
+	}catch(error){
+		console.error('Error in Registration process:', error);
 	}
-	catch (err) {
-		console.error("login function error: " + err);
-	}
-}
+});
+registerLink.addEventListener('click', ()=> {
+    wrapper.classList.add('active');
+});
+
+loginLink.addEventListener('click', ()=> {
+    wrapper.classList.remove('active');
+});
+
+btnPopup.addEventListener('click', ()=> {
+    wrapper.classList.add('active-popup');
+});
+
+iconClose.addEventListener('click', ()=> {
+    wrapper.classList.remove('active-popup');
+    wrapper.classList.remove('active');
+});
+
 
 // returns whether or not user is logged in
 async function isLoggedIn() {
