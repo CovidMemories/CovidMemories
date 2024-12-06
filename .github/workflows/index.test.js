@@ -7,7 +7,7 @@ describe('index.js functionality', () => {
   let mockTableInstance;
 
   beforeEach(() => {
-    // mock DOM structure
+    // Mock DOM structure
     document.body.innerHTML = `
       <div>
         <button id="rew"></button>
@@ -28,7 +28,7 @@ describe('index.js functionality', () => {
       </div>
     `;
 
-    // mock Table
+    // Mock Table
     mockTableInstance = {
       play: jest.fn(),
       pause: jest.fn(),
@@ -43,16 +43,18 @@ describe('index.js functionality', () => {
     const loginForm = document.createElement('form');
     loginForm.id = 'loginForm';
     document.body.appendChild(loginForm);
-    loginForm.addEventListener = jest.fn(); // Mock the addEventListener to avoid errors
+
+    // Mock the addEventListener method
+    loginForm.addEventListener = jest.fn();  // Mock addEventListener to avoid errors
   });
 
   test('populatePlayListContentTable initializes Table and sets button handlers', () => {
     populatePlayListContentTable(0);
 
-    // verify Table
+    // Verify Table
     expect(Table).toHaveBeenCalledWith(0);
 
-    // simulate button clicks and verify methods
+    // Simulate button clicks and verify methods
     document.getElementById('rew').click();
     expect(mockTableInstance.playPrev).toHaveBeenCalled();
     document.getElementById('play').click();
@@ -73,3 +75,4 @@ describe('index.js functionality', () => {
     expect(mockTableInstance.pause).toHaveBeenCalled();
   });
 });
+
