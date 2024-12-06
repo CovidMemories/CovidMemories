@@ -323,10 +323,6 @@ const registerForm = document.getElementById('registerForm');
 const loginForm = document.getElementById('loginForm');
 
 
-// document.addEventListener('DOMContentLoaded', ()=> {
-// 	const loginForm = localStorage.getElementById('loginForm');
-// 	const registerForm = localStorage.getElementById('registerForm');
-
 loginForm.addEventListener("submit", async (e)=> {
 	e.preventDefault();//stops auto refresh
 	//e.currentTarget();
