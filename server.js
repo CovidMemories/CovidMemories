@@ -1,9 +1,11 @@
 const { MongoClient } = require("mongodb");
 const express = require('express');
 const session = require('express-session');
+const argon2 = require('argon2');
 
 // this is our server or something idk
 const app = express();
+app.use(express.json());//json use
 
 // make it so each user has their own session (and their own "loggedIn" boolean)
 app.use(session({
@@ -64,6 +66,63 @@ app.get('/getRows', async (req, res) => {
   }
 });
 
+app.post('/login', async (req, res) => {
+  try {
+
+    const database = client.db('hyperAudioDB');
+    const userCollection = database.collection('user');
+
+    const user = await userCollection.findOne({ email: req.body.email });
+    if (!user) {
+      console.error("user not found");
+      return res.status(404).send("User not found");
+    }
+
+    const isPasswordCorrect = await argon2.verify(user.password, req.body.password);
+    if (!isPasswordCorrect) {
+      console.error("wrong password");
+      res.status(400).send("Incorrect password");
+      return;
+    }
+
+    req.session.loggedIn = true;
+    req.session.email = req.body.email;
+    //res.send("logged in");
+  } catch (err) {
+    console.error("error with login process:", err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+app.post("/register", async (req, res) => {
+  console.log("printing:", req.body);
+  try {
+    
+    const data = {
+      email: req.body.email,
+      password: req.body.password
+    };
+    console.log(data);
+    const database = client.db('hyperAudioDB');
+    const userCollection = database.collection('user');
+    const exisitingUser = await userCollection.findOne({ email: data.email });
+    if (exisitingUser) {
+      console.error("user exists");
+      return res.status(400).send("User already exists");
+    } else {
+      const hash = await argon2.hash(data.password, { type: argon2.argon2id });
+      data.password = hash;
+      const userdata = await userCollection.insertOne(data);
+      res.status(201).send("User registered successfully");
+    }
+  } catch (err) {
+    console.error("error signing up:", err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+/*
+
 // user attempts to log in, set their "loggedIn" boolean to true if successful
 // Note: req.session stores session info for person logging in
 app.post('/login', async (req, res) => {
@@ -98,7 +157,7 @@ app.post('/login', async (req, res) => {
   // return true if user correctly guess
   res.json({ guessResult: guessResult });
 });
-
+*/
 // user is attempting to delete a row, only works if they are logged in
 app.post('/delete', (req, res) => {
   try{
