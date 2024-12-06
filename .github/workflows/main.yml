@@ -3,7 +3,7 @@ name: push_test
 on:
   push:
     branches:
-      - main
+      - Fix-Test-Cases
 
 jobs:
   start_up_jobs:
