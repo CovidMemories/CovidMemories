@@ -86,3 +86,4 @@ test("Edit button is displayed and triggers editHandler", () => {
   buttonSpot.childNodes[0].click();
   expect(editHandlerMock).toHaveBeenCalled();
 });
+
