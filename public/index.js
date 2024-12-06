@@ -332,134 +332,97 @@ const loginForm = document.getElementById('loginForm');
 // 	const registerForm = localStorage.getElementById('registerForm');
 
 // Check if the code is running in a testing environment or a real browser
-if (typeof window !== "undefined" && typeof document !== "undefined") {
-  const loginButton = document.getElementById("loginButton");
+loginForm.addEventListener("submit", async (e)=> {
+	e.preventDefault();//stops auto refresh
+	//e.currentTarget();
+	//console.log(e.currentTarget);
+	const formData = new FormData(loginForm);
+	console.log(Object.fromEntries(formData));
+	const data = {
+		email: formData.get('login-email'),
+		password: formData.get('login-password')
+	};
+	
+	console.log(data);
+	try{
+		const response = await fetch('/login', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+				body: JSON.stringify(data)
+			});
+		if(response.ok){
+			const json = await response.text();
+			alert("Welcome User");
+			console.log(json);
+		}else{
+			console.error('Login failed');
+		}
+	}catch(error){
+		console.error('Error in login process:', error);
+		}
+	});
 
-  if (loginButton) {
-    console.log("loginButton exists and event listener is being attached");
+registerForm.addEventListener('submit', async (e)=> {
+	e.preventDefault();//stops auto refresh
+	
+	const formData = new FormData(registerForm);
+	console.log(Object.fromEntries(formData));
+	const data = {
+		email: formData.get('register-email'),
+		password: formData.get('register-password')
+	};
+	
+	console.log(data);
+	try{
+		const response = await fetch('/register', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		});
+		if(response.ok){
+			const json = await response.text();
+			alert("Welcome User");
+			console.log(json);
+		}else{
+			console.error('Registration failed');
+		}
+	}catch(error){
+		console.error('Error in Registration process:', error);
+	}
+});
+registerLink.addEventListener('click', ()=> {
+    wrapper.classList.add('active');
+});
 
-    loginButton.addEventListener("click", () => {
-      console.log("Login button clicked!");
+loginLink.addEventListener('click', ()=> {
+    wrapper.classList.remove('active');
+});
 
-      const loginForm = document.getElementById('loginForm');
-      const formData = new FormData(loginForm);
-      const data = {
-        email: formData.get("login-email"),
-        password: formData.get("login-password"),
-      };
+btnPopup.addEventListener('click', ()=> {
+    wrapper.classList.add('active-popup');
+});
 
-      console.log("Form data:", data);
+iconClose.addEventListener('click', ()=> {
+    wrapper.classList.remove('active-popup');
+    wrapper.classList.remove('active');
+});
 
-      try {
-        fetch("/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-        .then(response => response.text())
-        .then(json => {
-          if (json) {
-            alert("Welcome User");
-            console.log("Server response:", json);
-          } else {
-            console.error("Login failed");
-          }
-        })
-        .catch(error => {
-          console.error("Error in login process:", error);
-        });
-      } catch (error) {
-        console.error("Error inside click event handler:", error);
-      }
-    });
-  }
-}
-
-// Register Form
-if (typeof window !== "undefined" && typeof document !== "undefined") {
-  const registerForm = document.getElementById('registerForm');
-
-  if (registerForm) {
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Stops auto-refresh
-
-      const formData = new FormData(registerForm);
-      console.log(Object.fromEntries(formData));
-
-      const data = {
-        email: formData.get('register-email'),
-        password: formData.get('register-password'),
-      };
-
-      console.log(data);
-
-      try {
-        const response = await fetch('/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-          const json = await response.text();
-          alert("Welcome User");
-          console.log(json);
-        } else {
-          console.error('Registration failed');
-        }
-      } catch (error) {
-        console.error('Error in Registration process:', error);
-      }
-    });
-  }
-}
-
-// UI Interaction 
-if (typeof window !== "undefined" && typeof document !== "undefined") {
-  const registerLink = document.getElementById('registerLink');
-  const loginLink = document.getElementById('loginLink');
-  const btnPopup = document.getElementById('btnPopup');
-  const iconClose = document.getElementById('iconClose');
-  const wrapper = document.getElementById('wrapper');
-
-  if (registerLink && wrapper) {
-    registerLink.addEventListener('click', () => {
-      wrapper.classList.add('active');
-    });
-  }
-
-  if (loginLink && wrapper) {
-    loginLink.addEventListener('click', () => {
-      wrapper.classList.remove('active');
-    });
-  }
-
-  if (btnPopup && wrapper) {
-    btnPopup.addEventListener('click', () => {
-      wrapper.classList.add('active-popup');
-    });
-  }
-
-  if (iconClose && wrapper) {
-    iconClose.addEventListener('click', () => {
-      wrapper.classList.remove('active-popup');
-      wrapper.classList.remove('active');
-    });
-  }
-}
 
 // returns whether or not user is logged in
 async function isLoggedIn() {
-  try {
-    const query = "/login";
-    const data = await fetch(query, { method: "POST" });
-    const dataJSON = await data.json();
-    return dataJSON.isLoggedIn;
-  } catch (err) {
-    console.error("isLoggedIn function error: " + err);
-  }
+	try {
+		const query = "/login"
+		const data = await fetch(query,
+			{ method: "POST" }
+		);
+		const dataJSON = await data.json()
+		return dataJSON.isLoggedIn;
+	}
+	catch (err) {
+		console.error("isLoggedIn function error: " + err);
+	}
 }
