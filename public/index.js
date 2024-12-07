@@ -62,7 +62,6 @@ function changeWallpaper(imageUrl, buttonId) {
 	  activeButton.classList.add('active-wallpaper');
 	}
 }
-  
 
 // populate playlist content table
 export function populatePlayListContentTable(initialPlaylistIndex) {
@@ -97,13 +96,17 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 	document.getElementById("randomButton").onclick = () => {
 		randomTrack();
 	};
-	document.getElementById("loginButton").onclick = () => {
-		login();
-	};
 	document.getElementById("modifyButton").onclick = () => {
 		modify();
 	};
+	// login stuff
 	const loginForm = document.getElementById('loginForm');
+	const registerForm = document.getElementById('registerForm');
+	const wrapper = document.querySelector('.wrapper');
+	const loginLink = document.querySelector('.login-link');
+	const registerLink = document.querySelector('.register-link');
+	const btnPopup = document.querySelector('.btnLogin-popup');
+	const iconClose = document.querySelector('.icon-close');
 	loginForm.addEventListener("submit", async (e) => {
 		e.preventDefault();//stops auto refresh
 		//e.currentTarget();
@@ -124,18 +127,35 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 				},
 				body: JSON.stringify(data)
 			});
-			if (response.ok) {
-				const json = await response.text();
-				alert("Welcome User");
-				console.log(json);
+			const dataJSON = await response.json()
+			wrapper.classList.remove('active-popup');
+			wrapper.classList.remove('active');
+			if (dataJSON.guessResult == 0) {
+				Swal.fire({
+					title: 'Welcome User',
+					icon: 'success',
+					timer: 1500,
+					showConfirmButton: false
+				});
+			} else if (dataJSON.guessResult == 1) {
+				Swal.fire({
+					title: 'Incorrect username or password',
+					icon: 'error',
+					timer: 1500,
+					showConfirmButton: false
+				});
 			} else {
-				console.error('Login failed');
+				Swal.fire({
+					title: 'You are Already Logged In!',
+					icon: 'info',
+					timer: 1500,
+					showConfirmButton: false
+				});
 			}
 		} catch (error) {
 			console.error('Error in login process:', error);
 		}
 	});
-	const registerForm = document.getElementById('registerForm');
 	registerForm.addEventListener('submit', async (e)=> {
 		e.preventDefault();//stops auto refresh
 		
@@ -155,22 +175,28 @@ export function populatePlayListContentTable(initialPlaylistIndex) {
 				},
 				body: JSON.stringify(data)
 			});
-			if(response.ok){
-				const json = await response.text();
-				alert("Welcome User");
-				console.log(json);
-			}else{
-				console.error('Registration failed');
-			}
-		}catch(error){
+			wrapper.classList.remove('active-popup');
+			wrapper.classList.remove('active');
+			const dataJSON = await response.json()
+			if (dataJSON.registerResult == 0) {
+				Swal.fire({
+					title: 'Welcome User',
+					icon: 'success',
+					timer: 1500,
+					showConfirmButton: false
+				});
+			} else {
+				Swal.fire({
+					title: 'User already exists',
+					icon: 'error',
+					timer: 1500,
+					showConfirmButton: false
+				});
+			} 
+		} catch(error){
 			console.error('Error in Registration process:', error);
 		}
 	});
-	const wrapper = document.querySelector('.wrapper');
-	const loginLink = document.querySelector('.login-link');
-	const registerLink = document.querySelector('.register-link');
-	const btnPopup = document.querySelector('.btnLogin-popup');
-	const iconClose = document.querySelector('.icon-close');
 	registerLink.addEventListener('click', () => {
 		wrapper.classList.add('active');
 	});
@@ -498,10 +524,8 @@ export async function deleteHandler(playlistName, playlistOrder) {
 // returns whether or not user is logged in
 async function isLoggedIn() {
 	try {
-		const query = "/login"
-		const data = await fetch(query,
-			{ method: "POST" }
-		);
+		const query = "/isLoggedIn"
+		const data = await fetch(query);
 		const dataJSON = await data.json()
 		return dataJSON.isLoggedIn;
 	}

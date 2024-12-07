@@ -64,35 +64,36 @@ app.get('/getRows', async (req, res) => {
   }
 });
 
-
+// user is attempting to log in
 app.post('/login', async (req, res) => {
   try {
-
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
-    if (!req.body.email ) {
-      
-      res.json({ isLoggedIn: req.session.loggedIn });
-      return;
-      
-    
-    }
     const user = await userCollection.findOne({ email: req.body.email });
-    if (!user) {
-      console.error("user not found");
-      return res.status(404).send("User not found");
-    }
-
-    const isPasswordCorrect = await argon2.verify(user.password, req.body.password);
-    if (!isPasswordCorrect) {
-      console.error("wrong password");
-      res.status(400).send("Incorrect password");
+    // 0 == success
+    // 1 == incorrect email or password
+    // 2 == user already logged in
+    // user already logged in
+    if (req.session.loggedIn) {
+      res.json({ guessResult: 2 });
       return;
     }
-
+    // incorrect email
+    if (!user) {
+      res.json({ guessResult: 1 });
+      return;
+    } 
+    const isPasswordCorrect = await argon2.verify(user.password, req.body.password);
+    // incorrect password
+    if (!isPasswordCorrect) {
+      res.json({ guessResult: 1 });
+      return;
+    }
+    // password is correct
     req.session.loggedIn = true;
     req.session.email = req.body.email;
-    //res.send("logged in");
+    req.session.loggedIn = true;
+    res.json({ guessResult: 0 });
   } catch (err) {
     console.error("error with login process:", err);
     res.status(500).send("Internal server error");
@@ -102,28 +103,32 @@ app.post('/login', async (req, res) => {
 app.post("/register", async (req, res) => {
   console.log("printing:", req.body);
   try {
-    
     const data = {
       email: req.body.email,
       password: req.body.password
     };
-    console.log(data);
     const database = client.db('hyperAudioDB');
     const userCollection = database.collection('user');
+    // 0 == success
+    // 1 == user already exists
     const exisitingUser = await userCollection.findOne({ email: data.email });
     if (exisitingUser) {
-      console.error("user exists");
-      return res.status(400).send("User already exists");
+      res.json({ registerResult: 1 });
     } else {
       const hash = await argon2.hash(data.password, { type: argon2.argon2id });
       data.password = hash;
       const userdata = await userCollection.insertOne(data);
-      res.status(201).send("User registered successfully");
+      req.session.loggedIn = true;
+      res.json({ registerResult: 0 });
     }
   } catch (err) {
     console.error("error signing up:", err);
     res.status(500).send("Internal server error");
   }
+});
+
+app.get("/isLoggedIn", async (req, res) => {
+  res.json({ isLoggedIn: req.session.loggedIn });
 });
 
 
