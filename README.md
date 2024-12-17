@@ -20,3 +20,6 @@ npm start
 
 Once it's started, go to the link:
 http://localhost:8080/
+
+Current public deployment:
+https://covidmemories.azurewebsites.net/
